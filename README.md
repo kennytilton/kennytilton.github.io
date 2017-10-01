@@ -4,6 +4,11 @@ Pardon the brevity, but I am just getting rolling with this page as an alternati
 
 ## Table of Contents
 ### Dataflow (aka Reactive aka Constraints)
+We stumbled onto this dataflow hack quite by accident, while working on a sticky UI layout problem back in 1996. A re-creation of that story is [here](http://smuglispweeny.blogspot.com/2017/06/the-making-of-cells-case-study-in-dumb.html).
+In brief, we ended up with a tree of objects where selected properties could be expressed as formulas over other properties of other objects, as if our application were a spreadsheet. It could not be rules all the way down, of course: some properties were assigned to by event handlers. Any property could have an application-supplied observer to reflect changes in the "sheet" back to the outside world, say by disabling a widget via the widget API.
+
+It was wonderful, a something-for-nothing silver bullet, and now we have ported it to JS and CLJS. (See below.)
+
 ### [Cells](https://github.com/kennytilton/cells) -- Common Lisp
 The original implementation of Cells, my spreadsheet-like dataflow library first shared in 1996. This is the one served by [quicklisp](https://www.quicklisp.org/beta/).
 There is not much documentation other than the annotated tests, but one day in 2008 I dashed off a blog piece called [The Cells Manifesto](http://smuglispweeny.blogspot.com/2008/02/cells-manifesto.html) that turned out to be fairly comprehensive, including motivation, prior art, and the key definition of what I called "data integrity", a functional contract that pretty much just says "no [glitches](https://en.wikipedia.org/wiki/Reactive_programming#Glitches)".
