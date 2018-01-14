@@ -4,17 +4,21 @@ Pardon the brevity, but I am just getting rolling with this page as an alternati
 
 ## Table of Contents
 ### Dataflow (aka Reactive aka Constraints)
-We stumbled onto this dataflow hack quite by accident, while working on a sticky UI layout problem back in 1996. A re-creation of that story is [here](http://smuglispweeny.blogspot.com/2017/06/the-making-of-cells-case-study-in-dumb.html).
+We stumbled onto this dataflow hack [quite by accident](http://smuglispweeny.blogspot.com/2017/06/the-making-of-cells-case-study-in-dumb.html), while working on a sticky UI layout problem back in 1996. A re-creation of that story is [here](http://smuglispweeny.blogspot.com/2017/06/the-making-of-cells-case-study-in-dumb.html).
 In brief, we ended up with a tree of objects where selected properties could be expressed as formulas over other properties of other objects, as if our application were a spreadsheet. It could not be rules all the way down, of course: some properties were assigned to by event handlers. Any property could have an application-supplied observer to reflect changes in the "sheet" back to the outside world, say by disabling a widget via the widget API.
 
 It was wonderful, a something-for-nothing silver bullet, and now we have ported it to JS and CLJS. (See below.)
 
-### [Cells](https://github.com/kennytilton/cells) -- Common Lisp
+#### Original [Cells](https://github.com/kennytilton/cells) -- Common Lisp
 The original implementation of Cells, my spreadsheet-like dataflow library first shared in 1996. This is the one served by [quicklisp](https://www.quicklisp.org/beta/).
 There is not much documentation other than the annotated tests, but one day in 2008 I dashed off a blog piece called [The Cells Manifesto](http://smuglispweeny.blogspot.com/2008/02/cells-manifesto.html) that turned out to be fairly comprehensive, including motivation, prior art, and the key definition of what I called "data integrity", a functional contract that pretty much just says "no [glitches](https://en.wikipedia.org/wiki/Reactive_programming#Glitches)".
 Cells has been applied to substantial, enterprise-level applications, including a [clinical drug trial management system](http://smuglispweeny.blogspot.com/2008/03/my-biggest-lisp-project.html) and a Web-based [algebra learnng system](http://tiltonsalgebra.com/#). Each application is controlled in every respect by the Cells engine.
-### [TodoFRP](https://github.com/kennytilton/todoFRP/tree/matrixjs) -- The `TodoMVC Classic` in Matrix*JS
-Perhaps unwisely, the `matrixjs` branch of my fork of [TodoFRP]() contains two separate and complete implmentations of the [TodoMVC]() classic. One is [pure JS](https://github.com/kennytilton/todoFRP/tree/matrixjs/todo/MatrixJS), the other [ClojureScript(CLJS)](https://github.com/kennytilton/todoFRP/tree/matrixjs/todo/MatrixCLJS) all the way down. For hacking convenience, each contains full copies of the Matrix (ne Cells) and Tag (HTML/DOM) libraries. Each is offered purely as a proof of concept, the concept being:
+
+#### [Matrix](https://github.com/kennytilton/matrix) -- Independent CLJS and JS versions of Cells dataflow
+#### [Tag](https://github.com/kennytilton/tag) -- Independent CLJS and JS versions of a Matrix-based web unframework
+#### [XHR](https://github.com/kennytilton/xhr) -- Independent CLJS and JS (RSN) versions of Callback Hell solutions
+#### [TodoMX](https://github.com/kennytilton/todomx) -- The `TodoMVC Classic` in Matrix
+Perhaps unwisely, my _TodoMX_ repo of contains two separate and complete implmentations of the [TodoMVC](https://github.com/tastejs/todomvc/blob/master/app-spec.mdhttps://github.com/tastejs/todomvc/blob/master/app-spec.md) classic. One is [pure JS](https://github.com/kennytilton/todomx/tree/master/js/todomx), the other [ClojureScript(CLJS)](https://github.com/kennytilton/todomx/tree/master/cljs/todomx) all the way down. Each is offered purely as a proof of concept, the concept being:
 > If one builds a Web framework atop a generic dataflow library supporting dynamic, transparent, "point" dependency tracking, and state change propagation, then declarative authoring and efficient DOM maintenance comes for free. More comprehensively and more efficiently, by the way, than with [ReactJS](https://reactjs.org).
 
 
