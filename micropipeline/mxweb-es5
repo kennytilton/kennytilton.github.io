@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+java -jar compiler.jar                         \
+	--language_in ECMASCRIPT_2015              \
+	--language_out ECMASCRIPT5                 \
+    --js js/closure-library/closure/goog/**.js \
+    --js js/Matrix/Cells.js                    \
+	--js js/Matrix/Model.js                    \
+	--js js/mxWeb.js                           \
+	--js js/mxXHR.js                           \
+	--externs js/extRouter.js                  \
+	--compilation_level SIMPLE_OPTIMIZATIONS   \
+	--js_output_file public/mxweb.smp.js
