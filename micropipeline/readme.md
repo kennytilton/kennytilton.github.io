@@ -39,7 +39,9 @@ I was tempted here to have `D(2)` and `R(2)` change together. Sutherland in one 
 Dandy. Suggestions for a more interesting sequence of processes are very welcome. I also like the idea of displaying data as binary, including having a different number of bits at each stage as real micropipelines do.
 
 ````
-Nota bene: the steps taken by the simulator are in no way akin to a clock cycle. They exist only and precisely to let us *step* through what would be a continuous execution, for the purpose of illustration.
+Nota bene: the steps taken by the simulator are in no way akin to a clock cycle. 
+They exist only and precisely to let us *step* through what would be a continuous
+execution, for the purpose of illustration.
 ````
 Now let us have some real fun.
 
@@ -62,7 +64,8 @@ The pipeline should start chugging along. The most recent five values will appea
 * To stop the beast, press `period` or `full-stop` as the Brits say.
 
 ````
-Caveat piper I: if you make it go fast enough the `D(n)` values will stop appearing due to a CSS animation we have on those values.
+Caveat piper I: if you make it go fast enough the `D(n)` values will stop appearing
+                due to a CSS animation we have on those values.
 Caveat piper II: switching between stepping and zooming sometimes works a little.
 ````
 
