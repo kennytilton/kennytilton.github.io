@@ -10,7 +10,7 @@ Whassat? Micropipelines achieve greater speed while simplifying circuit design b
 
 First, speed. If a stage does not require a full clock cycle, it does not need to sit idly about waiting for the next tick. Second, and not being a circuit designer I will take Dr. Sutherland's word on this, it makes circuit design a lot easier.
 
-To learn more, I recommend reading at least the first few pages of the paper. Like Dr. Sutherland's [1963 PhD thesis](https://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-574.pdf) introducing us all to graphic interfaces, constraint programming, CAD, the micropipeline paper is quite readble.
+To learn more, I recommend reading at least the first few pages of the paper. Like Dr. Sutherland's [1963 PhD thesis](https://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-574.pdf) introducing us all to graphic interfaces, constraint programming, CAD, the micropipeline paper is quite readable.
 
 ## Using the illustrator
 ````
@@ -96,6 +96,7 @@ Another trick was *holding back* the processing. In many places an FSM could eas
 ### Left as an exercise
 * It might be fun to run a clocked illustrator alongside the unclocked micropipeline. We would need the typical distribution of logic processing durations to compare throughput differences to e expected in the wild.
 * A completely different implementation could abandon illustration and go for emulation. We started using ClojureScript with core.async channels as the data/ACK/REQ wires. Much simpler since async channels provide the backpressure and blocking implemented here with state machines and the artificial tick count.
+* OMG. The CSS. I may mave spent more time fighting that than creating the app. Needs work.
 
 ### More from or about Dr. Sutherland and his work
 * *Sketchpad* demo [part I](https://youtu.be/USyoT_Ha_bA) and [part II](https://youtu.be/BKM3CmRqK2o)
