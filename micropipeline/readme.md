@@ -4,7 +4,7 @@ Micropipeline Illustrator (M/I) represents my poor, electronically untrained und
 ## Origins
 Here is Figure 17:
 
-![Figure 17](https://github.com/kennytilton/kennytilton.github.io/blob/master/micropipeline/public/micropipeline.jpg) 
+![Figure 17](https://github.com/kennytilton/kennytilton.github.io/blob/master/micropipeline/public/micropipeline-fig17.jpg) 
 
 Whassat? Micropipelines achieve greater speed while simplifying circuit design by throwing off the tyranny of the clock. The above diagram shows how a pipeline of processing steps or *stages* can run unchecked--well, at its own internally regulated pace. `R(n)` and `A(n)` represent handshake requests and ACKs allowing each stage to execute as soon as its predecessor has finished. The win?
 
