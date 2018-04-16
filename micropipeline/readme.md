@@ -1,38 +1,45 @@
 # Micropipeline Illustrator
-
-You can try it [here](https://kennytilton.github.io/micropipeline/). Reading on before doing so will help.
+Micropipeline Illustrator (M/I) represents my poor, electronically untrained understanding of Figure 17 of Ivan Sutherland's Turing Award paper [Micropipelines](https://dl.acm.org/citation.cfm?id=63532). You can try it [here](https://kennytilton.github.io/micropipeline/). Reading on before doing so will help.
 
 ## Origins
-Micropipeline Illustrator (M/I) represents my poor, electronically untrained understanding of Figure 17 of Ivan Sutherland's Turing Award paper [Micropipelines](https://dl.acm.org/citation.cfm?id=63532).
-
 Here is Figure 17:
 
 ![Figure 17](https://github.com/kennytilton/kennytilton.github.io/blob/master/micropipeline/public/micropipeline.jpg) 
 
-Whassat? Micropipelines achieve greater speed while simplifying circuit design by throwing off the tyranny of the clock. The above diagram shows how a pipeline of processing steps or *stages* can run unchecked, well, at its own internally regulated pace. `R(n)` and `A(n)` represent handshake requests and ACKs allowing each stage to execute as soon as its predecessor has finished.
+Whassat? Micropipelines achieve greater speed while simplifying circuit design by throwing off the tyranny of the clock. The above diagram shows how a pipeline of processing steps or *stages* can run unchecked--well, at its own internally regulated pace. `R(n)` and `A(n)` represent handshake requests and ACKs allowing each stage to execute as soon as its predecessor has finished. The win?
 
-The win? First, speed. If a stage does not require a full clock cycle, it does not need to sit idly about waiting for the next tick. Second, and not being a circuit designer I will take Dr. Sutherland's word on this, it makes circuit design a lot easier.
+First, speed. If a stage does not require a full clock cycle, it does not need to sit idly about waiting for the next tick. Second, and not being a circuit designer I will take Dr. Sutherland's word on this, it makes circuit design a lot easier.
 
-Now let us play.
+To learn more, I recommend reading at least the first few pages of the paper. Like Dr. Sutherland's [1963 PhD thesis](https://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-574.pdf) introducing us all to graphic interfaces, constraint programming, CAD, the micropipeline paper is quite readble.
+
 ## Using the illustrator
-Caveat piper: This was just a fun few days exercise for me, so rough edges abound. Just reload the beast when it stops working.
+````
+Caveat piper: This was just a fun few days exercise for me, so rough 
+edges abound. Just reload the page when it stops working.
+````
 
 With that out of the way, here is how one might start exploring.
 
-* Load/reload the page
+* Load/reload the [pipeline page](https://kennytilton.github.io/micropipeline/).
 * Type 7
 
 Notice that 7 now appears next to `D(in)`. That means we have placed 7 on the pipeline input data wire, which in fact is the data wire of the first stage of processing. Notice also the light green background of the corresponding REQ and ACK "wires". We will have multiple values in the pipeline and a bit of color will help keep straight what goes with what.
 
 * Press `right arrow` to have the pipeline take a step. 
+
 The horizontal line next to `R(in)` changes to a rising signal icon. One micropipeline win is treating any change, rising or falling, as equivalent signals. In this case, the external circuitry driving the pipeline would like the first stage register to capture the 7, so it signals on the REQ wire. It will wait until the register indicates it has done so by signalling rising or falling on the ACK wire.
+
+````
+The astute observer may notice that REQs and ACKs alternate sides. This recreates
+the actual physical wiring of a circuit.
+````
 
 * Press `right arrow` to see the 7 captured by the first REG.
 * Press `right arrow` to see the 7 ACKed by the first REG.
 * Press `right arrow` to see the 7 processed by the first logic block and the result 8 placed on the next data wire, `D(2)`.
 * Press `right arrow` to see `R(2)` signal.
 
-I was tempted here to have `D(2)` and `R(2)` change together. Sutherland in one place mentions putting the data on the wire *before* signalling the REQ to have it captured, but my reading is that that sequence is *arranged* by having a simultaneous REQ artificially delayed long enough to achieve that ordering, such that data and REQ arrive bang-bang, if you will. All that said, the name "Illustrator" was chosen over "Simulator" for a reason, so I opted for emphasizing sequence over the simultaneity.
+I was tempted here to have the `D(2)` and `R(2)` following logic circuits change together. Dr. Sutherland in one place mentions putting the data on the wire *before* signalling the REQ to have it captured, but my reading is that that sequence is a defacto result of having a *simultaneous* REQ held back by a delaying circuit long enough for the logic to run and deliver the result to its "out" data wire, such that data and REQ arrive bang-bang. All that said, the name "Illustrator" was chosen over "Simulator" for a reason, so I opted for emphasizing sequence over simultaneity.
 
 * Press `right arrow` until a result appears to the left under *Results*
 
@@ -82,7 +89,9 @@ What was dead interesting was that most pipeline players needed *two* FSMs, one 
 Another trick was *holding back* the processing. In many places an FSM could easily do two things in one "tick" -- I got an REQ? OK, capture it and ACK it! -- but then the illustrator jumped forward, obfuscating the mechancs.
 
 ### Left as an exercise
-It might be fun to run a clocked illustrator alongside the unclocked micropipeline.
+* It might be fun to run a clocked illustrator alongside the unclocked micropipeline. We would need the typical distribution of logic processing durations to compare throughput differences to e expected in the wild.
+* A completely different implementation could abandon illustration and go for emulation. We started using ClojureScript with core.async channels as the data/ACK/REQ wires. Much simpler since async channels provide the backpressure and blocking implemented here with state machines and the artificial tick count.
+
 
 
 
