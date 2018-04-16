@@ -48,8 +48,6 @@ I was tempted here to have the `D(2)` and `R(2)` signals change together if they
 
 At the last step, the demo driver spots the `R(out)` REQ and provides the `A(out)` ACK. Without the latter the pipeline would be frozen, unable for the last stage to capture new flow and quickly causing a logjam of backpressure.
 
-Dandy. Suggestions for a more interesting sequence of processes are very welcome. I also like the idea of displaying data as binary bits, including having a different number of bits at each stage as real micropipelines do.
-
 ````
 Nota bene: the steps taken by the simulator are in no way akin to a clock cycle. 
 They exist only and precisely to let us *step* through what would be a continuous
@@ -94,7 +92,10 @@ What was dead interesting was that most pipeline players needed *two* FSMs, one 
 Another trick was *holding back* the processing. In many places an FSM could easily do two things in one "tick" -- I got an REQ? OK, capture it and ACK it! -- but then the illustrator jumped forward two actions in one go, obfuscating the mechanics.
 
 ### Left as an exercise
-* It might be fun to run a clocked illustrator alongside the unclocked micropipeline. We would need the typical distribution of logic processing durations to compare throughput differences to e expected in the wild.
+
+* Suggestions for a more interesting sequence of processes are very welcome.
+* I also like the idea of displaying data as binary bits, including having a different number of bits at each stage as real micropipelines do. JS limits us to 32bits, we can hide two integers behind a simulated 64-bit value.
+* It might be fun to run a clocked illustrator alongside the unclocked micropipeline. We would need the typical distribution of logic processing durations to compare throughput differences to be expected in the wild.
 * A completely different implementation could abandon illustration and go for emulation. We started using ClojureScript with core.async channels as the data/ACK/REQ wires. Much simpler since async channels provide the backpressure and blocking implemented here with state machines and the artificial tick count.
 * OMG. The CSS. I may mave spent more time fighting that than creating the app. Needs work.
 
