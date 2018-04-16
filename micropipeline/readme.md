@@ -91,11 +91,15 @@ The app as a whole then just had to move `mTick` one forward and sweep the appli
 
 What was dead interesting was that most pipeline players needed *two* FSMs, one each for inflow and outflow. For example, a stage had to look for REQs to capture data, and it had to look for ACKs of its own REQs. I saw straightaway that one FSM could not handle both.
 
-Another trick was *holding back* the processing. In many places an FSM could easily do two things in one "tick" -- I got an REQ? OK, capture it and ACK it! -- but then the illustrator jumped forward, obfuscating the mechancs.
+Another trick was *holding back* the processing. In many places an FSM could easily do two things in one "tick" -- I got an REQ? OK, capture it and ACK it! -- but then the illustrator jumped forward, obfuscating the mechanics.
 
 ### Left as an exercise
 * It might be fun to run a clocked illustrator alongside the unclocked micropipeline. We would need the typical distribution of logic processing durations to compare throughput differences to e expected in the wild.
 * A completely different implementation could abandon illustration and go for emulation. We started using ClojureScript with core.async channels as the data/ACK/REQ wires. Much simpler since async channels provide the backpressure and blocking implemented here with state machines and the artificial tick count.
+
+### More from or about Dr. Sutherland and his work
+* *Sketchpad* demo [part I](https://youtu.be/USyoT_Ha_bA) and [part II](https://youtu.be/BKM3CmRqK2o)
+* Computing and [fun](https://www.youtube.com/watch?v=FIMaf4RemOU)
 
 
 
