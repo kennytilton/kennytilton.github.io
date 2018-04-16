@@ -27,7 +27,9 @@ Notice that 7 now appears next to `D(in)`. That means we have placed 7 on the pi
 
 * Press `right arrow` to have the pipeline take a step. 
 
-The horizontal line next to `R(in)` changes to a rising signal icon. One micropipeline win is treating any change, rising or falling, as equivalent signals. In this case, the external circuitry driving the pipeline would like the first stage register to capture the 7, so it signals on the REQ wire. It will wait until the register indicates it has done so by signalling rising or falling on the ACK wire.
+The horizontal line next to `R(in)` changes to a rising signal icon. One micropipeline win is treating any change, rising or falling, as equivalent signals. Normally a signal consists of one up and one down -- how verbose!
+
+In this case, the external circuitry driving the pipeline would like the first stage register to capture the 7, so it signals on the REQ wire. It will wait until the register indicates it has done so by signalling rising or falling on the ACK wire.
 
 ````
 The astute observer may notice that REQs and ACKs alternate sides. This recreates
@@ -41,7 +43,10 @@ the actual physical wiring of a circuit.
 
 I was tempted here to have change together the `D(2)` and `R(2)` signals that follow logic circuits. In one place the paper mentions putting the data on the wire *before* signalling the REQ to have it captured, but my reading is that that sequence is a defacto result of having a *simultaneous* REQ held back by a delaying circuit long enough for the logic to finish and deliver a result to its "out" data wire, such that data and REQ arrive bang-bang. All that said, the name "Illustrator" was chosen over "Simulator" for a reason, so I opted for emphasizing sequence over simultaneity.
 
+* Press `right arrow` to see 8 pulled into the next register.
 * Press `right arrow` until a result appears to the left under *Results*
+
+At the last step, the demo driver spots the `R(out)` REQ and provides the `A(out)` ACK. Without the latter the pipeline would be frozen, unable for the last stage to capture new flow.
 
 Dandy. Suggestions for a more interesting sequence of processes are very welcome. I also like the idea of displaying data as binary, including having a different number of bits at each stage as real micropipelines do.
 
