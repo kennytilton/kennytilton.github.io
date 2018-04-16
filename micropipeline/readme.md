@@ -21,19 +21,19 @@ edges abound. Just reload the page when it stops working.
 With that out of the way, here is how one might start exploring.
 
 * Load/reload the [pipeline page](https://kennytilton.github.io/micropipeline/).
-* Type 7
+* Hit the seven key 7. No need to figure out where. There is no where. The whole page listens to keyboard events.
 
 Notice that 7 now appears next to `D(in)`. That means we have placed 7 on the pipeline input data wire, which in fact is the data wire of the first stage of processing. Notice also the light green background of the corresponding REQ and ACK "wires". We will have multiple values in the pipeline and a bit of color will help keep straight what goes with what.
 
 * Press `right arrow` to have the pipeline take a step. 
 
-The horizontal line next to `R(in)` changes to a rising signal icon. One micropipeline win is treating any change, rising or falling, as equivalent signals. Normally a signal consists of one up and one down -- how verbose!
+The horizontal line next to `R(in)` changes to ![Rising](https://github.com/kennytilton/kennytilton.github.io/blob/master/micropipeline/public/tnRise.png), a rising signal icon.  One micropipeline win is treating any change, rising or falling, as equivalent signals. Normally a signal consists of one up and one down -- how verbose!
 
-In this case, the external circuitry driving the pipeline would like the first stage register to capture the 7, so it signals on the REQ wire. It will wait until the register indicates it has done so by signalling rising or falling on the ACK wire.
+In this case, the external circuitry driving the pipeline would like the first stage register to capture the 7, so it has signalled on the REQ wire. It will wait until the register signals on the ACK wire before continuing.
 
 ````
-The astute observer may notice that REQs and ACKs alternate sides. This recreates
-the actual physical wiring of a circuit.
+The astute observer may notice that REQs and ACKs alternate sides at every
+stage. This recreates the actual physical wiring of a circuit.
 ````
 
 * Press `right arrow` to see the 7 captured by the first REG.
@@ -41,14 +41,14 @@ the actual physical wiring of a circuit.
 * Press `right arrow` to see the 7 processed by the first logic block and the result 8 placed on the next data wire, `D(2)`.
 * Press `right arrow` to see `R(2)` signal to the next register that the 8 is available for capture..
 
-I was tempted here to have change together the `D(2)` and `R(2)` signals that follow logic circuits. In one place the paper mentions putting the data on the wire *before* signalling the REQ to have it captured, but my reading is that that sequence is a defacto result of having a *simultaneous* REQ held back by a delaying circuit long enough for the logic to finish and deliver a result to its "out" data wire, such that data and REQ arrive bang-bang. All that said, the name "Illustrator" was chosen over "Simulator" for a reason, so I opted for emphasizing sequence over simultaneity.
+I was tempted here to have the `D(2)` and `R(2)` signals change together if they are the outflow of logic circuits. Here is my thinking. In one place the paper mentions putting the data on the wire *before* signalling the capture REQ, but my reading is that that sequence is a defacto result of having a *simultaneous* REQ held back by a delaying circuit long enough for the logic to finish and deliver a result to its "out" data wire, such that data and REQ arrive bang-bang. Hence my temptation to illustrate simultaneity. All that said, the name "Illustrator" was chosen over "Simulator" for a reason, so I opted for emphasizing sequence over simultaneity.
 
 * Press `right arrow` to see 8 pulled into the next register.
 * Press `right arrow` until a result appears to the left under *Results*
 
-At the last step, the demo driver spots the `R(out)` REQ and provides the `A(out)` ACK. Without the latter the pipeline would be frozen, unable for the last stage to capture new flow.
+At the last step, the demo driver spots the `R(out)` REQ and provides the `A(out)` ACK. Without the latter the pipeline would be frozen, unable for the last stage to capture new flow and quickly causing a logjam of backpressure.
 
-Dandy. Suggestions for a more interesting sequence of processes are very welcome. I also like the idea of displaying data as binary, including having a different number of bits at each stage as real micropipelines do.
+Dandy. Suggestions for a more interesting sequence of processes are very welcome. I also like the idea of displaying data as binary bits, including having a different number of bits at each stage as real micropipelines do.
 
 ````
 Nota bene: the steps taken by the simulator are in no way akin to a clock cycle. 
@@ -91,7 +91,7 @@ The app as a whole then just had to move `mTick` one forward and sweep the appli
 
 What was dead interesting was that most pipeline players needed *two* FSMs, one each for inflow and outflow. For example, a stage had to look for REQs to capture data, and it had to look for ACKs of its own REQs. I saw straightaway that one FSM could not handle both.
 
-Another trick was *holding back* the processing. In many places an FSM could easily do two things in one "tick" -- I got an REQ? OK, capture it and ACK it! -- but then the illustrator jumped forward, obfuscating the mechanics.
+Another trick was *holding back* the processing. In many places an FSM could easily do two things in one "tick" -- I got an REQ? OK, capture it and ACK it! -- but then the illustrator jumped forward two actions in one go, obfuscating the mechanics.
 
 ### Left as an exercise
 * It might be fun to run a clocked illustrator alongside the unclocked micropipeline. We would need the typical distribution of logic processing durations to compare throughput differences to e expected in the wild.
