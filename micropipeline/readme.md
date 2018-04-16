@@ -100,6 +100,8 @@ Another trick was *holding back* the processing. In many places an FSM could eas
 ### More from or about Dr. Sutherland and his work
 * *Sketchpad* demo [part I](https://youtu.be/USyoT_Ha_bA) and [part II](https://youtu.be/BKM3CmRqK2o)
 * Computing and [fun](https://www.youtube.com/watch?v=FIMaf4RemOU)
+* An excellent bit of [autobiography](https://youtu.be/vPsFPmgT0YM) on the occasion of his 2016 NIHF induction
+* Two giants in [one video](https://youtu.be/aXVUoT_objA), Fred "Mythical Man-Month" Brooks and Ivan Sutherland
 
 
 
