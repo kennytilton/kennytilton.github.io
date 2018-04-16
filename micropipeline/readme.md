@@ -6,7 +6,7 @@ Here is Figure 17:
 
 ![Figure 17](https://github.com/kennytilton/kennytilton.github.io/blob/master/micropipeline/public/pipe17.jpg) 
 
-Whassat? Micropipelines achieve greater speed while simplifying circuit design by throwing off the tyranny of the clock. The above diagram shows how a pipeline of processing steps or *stages* can run unchecked--well, at its own internally regulated pace. `R(n)` and `A(n)` represent handshake requests and ACKs allowing each stage to execute as soon as its predecessor has finished. The win?
+Whassat? Micropipelines achieve greater speed while simplifying circuit design by throwing off the tyranny of the clock. The above diagram shows how a pipeline of processing steps or *stages* can run unchecked--well, at their own internally regulated pace. `R(n)` and `A(n)` represent handshake requests and ACKs allowing each stage to execute as soon as its predecessor has finished. The win?
 
 First, speed. If a stage does not require a full clock cycle, it does not need to sit idly about waiting for the next tick. Second, and not being a circuit designer I will take Dr. Sutherland's word on this, it makes circuit design a lot easier.
 
@@ -37,9 +37,9 @@ the actual physical wiring of a circuit.
 * Press `right arrow` to see the 7 captured by the first REG.
 * Press `right arrow` to see the 7 ACKed by the first REG.
 * Press `right arrow` to see the 7 processed by the first logic block and the result 8 placed on the next data wire, `D(2)`.
-* Press `right arrow` to see `R(2)` signal.
+* Press `right arrow` to see `R(2)` signal to the next register that the 8 is available for capture..
 
-I was tempted here to have the `D(2)` and `R(2)` following logic circuits change together. Dr. Sutherland in one place mentions putting the data on the wire *before* signalling the REQ to have it captured, but my reading is that that sequence is a defacto result of having a *simultaneous* REQ held back by a delaying circuit long enough for the logic to run and deliver the result to its "out" data wire, such that data and REQ arrive bang-bang. All that said, the name "Illustrator" was chosen over "Simulator" for a reason, so I opted for emphasizing sequence over simultaneity.
+I was tempted here to have change together the `D(2)` and `R(2)` signals that follow logic circuits. In one place the paper mentions putting the data on the wire *before* signalling the REQ to have it captured, but my reading is that that sequence is a defacto result of having a *simultaneous* REQ held back by a delaying circuit long enough for the logic to finish and deliver a result to its "out" data wire, such that data and REQ arrive bang-bang. All that said, the name "Illustrator" was chosen over "Simulator" for a reason, so I opted for emphasizing sequence over simultaneity.
 
 * Press `right arrow` until a result appears to the left under *Results*
 
