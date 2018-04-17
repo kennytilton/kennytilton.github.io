@@ -4,7 +4,7 @@ Pardon the brevity, but I am just getting rolling with this page as an alternati
 
 ## Table of Contents
 ### Dataflow (aka Reactive aka Constraints)
-We stumbled onto this dataflow hack [quite by accident](http://smuglispweeny.blogspot.com/2017/06/the-making-of-cells-case-study-in-dumb.html), while working on a sticky UI layout problem back in 1996. A re-creation of that story is [here](http://smuglispweeny.blogspot.com/2017/06/the-making-of-cells-case-study-in-dumb.html).
+We stumbled onto this dataflow hack quite by accident, while working on a sticky UI layout problem back in 1996. A re-creation of that story is [here](http://smuglispweeny.blogspot.com/2017/06/the-making-of-cells-case-study-in-dumb.html).
 In brief, we ended up with a tree of objects where selected properties could be expressed as formulas over other properties of other objects, as if our application were a spreadsheet. It could not be rules all the way down, of course: some properties were assigned to by event handlers. Any property could have an application-supplied observer to reflect changes in the "sheet" back to the outside world, say by disabling a widget via the widget API.
 
 It was wonderful, a something-for-nothing silver bullet, and now we have ported it to JS and CLJS. (See below.)
