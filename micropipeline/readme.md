@@ -81,13 +81,49 @@ Caveat piper II: switching between stepping and zooming sometimes works a little
 
 ### Asynchronicity, the implementation
 This was sick. The challenge was to get a system to run satisfying two constraints:
-* in parallel
+* in parallel, asynchronously, without threads; and
 * under user control, stepping, zooming, and stopping.
-The sick solution was simple: multiple finite state machines (FSMs) with no inputs! Each started at state `init` and then moved on (or not) based on the outside world as it found it when triggered. A global `mTick` value allowed FSMs to notice when things had happened ("oh, my REQ tick is greater than my ACK tick? I have mail!").
+
+The sick solution was simple: multiple finite state machines (FSMs) with no inputs! Each started at state `init` and then moved on (or not) based on the outside world as it found it when triggered. A global `mTick` value allowed FSMs to notice when things had happened ("oh, my REQ tick is greater than my ACK tick? I have mail!"). But until that happens, the particular FSM assigned to that bundle of wires remains in the same state, viz, looking for a fresh REQ. It is blocked but not blocking.
 
 The app as a whole then just had to move `mTick` one forward and sweep the application model triggering each FSM in the tree to animate all the stages and the pipeline itself in parallel.
 
-What was dead interesting was that most pipeline players needed *two* FSMs, one each for inflow and outflow. For example, a stage had to look for REQs to capture data, and it had to look for ACKs of its own REQs. I saw straightaway that one FSM could not handle both.
+If you are like me, you would rather see some code. Here is the handler used by a stage to manage the input bundle of REQ, ACK, and data wires:
+
+```` js
+function stageInHandler( stage, is) {
+    if (is === 'init') {
+        if (stage.feeder.reqd()) {
+            if (stage.feeder.rq === mTick) {
+                return 'capture';
+            }
+            // clg('capturing with', stage.feeder.rq, mTick);
+            stage.data = stage.feeder.data;
+            return 'ack';
+        }
+    } else if (is === 'capture') {
+        stage.data = stage.feeder.data;
+        return 'ack';
+    } else if (is === 'ack') {
+        stage.feeder.ack();
+        return 'process';
+    } else if (is === 'process') {
+        if ( stage.out.unackd()) {
+            //clg('stagein> waiting for outAck', stage.name);
+        } else {
+            stage.out.data = {t: stage.data.t
+                            , od: stage.data.od
+                            , d: stage.process(stage.data.d)};
+            return 'relay';
+        }
+    } else if (is === 'relay') {
+        stage.out.req();
+        return 'init';
+    }
+}
+````
+
+I found it interesting that most pipeline players needed *two* FSMs, one each for inflow and outflow. For example, a stage had to look for REQs to capture data, and it had to look for ACKs of its own REQs. I saw straightaway that one FSM could not handle both and remain a simple state machine.
 
 Another trick was *holding back* the processing. In many places an FSM could easily do two things in one "tick" -- I got an REQ? OK, capture it and ACK it! -- but then the illustrator jumped forward two actions in one go, obfuscating the mechanics.
 
