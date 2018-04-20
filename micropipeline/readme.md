@@ -10,7 +10,7 @@ Whassat? Micropipelines achieve greater speed while simplifying circuit design b
 
 First, speed. If a stage does not require a full clock cycle, it does not need to sit idly about waiting for the next tick. Second, and not being a circuit designer I will take Dr. Sutherland's word on this, it makes circuit design a lot easier.
 
-To learn more, I recommend reading at least the first few pages of the paper. Like Dr. Sutherland's [1963 PhD thesis](https://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-574.pdf) introducing us all to graphic interfaces, constraint programming, CAD, the micropipeline paper is quite readable.
+To learn more, I recommend reading at least the first few pages of the paper. Like Dr. Sutherland's [1963 PhD thesis](https://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-574.pdf) -- introducing us all to graphic interfaces, constraint programming, and CAD -- the micropipeline paper is quite readable.
 
 ## Using the illustrator
 ````
