@@ -94,10 +94,11 @@ If you are like me, you would rather see some code. Here is the handler used by 
 function stageInHandler( stage, is) {
     if (is === 'init') {
         if (stage.feeder.reqd()) {
+            // for illustrative richness, do not capture in same tick as REQ
             if (stage.feeder.rq === mTick) {
-                return 'capture';
+                return 'capture'; // force a wait till the next tick
             }
-            // clg('capturing with', stage.feeder.rq, mTick);
+            // ok, fine, we can just go ahead and capture
             stage.data = stage.feeder.data;
             return 'ack';
         }
