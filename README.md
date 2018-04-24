@@ -3,6 +3,8 @@
 Pardon the brevity, but I am just getting rolling with this page as an alternative to linking folks directly to [my GitHub account](https://github.com/kennytilton). Hmmm... how about an annotated *Table of Contents* for my repositories?
 
 ## Table of Contents
+### New! The Flux Challenge&trade;
+The Matrix takes on the [Challenge](https://github.com/kennytilton/flux-challenge/blob/master/submissions/kennytilton/README.md).
 ### Dataflow (aka Reactive aka Constraints)
 We stumbled onto this dataflow hack quite by accident, while working on a sticky UI layout problem back in 1996. A re-creation of that story is [here](http://smuglispweeny.blogspot.com/2017/06/the-making-of-cells-case-study-in-dumb.html).
 In brief, we ended up with a tree of objects where selected properties could be expressed as formulas over other properties of other objects, as if our application were a spreadsheet. It could not be rules all the way down, of course: some properties were assigned to by event handlers. Any property could have an application-supplied observer to reflect changes in the "sheet" back to the outside world, say by disabling a widget via the widget API.
