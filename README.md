@@ -17,9 +17,9 @@ There is not much documentation other than the annotated tests, but one day in 2
 Cells has been applied to substantial, enterprise-level applications, including a [clinical drug trial management system](http://smuglispweeny.blogspot.com/2008/03/my-biggest-lisp-project.html) and a Web-based [algebra learnng system](http://tiltonsalgebra.com/#). Each application is controlled in every respect by the Cells engine.
 
 #### [Matrix](https://github.com/kennytilton/matrix) -- Independent CLJS and JS versions of Cells dataflow
-#### [Tag](https://github.com/kennytilton/tag) -- Independent CLJS and JS versions of a Matrix-based web unframework
-#### [XHR](https://github.com/kennytilton/xhr) -- Independent CLJS and JS (RSN) versions of Callback Hell solutions
-#### [micropipeline illustrator](https://github.com/kennytilton/kennytilton.github.io/blob/master/micropipeline/readme.md)
+#### [mxWeb](https://github.com/kennytilton/tag) -- Independent CLJS and JS versions of a Matrix-based web unframework
+#### [mxXHR](https://github.com/kennytilton/xhr) -- Independent CLJS and JS (RSN) versions of Callback Hell solutions
+#### [Micropipeline illustrator](https://github.com/kennytilton/kennytilton.github.io/blob/master/micropipeline/readme.md)
 A fun JS mxWeb playground of micropipelines as described in Ivan Sutheland's Turing Award paper.
 #### [TodoMX](https://github.com/kennytilton/todomx) -- The `TodoMVC Classic` in Matrix
 Perhaps unwisely, my _TodoMX_ repo contains two separate and complete implmentations of the [TodoMVC](https://github.com/tastejs/todomvc/blob/master/app-spec.mdhttps://github.com/tastejs/todomvc/blob/master/app-spec.md) classic. One is [pure JS](https://github.com/kennytilton/todomx/tree/master/js/todomx), the other [ClojureScript(CLJS)](https://github.com/kennytilton/todomx/tree/master/cljs/todomx) all the way down. Each is offered purely as a proof of concept, the concept being:
