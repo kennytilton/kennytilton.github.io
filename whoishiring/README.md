@@ -6,7 +6,7 @@ With luck, the HN listing browser interface will be easy to follow, but I look f
 Feature requests can be made there as well.
 
 Some things I have in mind already:
-* Urgent: Regex search not really implemented per se
+* Simple: get some tooltips on the less obvious items.
 * Huge: store user options so they persist across sessions.
 * Use routing for options if storing options does not suffice
 * Add a menu for selecting the month (and add more months)
