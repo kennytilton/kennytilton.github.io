@@ -1,0 +1,3 @@
+[submodule "whoishiring/js/closure-library"]
+	path = whoishiring/js/closure-library
+	url = https://github.com/google/closure-library
