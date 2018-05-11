@@ -3,6 +3,8 @@
 Pardon the brevity, but I am just getting rolling with this page as an alternative to linking folks directly to [my GitHub account](https://github.com/kennytilton). Hmmm... how about an annotated *Table of Contents* for my repositories?
 
 ## Table of Contents
+### New! A Hacker News &quot;Who is hiring?&quot; Browser
+Check it [out](https://kennytilton.github.io/whoishiring/)! A sophisticated little search tool for the massive Hacker News monthly "Who is hiring?" question with hundreds of openings listed. Sophisticated but new with many features and refinements to go, but those will come only in response to issues raised [here](https://github.com/kennytilton/matrix/tree/master/js/matrix). [Discussion/documentation](https://github.com/kennytilton/kennytilton.github.io/blob/master/whoishiring/README.md) will appear shortly.
 ### New! The Flux Challenge&trade;
 The Matrix takes on the [Challenge](https://github.com/kennytilton/flux-challenge/blob/master/submissions/kennytilton/README.md). In eighty-four SLOC.
 ### Dataflow (aka Reactive aka Constraints)
