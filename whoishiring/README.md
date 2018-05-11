@@ -6,8 +6,6 @@ With luck, the HN listing browser interface will be easy to follow, but I look f
 Feature requests can be made there as well.
 
 Some things I have in mind already:
-* Simple: Treat enter key on regex fields as "submit"
-* Fun: Make it faster when hundreds of jobs are selected
 * Urgent: Regex search not really implemented per se
 * Huge: store user options so they persist across sessions.
 * Use routing for options if storing options does not suffice
