@@ -8203,7 +8203,6 @@ function applied(c) {
 }
 ;Hiring.filtering = {};
 function jobListFilter(c, d) {
-  clg("filtering!!!!!!!!!");
   var e = c.fmUp("REMOTE").onOff, f = c.fmUp("VISA").onOff, g = c.fmUp("INTERN").onOff, h = c.fmUp("Starred").onOff, k = c.fmUp("Applied").onOff, l = c.fmUp("Noted").onOff;
   c.fmUp("sortby");
   var m = c.fmUp("titlergx").rgxTree, r = c.fmUp("listingrgx").rgxTree;
@@ -8232,18 +8231,18 @@ function rgxTreeMatch(c, d) {
     });
   });
 }
+var jSelects = [["REMOTE", "Does regex search of title for remote jobs"], ["INTERN", "Does regex search of title for internships"], ["VISA", "Does regex search of title for Visa sponsors"], ["Starred", "Show only jobs you have rated with stars"], ["Applied", "Show only jobs you have marked as applied to"], ["Noted", "Show only jobs on which you have made a note"]];
 function mkJobSelects() {
-  return div({style:{display:"flex"}}, span({style:"min-width:80px"}, "Selects:"), [["REMOTE", "Does regex search of title for remote jobs"], ["INTERN", "Does regex search of title for internships"], ["VISA", "Does regex search of title for Visa sponsors"], ["Starred", "Show only jobs you have rated with stars"], ["Applied", "Show only jobs you have marked as applied to"], ["Noted", "Show only jobs on which you have made a note"]].map(function(c) {
-    return input({type:"checkbox", style:"margin-left:18px", checked:cF(function(c) {
+  return div({style:{display:"flex"}}, span({style:"min-width:80px"}, "Selects:"), jSelects.map(function(c) {
+    return div(input({id:c[0] + "ID", type:"checkbox", style:"margin-left:18px", checked:cF(function(c) {
       return c.md.onOff;
     }), title:c[1], onclick:function(c) {
-      return c.onOff = !c.onOff;
-    }}, {name:c[0], onOff:cI(!1)}, c[0]);
+      c.onOff = !c.onOff;
+    }}, {name:c[0], onOff:cI(!1)}), label({for:c[0] + "ID", title:c[1]}, c[0]));
   }));
 }
 function jobListSort(c, d) {
   var e = c.fmUp("sortby").selection;
-  clg("sorting by!!!!!!!!!!", e.keyFn);
   return d.sort(function(c, d) {
     var f = e.keyFn;
     c = f(c) < f(d) ? -1 : 1;
@@ -8281,7 +8280,7 @@ function mkFullRgx() {
   return mkListingRgx("listing", "Listing Regex", "title and listing", !0);
 }
 function mkListingRgx(c, d, e, f) {
-  return labeledRow(d + ": ", input({autofocus:void 0 === f ? !1 : f, placeholder:"Regex for " + e + " search", onkeypress:buildRgxTree, value:"", style:"min-width:300px;font-size:1em"}, {name:c + "rgx", rgxTree:cI(null)}));
+  return labeledRow(d + ": ", input({autofocus:void 0 === f ? !1 : f, placeholder:"Regex for " + e + " search", onkeypress:buildRgxTree, onchange:buildRgxTree, value:"", style:"min-width:300px;font-size:1em"}, {name:c + "rgx", rgxTree:cI(null)}));
 }
 function labeledRow(c, d) {
   for (var e = [], f = 1; f < arguments.length; ++f) {
@@ -8290,16 +8289,18 @@ function labeledRow(c, d) {
   return div({style:{display:"flex", "margin-top":"9px", "align-items":"center"}}, span({style:"min-width:104px"}, c), e);
 }
 function buildRgxTree(c, d) {
-  "Enter" === d.key && (d = d.target.value.trim(), c.rgxTree = "" === d ? null : d.split("||").map(function(c) {
-    return c.trim().split("&&").map(function(c) {
-      try {
-        var d = c.trim().split(",");
-        return new RegExp(d[0], d[1] || "");
-      } catch (h) {
-        alert(h.toString() + ": <" + c.trim() + ">");
-      }
+  if ("change" === d.type || "keypress" === d.type && "Enter" === d.key) {
+    d = d.target.value.trim(), c.rgxTree = "" === d ? null : d.split("||").map(function(c) {
+      return c.trim().split("&&").map(function(c) {
+        try {
+          var d = $jscomp.makeIterator(c.trim().split(",")), e = d.next().value, f = d.next().value;
+          return new RegExp(e, void 0 === f ? "" : f);
+        } catch (l) {
+          alert(l.toString() + ": <" + c.trim() + ">");
+        }
+      });
     });
-  }));
+  }
 }
 ;Hiring.jobListing = {};
 function jobListingLoader() {
@@ -8374,7 +8375,7 @@ function jobSpecExtend(c, d) {
           });
           g = new RegExp(/((internship|intern)(?=|s,\)))/, "i");
           h = new RegExp(/((visa|visas)(?=|s,\)))/, "i");
-          var l = new RegExp(/(remote)/, "i"), m = function(c) {
+          var l = new RegExp(/((no visa|no visas)(?=|s,\)))/, "i"), m = new RegExp(/(remote)/, "i"), r = new RegExp(/(no remote)/, "i"), t = function(c) {
             return k.some(function(d) {
               return null !== d.match(c);
             });
@@ -8385,9 +8386,9 @@ function jobSpecExtend(c, d) {
           c.bodysearch = c.body.map(function(c) {
             return c.textContent;
           }).join("<**>");
-          c.remote = m(l);
-          c.visa = m(h);
-          c.intern = m(g);
+          c.remote = t(m) && !t(r);
+          c.visa = t(h) && !t(l);
+          c.intern = t(g) && !t(l);
         }
       }
     }
@@ -8402,8 +8403,8 @@ function jobSpecExtend(c, d) {
 }
 ;var SLOT_CT = 5, hiringApp = new TagSession(null, "HiringSession", {jobs:cI([])});
 function WhoIsHiring() {
-  return div({style:"margin:0px;padding:36px"}, h1("Ask HN: Who Is Hiring? (May 2018)"), p(i("All jobs scraped from the original <a href='https://news.ycombinator.com/item?id=16967543'>May 2018 listing</a>. All filters are ANDed. RFEs welcome and can be raised <a href='https://github.com/kennytilton/matrix/issues'>here</a>. Stable GitHub source can be <a href='https://github.com/kennytilton/kennytilton.github.io/tree/master/whoishiring'>found here</a>.")), jobListingLoader(), mkJobSelects(), mkTitleRgx(), 
-  mkFullRgx(), p(i("Separate above regex terms with || or && (higher priority) to combine expressions. Press 'Enter' to activate, including after clearing.")), sortBar(), h2({content:cF(function(c) {
+  return div({id:"whoshiring", style:"margin:0px;padding:36px"}, h1("Ask HN: Who Is Hiring? (May 2018)"), p(i("All jobs scraped from the original <a href='https://news.ycombinator.com/item?id=16967543'>May 2018 listing</a>. All filters are ANDed. RFEs welcome and can be raised <a href='https://github.com/kennytilton/matrix/issues'>here</a>. Stable GitHub source can be <a href='https://github.com/kennytilton/kennytilton.github.io/tree/master/whoishiring'>found here</a>.")), jobListingLoader(), mkJobSelects(), 
+  mkTitleRgx(), mkFullRgx(), p(i("Separate above regex terms with || or && (higher priority) to combine expressions. Press 'Enter' or tab off to activate, including after clearing. Supply RegExp options after a comma. e.g. <b>taipei,i</b> for case-insensitive.")), sortBar(), h2({content:cF(function(c) {
     return c.md.fmUp("progress").hidden ? "Jobs found: " + c.md.fmUp("job-list").selectedJobs.length : "Comments parsed: " + 20 * c.md.fmUp("progress").value;
   })}), progress({id:"progress", max:cI(0), hidden:cI(null), value:cI(0)}, {name:"progress"}), ul({}, {name:"job-list", selectedJobs:cF(function(c) {
     return jobListFilter(c.md, hiringApp.jobs) || [];
