@@ -8231,15 +8231,15 @@ function rgxTreeMatch(c, d) {
     });
   });
 }
-var jSelects = [["REMOTE", "Does regex search of title for remote jobs"], ["INTERN", "Does regex search of title for internships"], ["VISA", "Does regex search of title for Visa sponsors"], ["Starred", "Show only jobs you have rated with stars"], ["Applied", "Show only jobs you have marked as applied to"], ["Noted", "Show only jobs on which you have made a note"]];
+var jSelects = [["REMOTE", "Does regex search of title for remote jobs"], ["INTERN", "Does regex search of title for internships"], ["VISA", "Does regex search of title for Visa sponsors"], ["Starred", "Show only jobs you have rated with stars"], ["Applied", "Show only jobs you have marked as applied to"], ["Noted", "Show only jobs on which you have made a note"]], hzFlexWrap = {display:"flex", flex_wrap:"wrap"};
 function mkJobSelects() {
-  return div({style:{display:"flex"}}, span({style:"min-width:80px"}, "Selects:"), jSelects.map(function(c) {
+  return div({style:hzFlexWrap}, span({style:"min-width:80px"}, "Selects:"), div({style:hzFlexWrap}, jSelects.map(function(c) {
     return div(input({id:c[0] + "ID", type:"checkbox", style:"margin-left:18px", checked:cF(function(c) {
       return c.md.onOff;
     }), title:c[1], onclick:function(c) {
       c.onOff = !c.onOff;
     }}, {name:c[0], onOff:cI(!1)}), label({for:c[0] + "ID", title:c[1]}, c[0]));
-  }));
+  })));
 }
 function jobListSort(c, d) {
   var e = c.fmUp("sortby").selection;
@@ -8259,7 +8259,7 @@ function jobStarsKey(c) {
   return (c = UJob.dict[c.hnId]) && c.stars || 0;
 }
 function sortBar() {
-  return div({style:{display:"flex", "align-items":"center"}}, span({style:"min-width:40px"}, "Sort by:"), ul({}, {id:"sortby", name:"sortby", selection:cI({keyFn:jobHnIdKey, order:-1})}, [["Message Id", jobHnIdKey], ["Stars", jobStarsKey], ["Company", jobCompanyKey]].map(function(c) {
+  return div({style:{display:"flex", flex_wrap:"wrap", "align-items":"center"}}, span({style:"min-width:40px"}, "Sort by:"), ul({style:hzFlexWrap}, {id:"sortby", name:"sortby", selection:cI({keyFn:jobHnIdKey, order:-1})}, [["Message Id", jobHnIdKey], ["Stars", jobStarsKey], ["Company", jobCompanyKey]].map(function(c) {
     c = $jscomp.makeIterator(c);
     var d = c.next().value, e = c.next().value;
     return button({style:cF(function(c) {
@@ -8286,7 +8286,7 @@ function labeledRow(c, d) {
   for (var e = [], f = 1; f < arguments.length; ++f) {
     e[f - 1] = arguments[f];
   }
-  return div({style:{display:"flex", "margin-top":"9px", "align-items":"center"}}, span({style:"min-width:104px"}, c), e);
+  return div({style:{display:"flex", flex_wrap:"wrap", "margin-top":"9px", "align-items":"center"}}, span({style:"min-width:104px"}, c), e);
 }
 function buildRgxTree(c, d) {
   if ("change" === d.type || "keypress" === d.type && "Enter" === d.key) {
