@@ -2210,6 +2210,7 @@ var Tag = function(c, d, e, f) {
   for (var k in e) {
     this.attrKeys.push(k);
   }
+  mxDom[this.id] && (mxDom[this.id] === this ? clg("double load!!!!!") : clg("WARNING: dup DOM id: ", this.id, e.id, this.name, mxDom[this.id]));
   mxDom[this.id] = this;
   this.domCache = null;
   Object.defineProperty(this, "dom", {enumerable:!0, get:function() {
@@ -8184,7 +8185,28 @@ UserNotes.loadFromStorage = function() {
 };
 var UJob = UserNotes.loadFromStorage();
 function userAnnotations(c) {
-  return div({style:"display:flex; flex-wrap:wrap; align-items:center"}, jobStars(c), noteEditor(c), a({style:"margin-left:6px", href:"https://news.ycombinator.com/item?id=" + c.hnId, title:"View listing on the HN site"}, img({src:"dist/hn24.jpg"})));
+  return div({style:"display:flex; flex-direction: column"}, div({style:"display:flex; flex-wrap:wrap; align-items:center"}, jobStars(c), applied(c), noteToggle(c), a({style:"margin-left:6px", href:"https://news.ycombinator.com/item?id=" + c.hnId, title:"View listing on the HN site"}, img({src:"dist/hn24.jpg"}))), noteEditor(c));
+}
+function displayStyle(c, d) {
+  return "display:" + (c ? "block" : void 0 === d ? "none" : d) + ";";
+}
+function noteToggle(c) {
+  var d = UJob.dict[c.hnId];
+  return i({class:"material-icons", style:cF(function(c) {
+    return "margin-left:18px; cursor:pointer;color:" + (d.notes && 0 < d.notes.length ? "#f00" : "#000");
+  }), onclick:function(c) {
+    return c.editing = !c.editing;
+  }, content:"note_add"}, {name:"note-toggle", editing:cI(0 < (d.notes || "").length)});
+}
+function noteEditor(c) {
+  var d = UJob.dict[c.hnId];
+  return textarea({class:cF(function(c) {
+    return slideInRule(c, c.md.fmUp("note-toggle").editing);
+  }), style:cF(function(c) {
+    return "padding:8px;margin-left:12px;margin-right:12px;display:" + (c.md.fmUp("note-toggle").editing ? "flex" : "none");
+  }), placeholder:"Your notes here", onchange:function(c, f) {
+    return d.notes = f.target.value;
+  }}, d.notes || "");
 }
 var MAX_STARS = 5;
 function jobStars(c) {
@@ -8194,45 +8216,27 @@ function jobStars(c) {
       d.push(i({class:"material-icons", style:cF(function(c) {
         return "font-size:1em; cursor:pointer; color:" + (e.stars >= c.md.starN ? "#000" : "#eee");
       }), onclick:function(d) {
-        clg("onclick!!!", e.stars, c.hnId, c.company);
+        var f = d.fmUp("job-listing");
+        clg("onclick!!!", f.id, e.stars, c.hnId, c.company);
         e.stars = e.stars === d.starN ? 0 : d.starN;
       }}, {starN:f + 1}, "grade"));
     }
     return d;
   });
 }
-function noteEditor(c) {
-  var d = UJob.dict[c.hnId];
-  return div({style:"margin-left:18px"}, {editing:cI(!1)}, i({class:"material-icons", style:cF(function(c) {
-    return "cursor:pointer;color:" + (d.notes && 0 < d.notes.length ? "#f00" : "#000");
-  }), onclick:function(c) {
-    c.par.editing = !c.par.editing;
-  }, content:"note_add"}), textarea({style:cF(function(c) {
-    return "display:" + (c.md.par.editing ? "block" : "none");
-  }), cols:60, placeholder:"Your notes here", onchange:function(c, f) {
-    clg("bam", f.target.value);
-    d.notes = f.target.value;
-  }}, d.notes || ""));
-}
 function applied(c) {
-  var d = Object.assign(c);
-  return div({style:"display:flex; align-items:center"}, input({id:"applied?", type:"checkbox", style:"margin-left:18px", checked:cF(function(e) {
-    e = UJob.dict[e.md.hnId];
-    clg("applied checked", e.applied, c.company, e.company, c.hnId, d.hnId, e.hnId);
-    return e.applied || !1;
-  }), onclick:cF(function(e) {
-    return function(f) {
-      var g = UJob.dict[e.md.hnId], h = !g.applied;
-      clg("Applied!!!!", e.md.hnId, f.hnId, g.company, c.hnId, g.hnId, d.hnId, h);
-      g.applied = h;
-    };
-  })}, {hnId:d.hnId, name:"applied?"}), label({for:"applied?"}, "Applied"));
+  return div({style:"display:flex; flex-wrap: wrap; align-items:center"}, input({id:"applied?" + c.hnId, type:"checkbox", style:"margin-left:18px", checked:cF(function(d) {
+    return UJob.dict[c.hnId].applied || !1;
+  }), onclick:function(d) {
+    d = UJob.dict[c.hnId];
+    d.applied = !d.applied;
+  }}, {name:"applied?"}), label({for:"applied?" + c.hnId}, "Applied"));
 }
 ;Hiring.filtering = {};
 function jobListFilter(c, d) {
-  var e = c.fmUp("REMOTE").onOff, f = c.fmUp("VISA").onOff, g = c.fmUp("INTERN").onOff, h = c.fmUp("Starred").onOff, k = c.fmUp("Noted").onOff;
+  var e = c.fmUp("REMOTE").onOff, f = c.fmUp("VISA").onOff, g = c.fmUp("INTERN").onOff, h = c.fmUp("Starred").onOff, k = c.fmUp("Applied").onOff, l = c.fmUp("Noted").onOff;
   c.fmUp("sortby");
-  var l = c.fmUp("titlergx").rgxTree, m = c.fmUp("listingrgx").rgxTree;
+  var m = c.fmUp("titlergx").rgxTree, r = c.fmUp("listingrgx").rgxTree;
   return d.filter(function(c) {
     return !e || c.remote;
   }).filter(function(c) {
@@ -8240,15 +8244,15 @@ function jobListFilter(c, d) {
   }).filter(function(c) {
     return !g || c.intern;
   }).filter(function(c) {
-    return !0;
+    return !k || UJob.dict[c.hnId].applied;
   }).filter(function(c) {
     return !h || 0 < UJob.dict[c.hnId].stars;
   }).filter(function(c) {
-    return !k || UJob.dict[c.hnId].notes;
+    return !l || UJob.dict[c.hnId].notes;
   }).filter(function(c) {
-    return !l || rgxTreeMatch(c.titlesearch, l);
+    return !m || rgxTreeMatch(c.titlesearch, m);
   }).filter(function(c) {
-    return !m || rgxTreeMatch(c.titlesearch, m) || rgxTreeMatch(c.bodysearch, m);
+    return !r || rgxTreeMatch(c.titlesearch, r) || rgxTreeMatch(c.bodysearch, r);
   });
 }
 function rgxTreeMatch(c, d) {
@@ -8269,13 +8273,14 @@ function onOffCheckbox(c) {
   c = d.next().value;
   var e = d.next().value;
   d = d.next().value;
-  return div(input({id:c + "ID", type:"checkbox", style:"margin-left:18px", checked:cF(function(c) {
+  var f = Math.randomInt(100000);
+  return div(input({id:c + "ID" + f, type:"checkbox", style:"margin-left:18px", checked:cF(function(c) {
     return c.md.onOff;
   }), title:d, onclick:function(c) {
     return c.onOff = !c.onOff;
-  }}, {name:c, onOff:cI(!1)}), label({for:name + "ID", title:d}, e));
+  }}, {name:c, onOff:cI(!1)}), label({for:name + "ID" + f, title:d}, e));
 }
-var jSelects = [["REMOTE", "Does regex search of title for remote jobs"], ["INTERN", "Does regex search of title for internships"], ["VISA", "Does regex search of title for Visa sponsors"], ["Starred", "Show only jobs you have rated with stars"], ["Noted", "Show only jobs on which you have made a note"]];
+var jSelects = [["REMOTE", "Does regex search of title for remote jobs"], ["INTERN", "Does regex search of title for internships"], ["VISA", "Does regex search of title for Visa sponsors"], ["Starred", "Show only jobs you have rated with stars"], ["Applied", "Show only jobs you have marked as applied to"], ["Noted", "Show only jobs on which you have made a note"]];
 function mkJobSelects() {
   return div({style:hzFlexWrap}, span({style:"min-width:80px"}, "Selects"), div({style:hzFlexWrap}, jSelects.map(function(c) {
     return div(input({id:c[0] + "ID", type:"checkbox", style:"margin-left:18px", checked:cF(function(c) {
@@ -8303,7 +8308,7 @@ function jobStarsKey(c) {
   return (c = UJob.dict[c.hnId]) && c.stars || 0;
 }
 function sortBar() {
-  return div({style:{display:"flex", flex_wrap:"wrap", "align-items":"center"}}, span({style:"min-width:40px"}, "Sort by"), ul({style:hzFlexWrap}, {id:"sortby", name:"sortby", selection:cI({keyFn:jobHnIdKey, order:-1})}, [["Message Id", jobHnIdKey], ["Stars", jobStarsKey], ["Company", jobCompanyKey]].map(function(c) {
+  return div({style:{display:"flex", flex_wrap:"wrap", "align-items":"center"}}, span({style:"min-width:40px"}, "Sort by"), ul({style:hzFlexWrap}, {name:"sortby", selection:cI({keyFn:jobHnIdKey, order:-1})}, [["Message Id", jobHnIdKey], ["Stars", jobStarsKey], ["Company", jobCompanyKey]].map(function(c) {
     c = $jscomp.makeIterator(c);
     var d = c.next().value, e = c.next().value;
     return button({style:cF(function(c) {
@@ -8461,12 +8466,23 @@ function jobSpecExtend(c, d) {
 }
 ;var SLOT_CT = 5, hiringApp = new TagSession(null, "HiringSession", {jobs:cI([])}), tooManyJobsWarned = !1;
 function WhoIsHiring() {
-  return div({id:"whoshiring", style:"margin:0px;padding:36px"}, div({style:hzFlexWrap}, span({style:"font-size:2em; margin-bottom:12px;background:#ddd"}, "Ask HN: Who Is Hiring?"), appHelpOption()), appHelp(), p(i("All jobs scraped from the original <a href='https://news.ycombinator.com/item?id=16967543'>May 2018 listing</a>. ")), jobListingLoader(), mkJobSelects(), mkTitleRgx(), mkFullRgx(), sortBar(), div({style:"display:flex;max-height:16px;align-items:center"}, p({content:cF(function(c) {
+  return div({style:"margin:0px;padding:36px"}, div({style:hzFlexWrap}, span({style:"padding:4px;font-size:2em; margin-bottom:12px;background:orange"}, "Ask HN: Who Is Hiring?"), appHelpOption()), appHelp(), p(i("All jobs scraped from the original <a href='https://news.ycombinator.com/item?id=16967543'>May 2018 listing</a>. ")), jobListingLoader(), mkJobSelects(), mkTitleRgx(), mkFullRgx(), sortBar(), jobCount(), progress({max:cI(0), hidden:cI(null), value:cI(0)}, {name:"progress"}), jobList());
+}
+window.WhoIsHiring = WhoIsHiring;
+function resultMax() {
+  return div({style:hzFlexWrap}, span("Limit"), input({value:cF(function(c) {
+    return c.md.results;
+  }), style:"max-width:24px;margin-left:6px;margin-right:6px", onchange:function(c, d) {
+    clg("macchag", d.target.value);
+    c.results = parseInt(d.target.value);
+  }}, {name:"resultmax", results:cI(42)}));
+}
+function jobCount() {
+  return div({style:"display:flex;max-height:16px;align-items:center"}, resultMax(), span({content:cF(function(c) {
     return c.md.fmUp("progress").hidden ? "Jobs found: " + c.md.fmUp("job-list").selectedJobs.length : "Comments parsed: " + 20 * c.md.fmUp("progress").value;
   })}), button({style:cF(function(c) {
     return "max-height:16px; margin-left:24px;display:" + (c.md.fmUp("progress").hidden ? "block" : "none");
   }), onclick:function(c) {
-    clg("flip all listings to", !c.expanded);
     var d = document.getElementsByClassName("listing-toggle");
     Array.prototype.map.call(d, function(d) {
       return d.onOff = !c.expanded;
@@ -8474,25 +8490,27 @@ function WhoIsHiring() {
     c.expanded = !c.expanded;
   }, content:cF(function(c) {
     return c.md.expanded ? "Collapse all" : "Expand all";
-  })}, {name:"expander", expanded:cI(!1)})), progress({id:"progress", max:cI(0), hidden:cI(null), value:cI(0)}, {name:"progress"}), ul({style:"list-style-type: none; background-color:#eee; padding:0"}, {name:"job-list", selectedJobs:cF(function(c) {
-    return jobListFilter(c.md, hiringApp.jobs) || [];
-  }), kidValues:cF(function(c) {
-    c = jobListSort(c.md, c.md.selectedJobs) || [];
-    100 < c.length && !tooManyJobsWarned && (tooManyJobsWarned = !0);
-    return c.slice(0, 100);
-  }), kidKey:function(c) {
-    return c.hnId;
-  }, kidFactory:jobListItem}, function(c) {
-    return c.kidValuesKids();
-  }));
+  })}, {name:"expander", expanded:cI(!0)}));
 }
-window.WhoIsHiring = WhoIsHiring;
 function appHelpOption() {
   return i({class:"material-icons", style:"cursor:pointer; margin-left:9px", onclick:function(c) {
     return c.onOff = !c.onOff;
   }, title:"Show/hide app help", content:cF(function(c) {
     return c.md.onOff ? "help" : "help_outline";
   })}, {name:"appHelpOption", onOff:cI(!1)});
+}
+function jobList() {
+  return ul({style:"list-style-type: none; background-color:#eee; padding:0"}, {name:"job-list", selectedJobs:cF(function(c) {
+    return jobListFilter(c.md, hiringApp.jobs) || [];
+  }), kidValues:cF(function(c) {
+    var d = jobListSort(c.md, c.md.selectedJobs) || [];
+    c = c.md.fmUp("resultmax");
+    return d.slice(0, c.results);
+  }), kidKey:function(c) {
+    return c.job;
+  }, kidFactory:jobListItem}, function(c) {
+    return c.kidValuesKids();
+  });
 }
 var appHelpEntry = ["All filters are ANDed.", "RFEs welcome and can be raised <a href='https://github.com/kennytilton/matrix/issues'>here</a>. ", "GitHub source can be <a href='https://github.com/kennytilton/kennytilton.github.io/tree/master/whoishiring'>found here</a>."];
 function appHelp() {
@@ -8510,7 +8528,7 @@ function jobListItem(c, d) {
   }), onclick:function(c) {
     c = c.fmDown("showListing");
     c.onOff = !c.onOff;
-  }}, {name:"job-listing"}, div({style:"cursor:pointer;display:flex"}, moreOrLess(), span({onclick:function(c) {
+  }}, {name:"job-listing", job:d}, div({style:"cursor:pointer;display:flex"}, moreOrLess(), span({onclick:function(c) {
     c = c.fmUp("showListing");
     c.onOff = !c.onOff;
   }}, d.title.map(function(c) {
