@@ -2562,11 +2562,12 @@ function tagStyleString(c) {
   }
   return d;
 }
-var MXStorable = function(c) {
-  var d = c || {};
-  d = Object.assign({id:(d.lsPrefix || "MXSTOR_ANON") + uuidv4(), created:Date.now()}, d, {deleted:d.deleted || cI(null)});
-  Model.call(this, null, null, d, !1);
-  c.id || this.store();
+var MXStorable = function(c, d, e) {
+  d = void 0 === d ? !1 : d;
+  var f = c || {};
+  e = void 0 === e || e ? Object.assign({id:(f.lsPrefix || "MXSTOR_ANON") + uuidv4(), created:Date.now()}, f, {deleted:f.deleted || cI(null)}) : f;
+  Model.call(this, null, null, e, !1);
+  !d && c.id || this.store();
 };
 $jscomp.inherits(MXStorable, Model);
 MXStorable.cname = Model.cname;
@@ -8073,7 +8074,7 @@ goog.debug.entryPointRegistry.register(function(c) {
 Matrix.mxXHR = {};
 var mxXHR = function(c, d) {
   d = void 0 === d ? {send:!0, delay:0, responseType:"json"} : d;
-  Model.call(this, null, "mxXhr", {uri:cI(c), xhr:cI(null), okResult:cI(null)});
+  Model.call(this, null, "mxXhr", {uri:cI(c), xhr:cI(null), okResult:cI(null, {observer:d.okHandler})});
   this.responseType = d.responseType;
   d.send && this.send(d.delay);
 };
@@ -8081,9 +8082,12 @@ $jscomp.inherits(mxXHR, Model);
 mxXHR.cname = Model.cname;
 mxXHR.prototype.send = function(c) {
   var d = this, e = function() {
-    return goog.net.XhrIo.send(d.uri, function(c) {
+    d.sent = Date.now();
+    goog.net.XhrIo.send(d.uri, function(c) {
       c = c.target;
       d.xhr = c;
+      d.recd = Date.now();
+      d.verbose && clg("xhr responded after", Date.now() - d.sent);
       if (c.isSuccess()) {
         if ("json" === d.responseType) {
           d.okResult = c.getResponseJson();
@@ -8099,7 +8103,15 @@ mxXHR.prototype.send = function(c) {
           }
         }
       } else {
-        throw "getXHR xhr last error: " + c.getLastError();
+        if (c.isActive()) {
+          clg("xhr still active", d.uri);
+        } else {
+          if (c.isComplete()) {
+            clg("xhr complete", d.uri, c.getLastError());
+          } else {
+            throw clg("send XHR uh-oh", d.uri), "getXHR error " + c.getLastError() + " on xhr " + d.uri;
+          }
+        }
       }
     });
   };
@@ -8115,6 +8127,10 @@ function getXHR_JSON(c) {
     }
     throw "getXHR_JSONxhr last error: " + c.getLastError();
   });
+}
+function xhrJson(c, d) {
+  d = void 0 === d ? {} : d;
+  return new mxXHR(c, Object.assign({send:!0, delay:0, responseType:"json"}, d));
 }
 function testXHR() {
   clg("testXHR");
@@ -8159,8 +8175,8 @@ function xhraw(c) {
   d.responseType = "json";
   d.send();
 }
-;var Hiring = {usernote:{}}, JOB_LS_PREFIX = "whoishiring.", UserNotes = function(c) {
-  MXStorable.call(this, Object.assign({lsPrefix:JOB_LS_PREFIX}, c, {hnId:c.hnId, stars:cI(c.stars), hidden:cI(c.hidden || !1), applied:cI(c.applied || !1), notes:cI(c.notes)}));
+;var Hiring = {usernote:{}}, UNOTE = "whoishiring.unote.", UserNotes = function(c) {
+  MXStorable.call(this, Object.assign({lsPrefix:UNOTE}, c, {hnId:c.hnId, stars:cI(c.stars), hidden:cI(c.hidden || !1), applied:cI(c.applied || !1), notes:cI(c.notes)}));
 };
 $jscomp.inherits(UserNotes, MXStorable);
 UserNotes.cname = MXStorable.cname;
@@ -8176,14 +8192,14 @@ UserNotes.storableProperties = function() {
 UserNotes.loadFromStorage = function() {
   return mkm(null, "JobList", {dict:cF(function(c) {
     c = {};
-    for (var d = MXStorable.loadAllItems(UserNotes, JOB_LS_PREFIX) || [], e = 0; e < d.length; ++e) {
+    for (var d = MXStorable.loadAllItems(UserNotes, UNOTE) || [], e = 0; e < d.length; ++e) {
       var f = d[e];
       c[f.hnId] = f;
     }
     return c;
   })});
 };
-var UJob = UserNotes.loadFromStorage();
+var UNote = UserNotes.loadFromStorage();
 function userAnnotations(c) {
   return div({style:"display:flex; flex-direction: column"}, div({style:"display:flex; flex-wrap:wrap; align-items:center"}, jobStars(c), applied(c), noteToggle(c), a({style:"margin-left:6px", href:"https://news.ycombinator.com/item?id=" + c.hnId, title:"View listing on the HN site"}, img({src:"dist/hn24.jpg"}))), noteEditor(c));
 }
@@ -8191,15 +8207,15 @@ function displayStyle(c, d) {
   return "display:" + (c ? "block" : void 0 === d ? "none" : d) + ";";
 }
 function noteToggle(c) {
-  var d = UJob.dict[c.hnId];
-  return i({class:"material-icons", style:cF(function(c) {
+  var d = UNote.dict[c.hnId];
+  return span({style:cF(function(c) {
     return "margin-left:18px; cursor:pointer;color:" + (d.notes && 0 < d.notes.length ? "#f00" : "#000");
-  }), onclick:function(c) {
+  }), title:"Show/hide editor for your own notes", onclick:function(c) {
     return c.editing = !c.editing;
-  }, content:"note_add"}, {name:"note-toggle", editing:cI(0 < (d.notes || "").length)});
+  }}, {name:"note-toggle", editing:cI(0 < (d.notes || "").length)}, "Memo");
 }
 function noteEditor(c) {
-  var d = UJob.dict[c.hnId];
+  var d = UNote.dict[c.hnId];
   return textarea({class:cF(function(c) {
     return slideInRule(c, c.md.fmUp("note-toggle").editing);
   }), style:cF(function(c) {
@@ -8212,23 +8228,23 @@ var MAX_STARS = 5;
 function jobStars(c) {
   return div({style:"margin-left:6px; display:flex; flex-wrap:wrap"}, function(d) {
     d = [];
-    for (var e = UJob.dict[c.hnId], f = 0; f < MAX_STARS; ++f) {
-      d.push(i({class:"material-icons", style:cF(function(c) {
-        return "font-size:1em; cursor:pointer; color:" + (e.stars >= c.md.starN ? "#000" : "#eee");
-      }), onclick:function(d) {
+    for (var e = UNote.dict[c.hnId], f = 0; f < MAX_STARS; ++f) {
+      d.push(img({src:cF(function(c) {
+        return e.stars >= c.md.starN ? "dist/star32.png" : "dist/star32off.png";
+      }), style:"cursor:pointer;", onclick:function(d) {
         var f = d.fmUp("job-listing");
         clg("onclick!!!", f.id, e.stars, c.hnId, c.company);
         e.stars = e.stars === d.starN ? 0 : d.starN;
-      }}, {starN:f + 1}, "grade"));
+      }}, {starN:f + 1}));
     }
     return d;
   });
 }
 function applied(c) {
   return div({style:"display:flex; flex-wrap: wrap; align-items:center"}, input({id:"applied?" + c.hnId, type:"checkbox", style:"margin-left:18px", checked:cF(function(d) {
-    return UJob.dict[c.hnId].applied || !1;
+    return UNote.dict[c.hnId].applied || !1;
   }), onclick:function(d) {
-    d = UJob.dict[c.hnId];
+    d = UNote.dict[c.hnId];
     d.applied = !d.applied;
   }}, {name:"applied?"}), label({for:"applied?" + c.hnId}, "Applied"));
 }
@@ -8244,11 +8260,11 @@ function jobListFilter(c, d) {
   }).filter(function(c) {
     return !g || c.intern;
   }).filter(function(c) {
-    return !k || UJob.dict[c.hnId].applied;
+    return !k || UNote.dict[c.hnId].applied;
   }).filter(function(c) {
-    return !h || 0 < UJob.dict[c.hnId].stars;
+    return !h || 0 < UNote.dict[c.hnId].stars;
   }).filter(function(c) {
-    return !l || UJob.dict[c.hnId].notes;
+    return !l || UNote.dict[c.hnId].notes;
   }).filter(function(c) {
     return !m || rgxTreeMatch(c.titlesearch, m);
   }).filter(function(c) {
@@ -8262,7 +8278,7 @@ function rgxTreeMatch(c, d) {
     });
   });
 }
-var uDefault = [["udShowListing", "Expand listings", "Show full listing or just the title"]], hzFlexWrap = {display:"flex", flex_wrap:"wrap"};
+var uDefault = [["udshowDetails", "Expand listings", "Show full listing or just the title"]], hzFlexWrap = {display:"flex", flex_wrap:"wrap"};
 function mkUserDefaults() {
   return div({style:hzFlexWrap}, span({style:"min-width:80px"}, "Defaults"), div({style:hzFlexWrap}, uDefault.map(function(c) {
     return onOffCheckbox(c);
@@ -8280,10 +8296,17 @@ function onOffCheckbox(c) {
     return c.onOff = !c.onOff;
   }}, {name:c, onOff:cI(!1)}), label({for:name + "ID" + f, title:d}, e));
 }
-var jSelects = [["REMOTE", "Does regex search of title for remote jobs"], ["INTERN", "Does regex search of title for internships"], ["VISA", "Does regex search of title for Visa sponsors"], ["Starred", "Show only jobs you have rated with stars"], ["Applied", "Show only jobs you have marked as applied to"], ["Noted", "Show only jobs on which you have made a note"]];
-function mkJobSelects() {
-  return div({style:hzFlexWrap}, span({style:"min-width:80px"}, "Selects"), div({style:hzFlexWrap}, jSelects.map(function(c) {
-    return div(input({id:c[0] + "ID", type:"checkbox", style:"margin-left:18px", checked:cF(function(c) {
+var titleSelects = [["REMOTE", "Does regex search of title for remote jobs"], ["INTERN", "Does regex search of title for internships"], ["VISA", "Does regex search of title for Visa sponsors"]], userSelects = [["Starred", "Show only jobs you have rated with stars"], ["Applied", "Show only jobs you have marked as applied to"], ["Noted", "Show only jobs on which you have made a note"]];
+function mkTitleSelects() {
+  return mkJobSelects("Title selects", titleSelects);
+}
+function mkUserSelects() {
+  return mkJobSelects("User selects", userSelects, {"margin-top":"8px"});
+}
+function mkJobSelects(c, d, e) {
+  e = void 0 === e ? {} : e;
+  return div({style:merge(hzFlexWrap, {"align-items":"center", "min-height":"28px"}, e)}, span({class:"selector"}, c), div({style:hzFlexWrap}, d.map(function(c) {
+    return div({style:"margin-right:18px"}, input({id:c[0] + "ID", style:"margin-right:6px", type:"checkbox", checked:cF(function(c) {
       return c.md.onOff;
     }), title:c[1], onclick:function(c) {
       c.onOff = !c.onOff;
@@ -8305,87 +8328,18 @@ function jobCompanyKey(c) {
   return c.company || "";
 }
 function jobStarsKey(c) {
-  return (c = UJob.dict[c.hnId]) && c.stars || 0;
+  return (c = UNote.dict[c.hnId]) && c.stars || 0;
 }
-function sortBar() {
-  return div({style:{display:"flex", flex_wrap:"wrap", "align-items":"center"}}, span({style:"min-width:40px"}, "Sort by"), ul({style:hzFlexWrap}, {name:"sortby", selection:cI({keyFn:jobHnIdKey, order:-1})}, [["Message Id", jobHnIdKey], ["Stars", jobStarsKey], ["Company", jobCompanyKey]].map(function(c) {
-    c = $jscomp.makeIterator(c);
-    var d = c.next().value, e = c.next().value;
-    return button({style:cF(function(c) {
-      return c.md.selected ? "background:#ddf" : "";
-    }), onclick:function(c) {
-      var d = c.fmUp("sortby").selection;
-      clg("setting selection", c.selection);
-      c.fmUp("sortby").selection = d.keyFn === c.keyFn ? {keyFn:c.keyFn, order:-d.order} : {keyFn:c.keyFn, order:1};
-    }, content:d}, {keyFn:e, selected:cF(function(c) {
-      return c.md.fmUp("sortby").selection.keyFn === e;
-    })});
-  })));
-}
-function mkTitleRgx() {
-  return mkListingRgx("title", "Title Search", "title", !0);
-}
-function mkFullRgx() {
-  return mkListingRgx("listing", "Listing Search", "title and listing");
-}
-function mkListingRgx(c, d, e) {
-  return labeledRow(d, input({placeholder:"Regex for " + e + " search", onkeypress:buildRgxTree, onchange:buildRgxTree, value:"", style:"min-width:72px;width:300px;font-size:1em"}, {name:c + "rgx", rgxTree:cI(null)}));
-}
-function labeledRow(c, d) {
-  for (var e = [], f = 1; f < arguments.length; ++f) {
-    e[f - 1] = arguments[f];
-  }
-  return div({style:{display:"flex", flex_wrap:"wrap", "margin-top":"9px", "align-items":"center"}}, {helping:cI(!1)}, span({style:"min-width:104px"}, c), e, i({class:"material-icons", style:"cursor:pointer; margin-left:6px", onclick:function(c) {
-    return c.par.helping = !c.par.helping;
-  }, content:cF(function(c) {
-    return c.md.par.helping ? "help" : "help_outline";
-  })}), ul({class:cF(function(c) {
-    return slideInRule(c, c.md.par.helping);
-  }), style:cF(function(c) {
-    return "display:" + (c.md.par.helping ? "block" : "none");
-  })}, regexHelp.map(function(c) {
-    return li(c);
-  })));
-}
-function slideInRule(c, d) {
-  return c.pv === kUnbound ? d ? "slideIn" : "" : d ? "slideIn" : "slideOut";
-}
-var regexHelp = ["Separate JS RegExp-legal terms with <b>||</b> or <b>&&</b> (higher priority) to combine expressions.", "Press <kbd style='font-size:1.4em'>Enter</kbd> or <kbd style='font-size:1.4em'>Tab</kbd> to activate, including after clearing.", "Supply RegExp options after a comma. e.g. <b>taipei,i</b> for case-insensitive search."];
-function buildRgxTree(c, d) {
-  if ("change" === d.type || "keypress" === d.type && "Enter" === d.key) {
-    d = d.target.value.trim(), c.rgxTree = "" === d ? null : d.split("||").map(function(c) {
-      return c.trim().split("&&").map(function(c) {
-        try {
-          var d = $jscomp.makeIterator(c.trim().split(",")), e = d.next().value, f = d.next().value;
-          return new RegExp(e, void 0 === f ? "" : f);
-        } catch (l) {
-          alert(l.toString() + ": <" + c.trim() + ">");
-        }
-      });
-    });
-  }
-}
-;Hiring.jobListing = {};
-function pickAMonth() {
-  return div(div({style:"display:flex;margin-bottom:9px"}, b({style:cF(function(c) {
-    return "max-width:128px;background:red;" + displayStyle(null === c.md.fmUp("searchMonth").value);
-  })}, "Start here >>>"), select({name:"searchMonth", value:cI(null), onchange:function(c, d) {
-    c.value = d.target.value;
-  }}, option({value:"none", selected:"selected", disabled:"disabled"}, "Please pick a hiring month"), option({value:"16967543"}, "May, 2018"), option({value:"16735011"}, "April, 2018"), option({value:"16492994"}, "March, 2018"))), p({style:cF(function(c) {
-    return displayStyle(c.md.fmUp("searchMonth").value);
-  })}, i({content:cF(function(c) {
-    return "All jobs scraped from the <a href='https://news.ycombinator.com/item?id=" + c.md.fmUp("searchMonth").value + "'>original listing</a>. ";
-  })})));
-}
+;Hiring.jobLoader = {};
 function jobListingLoader() {
-  return div(iframe({src:cF(function(c) {
+  return div(iframe({sandbox:"", src:cF(function(c) {
     c = c.md.fmUp("searchMonth").value;
     return "" === c ? "" : "files/" + c + ".html";
   }), style:"display: none; width:1000px; height:100px", onload:function(c) {
     return jobsCollect(c);
   }}));
 }
-var PARSE_CHUNK_SIZE = 20;
+var PARSE_CHUNK_SIZE = 100;
 function jobsCollect(c) {
   if (c.dom.contentDocument) {
     hnBody = c.dom.contentDocument.getElementsByTagName("body")[0];
@@ -8403,14 +8357,14 @@ function parseListings(c, d, e, f) {
         var m = jobSpec(c[k + jn]);
         if (m.OK) {
           var r = m.hnId;
-          UJob.dict[r] || (UJob.dict[r] = new UserNotes({hnId:r}));
+          UNote.dict[r] || (UNote.dict[r] = new UserNotes({hnId:r}));
           d.push(m);
         }
       }
       f.value += 1;
-      window.requestAnimationFrame(function() {
+      5000 > d.length ? window.requestAnimationFrame(function() {
         return h(k + l);
-      });
+      }) : (f.hidden = !0, hiringApp.jobs = d);
     } else {
       f.hidden = !0, hiringApp.jobs = d;
     }
@@ -8478,22 +8432,41 @@ function jobSpecExtend(c, d) {
     }
   }
 }
-;var SLOT_CT = 5, hiringApp = new TagSession(null, "HiringSession", {jobs:cI([])}), tooManyJobsWarned = !1;
-function WhoIsHiring() {
-  return div({style:"margin:0px;padding:36px"}, div({style:hzFlexWrap}, span({style:"padding:4px;font-size:2em; margin-bottom:12px;background:orange"}, "Ask HN: Who Is Hiring?"), appHelpOption()), appHelp(), pickAMonth(), jobListingLoader(), mkJobSelects(), mkTitleRgx(), mkFullRgx(), sortBar(), jobCount(), progress({max:cI(0), hidden:cI(null), value:cI(0)}, {name:"progress"}), jobList());
+;Hiring.controlPanel = {};
+function controlPanel() {
+  return div(pickAMonth(), mkTitleSelects(), mkTitleRgx(), mkFullRgx(), mkUserSelects(), sortBar(), jobListingControlBar(), progress({max:cI(0), hidden:cI(null), value:cI(0)}, {name:"progress"}));
 }
-window.WhoIsHiring = WhoIsHiring;
-function resultMax() {
-  return div({style:hzFlexWrap}, span("Limit"), input({value:cF(function(c) {
-    return c.md.results;
-  }), style:"max-width:24px;margin-left:6px;margin-right:6px", onchange:function(c, d) {
-    clg("macchag", d.target.value);
-    c.results = parseInt(d.target.value);
-  }}, {name:"resultmax", results:cI(42)}));
+window.controlPanel = controlPanel;
+function pickAMonth() {
+  return div(div({style:"display:flex;margin-bottom:9px"}, span({class:"selector"}, "Start here!!"), select({name:"searchMonth", value:cI(null), onchange:function(c, d) {
+    c.value = d.target.value;
+  }}, option({value:"none", selected:"selected", disabled:"disabled"}, "Please pick a hiring month"), gMonthlies.map(function(c) {
+    return option({value:c.hnId}, c.desc);
+  })), p({style:cF(function(c) {
+    return "margin-left:24px;" + displayStyle(c.md.fmUp("searchMonth").value);
+  })}, i({content:cF(function(c) {
+    return "<a href='https://news.ycombinator.com/item?id=" + c.md.fmUp("searchMonth").value + "'>View on HN</a>";
+  })}))));
 }
-function jobCount() {
-  return div({style:"display:flex;max-height:16px;align-items:center"}, resultMax(), span({content:cF(function(c) {
-    return c.md.fmUp("progress").hidden ? "Jobs found: " + c.md.fmUp("job-list").selectedJobs.length : "Comments parsed: " + 20 * c.md.fmUp("progress").value;
+function sortBar() {
+  return div({style:merge(hzFlexWrap, {"align-items":"center"})}, span({class:"selector"}, "Sort by"), ul({style:merge(hzFlexWrap, {padding:0})}, {name:"sortby", selection:cI({keyFn:jobHnIdKey, order:-1})}, [["Creation", jobHnIdKey], ["Stars", jobStarsKey], ["Company", jobCompanyKey]].map(function(c) {
+    c = $jscomp.makeIterator(c);
+    var d = c.next().value, e = c.next().value;
+    return button({style:cF(function(c) {
+      return "margin-right:9px;min-width:72px;" + (c.md.selected ? "background:#ddf" : "");
+    }), onclick:function(c) {
+      var d = c.fmUp("sortby").selection;
+      clg("setting selection", c.selection);
+      c.fmUp("sortby").selection = d.keyFn === c.keyFn ? {keyFn:c.keyFn, order:-d.order} : {keyFn:c.keyFn, order:1};
+    }, content:d}, {keyFn:e, selected:cF(function(c) {
+      return c.md.fmUp("sortby").selection.keyFn === e;
+    })});
+  })));
+}
+function jobListingControlBar() {
+  return div({style:"display:flex;max-height:16px;align-items:center; background:lightgoldenrodyellow"}, resultMax(), span({content:cF(function(c) {
+    var d = c.md.fmUp("progress");
+    return d.hidden ? "Jobs found: " + c.md.fmUp("job-list").selectedJobs.length : "Comments parsed: " + PARSE_CHUNK_SIZE * d.value;
   })}), button({style:cF(function(c) {
     return "max-height:16px; margin-left:24px;display:" + (c.md.fmUp("progress").hidden ? "block" : "none");
   }), onclick:function(c) {
@@ -8506,13 +8479,120 @@ function jobCount() {
     return c.md.expanded ? "Collapse all" : "Expand all";
   })}, {name:"expander", expanded:cI(!0)}));
 }
-function appHelpOption() {
-  return i({class:"material-icons", style:"cursor:pointer; margin-left:9px", onclick:function(c) {
-    return c.onOff = !c.onOff;
-  }, title:"Show/hide app help", content:cF(function(c) {
-    return c.md.onOff ? "help" : "help_outline";
-  })}, {name:"appHelpOption", onOff:cI(!1)});
+function resultMax() {
+  return div({style:hzFlexWrap}, span("Display limit"), input({value:cF(function(c) {
+    return c.md.results;
+  }), style:"max-width:24px;margin-left:6px;margin-right:6px", onchange:function(c, d) {
+    return c.results = parseInt(d.target.value);
+  }}, {name:"resultmax", results:cI(42)}));
 }
+;Hiring.jobListItem = {};
+function jobListItem(c, d) {
+  return li({style:cF(function(c) {
+    return "padding:4px;background-color:" + (c.md.fmUp("job-list").kidValues.indexOf(d) % 2 ? "#f8f8f8" : "#eee");
+  }), onclick:function(c) {
+    c = c.fmDown("showDetails");
+    c.onOff = !c.onOff;
+  }}, {name:"job-listing", job:d}, jobHeader(d), jobDetails(d));
+}
+function jobHeader(c) {
+  return div({style:"cursor:pointer;display:flex"}, toggleFullListing(), img({src:"dist/star32.png", style:cF(function(d) {
+    var e = UNote.dict[c.hnId];
+    return "max-height:16px;margin-right:9px; display:" + (!d.md.fmUp("showDetails").onOff && e && e.stars && 0 !== e.stars ? "block" : "none");
+  })}), span({onclick:function(c) {
+    c = c.fmUp("showDetails");
+    c.onOff = !c.onOff;
+  }}, c.title.map(function(c) {
+    return c.textContent;
+  }).join(" | ")));
+}
+function jobDetails(c) {
+  return div({class:cF(function(c) {
+    var d = c.md.fmUp("showDetails").onOff;
+    return c.pv === kUnbound ? d ? "slideIn" : "" : d ? "slideIn" : "slideOut";
+  }), style:cF(function(c) {
+    return "margin:6px;background:#fff; display:" + (c.md.fmUp("showDetails").onOff ? "block" : "none");
+  })}, userAnnotations(c), div({style:"margin:6px"}, function(d) {
+    return d.md.fmUp("showDetails") ? c.body.map(function(c, d) {
+      if (1 === c.nodeType) {
+        return "<p>" + c.innerHTML + "</p>";
+      }
+      if (3 === c.nodeType) {
+        return "<p>" + c.textContent + "</p>";
+      }
+      clg("UNEXPECTED Node type", c.nodeType, c.nodeName, c.textContent);
+    }) : null;
+  }));
+}
+function toggleFullListing() {
+  return toggleChar("showDetails", "Show/hide full listing", "--", "+", {class:"listing-toggle"}, {onOff:cFI(function(c) {
+    return c.md.fmUp("expander").expanded;
+  })}, "margin-right:9px;");
+}
+function toggleChar(c, d, e, f, g, h, k) {
+  g = void 0 === g ? {} : g;
+  h = void 0 === h ? {} : h;
+  return b(Object.assign({style:"cursor:pointer; margin-left:9px; font-family:Arial; font-size:1em;" + (void 0 === k ? "" : k), onclick:function(c) {
+    return c.onOff = !c.onOff;
+  }, title:d, content:cF(function(c) {
+    return c.md.onOff ? e : f;
+  })}, g), Object.assign({name:c, onOff:!1}, h));
+}
+;Hiring.regexSearch = {};
+function mkTitleRgx() {
+  return mkListingRgx("title", "Title Search", "title", !0);
+}
+function mkFullRgx() {
+  return mkListingRgx("listing", "Listing Search", "title and listing");
+}
+function mkListingRgx(c, d, e) {
+  return labeledRow(d, input({placeholder:"Regex for " + e + " search", onkeypress:buildRgxTree, onchange:buildRgxTree, value:"", style:"min-width:72px;width:300px;font-size:1em"}, {name:c + "rgx", rgxTree:cI(null)}));
+}
+function labeledRow(c, d) {
+  for (var e = [], f = 1; f < arguments.length; ++f) {
+    e[f - 1] = arguments[f];
+  }
+  return div({style:{display:"flex", flex_wrap:"wrap", "margin-top":"9px", "align-items":"center"}}, {helping:cI(!1)}, span({class:"selector", style:"min-width:104px"}, c), e, b({style:"cursor:pointer; margin-left:9px; font-family:Arial; font-size:1em;", onclick:function(c) {
+    return c.par.helping = !c.par.helping;
+  }, title:"Show/hide help", content:cF(function(c) {
+    return c.md.par.helping ? "_" : "?";
+  })}), ul({class:cF(function(c) {
+    return slideInRule(c, c.md.par.helping);
+  }), style:cF(function(c) {
+    return "display:" + (c.md.par.helping ? "block" : "none");
+  })}, regexHelp.map(function(c) {
+    return li(c);
+  })));
+}
+function slideInRule(c, d) {
+  return c.pv === kUnbound ? d ? "slideIn" : "" : d ? "slideIn" : "slideOut";
+}
+var regexHelp = ["Separate <a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions'>JS RegExp-legal</a> terms with <b>||</b> or <b>&&</b> (higher priority) to combine expressions.", "Press <kbd style='font-size:1.4em'>Enter</kbd> or <kbd style='font-size:1.4em'>Tab</kbd> to activate, including after clearing.", "Supply RegExp options after a comma. e.g. <b>taipei,i</b> for case-insensitive search."];
+function buildRgxTree(c, d) {
+  if ("change" === d.type || "keypress" === d.type && "Enter" === d.key) {
+    d = d.target.value.trim(), c.rgxTree = "" === d ? null : d.split("||").map(function(c) {
+      return c.trim().split("&&").map(function(c) {
+        try {
+          var d = $jscomp.makeIterator(c.trim().split(",")), e = d.next().value, f = d.next().value;
+          return new RegExp(e, void 0 === f ? "" : f);
+        } catch (l) {
+          alert(l.toString() + ": <" + c.trim() + ">");
+        }
+      });
+    });
+  }
+}
+;var SLOT_CT = 5, hiringApp = new TagSession(null, "HiringSession", {jobs:cI([])});
+function merge(c) {
+  for (var d = [], e = 0; e < arguments.length; ++e) {
+    d[e - 0] = arguments[e];
+  }
+  return Object.assign.apply(Object, [{}].concat($jscomp.arrayFromIterable(d)));
+}
+function WhoIsHiring() {
+  return div({style:"margin:0px;padding:36px;"}, div({style:hzFlexWrap}, span({style:"padding:4px;font-size:2em; margin-bottom:12px;background:orange"}, "Ask HN: Who Is Hiring?"), appHelpToggle()), appHelp(), jobListingLoader(), controlPanel(), jobList());
+}
+window.WhoIsHiring = WhoIsHiring;
 function jobList() {
   return ul({style:"list-style-type: none; background-color:#eee; padding:0"}, {name:"job-list", selectedJobs:cF(function(c) {
     return jobListFilter(c.md, hiringApp.jobs) || [];
@@ -8526,51 +8606,24 @@ function jobList() {
     return c.kidValuesKids();
   });
 }
-var appHelpEntry = ["All filters are ANDed.", "RFEs welcome and can be raised <a href='https://github.com/kennytilton/matrix/issues'>here</a>. ", "GitHub source can be <a href='https://github.com/kennytilton/kennytilton.github.io/tree/master/whoishiring'>found here</a>."];
+function appHelpToggle() {
+  return helpToggle("appHelpToggle", "Show/hide app help");
+}
+function helpToggle(c, d) {
+  return b({style:"cursor:pointer; margin-left:9px; font-family:Arial; font-size:1em;", onclick:function(c) {
+    return c.onOff = !c.onOff;
+  }, title:d, content:cF(function(c) {
+    return c.md.onOff ? "_" : "?";
+  })}, {name:c, onOff:cI(!1)});
+}
+var appHelpEntry = ["All filters are ANDed.", "RFEs welcome and can be raised <a href='https://github.com/kennytilton/whoshiring/issues'>here</a>. ", "GitHub source can be <a href='https://github.com/kennytilton/whoshiring'>found here</a>."];
 function appHelp() {
   return ul({class:cF(function(c) {
-    return slideInRule(c, c.md.fmUp("appHelpOption").onOff);
+    return slideInRule(c, c.md.fmUp("appHelpToggle").onOff);
   }), style:cF(function(c) {
-    return "display:" + (c.md.fmUp("appHelpOption").onOff ? "block" : "none");
+    return "display:" + (c.md.fmUp("appHelpToggle").onOff ? "block" : "none");
   })}, appHelpEntry.map(function(c) {
     return li(c);
   }));
-}
-function jobListItem(c, d) {
-  return li({style:cF(function(c) {
-    return "padding:4px;background-color:" + (c.md.fmUp("job-list").kidValues.indexOf(d) % 2 ? "#ffd" : "#eee");
-  }), onclick:function(c) {
-    c = c.fmDown("showListing");
-    c.onOff = !c.onOff;
-  }}, {name:"job-listing", job:d}, div({style:"cursor:pointer;display:flex"}, moreOrLess(), span({onclick:function(c) {
-    c = c.fmUp("showListing");
-    c.onOff = !c.onOff;
-  }}, d.title.map(function(c) {
-    return c.textContent;
-  }).join(" | "))), div({class:cF(function(c) {
-    var d = c.md.fmUp("showListing").onOff;
-    return c.pv === kUnbound ? d ? "slideIn" : "" : d ? "slideIn" : "slideOut";
-  }), style:cF(function(c) {
-    return "margin:6px;background:#fff; display:" + (c.md.fmUp("showListing").onOff ? "block" : "none");
-  })}, userAnnotations(d), div({style:"margin:6px"}, function(c) {
-    return c.md.fmUp("showListing") ? d.body.map(function(c, d) {
-      if (1 === c.nodeType) {
-        return "<p>" + c.innerHTML + "</p>";
-      }
-      if (3 === c.nodeType) {
-        return "<p>" + c.textContent + "</p>";
-      }
-      clg("UNEXPECTED Node type", c.nodeType, c.nodeName, c.textContent);
-    }) : null;
-  })));
-}
-function moreOrLess() {
-  return i({class:"listing-toggle material-icons", style:"cursor:pointer;color:#888", onclick:function(c) {
-    c.onOff = !c.onOff;
-  }, title:"Show/hide full listing", content:cF(function(c) {
-    return c.md.onOff ? "arrow_drop_down" : "arrow_right";
-  })}, {name:"showListing", onOff:cFI(function(c) {
-    return c.md.fmUp("expander").expanded;
-  })});
 }
 ;
