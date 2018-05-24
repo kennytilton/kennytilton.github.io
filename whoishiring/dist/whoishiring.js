@@ -8277,12 +8277,12 @@ function noteEditor(c) {
     return d.notes = f.target.value;
   }}, d.notes || "");
 }
-var MAX_STARS = 5;
+var MAX_STARS = 3;
 function jobStars(c) {
   return div({style:"margin-left:6px; display:flex; flex-wrap:wrap"}, function(d) {
     d = [];
     for (var e = UNote.dict[c.hnId], f = 0; f < MAX_STARS; ++f) {
-      d.push(span({content:"&#x2b51", style:cF(function(c) {
+      d.push(span({content:"&#x2605", style:cF(function(c) {
         return "cursor:pointer;color:" + (e.stars >= c.md.starN ? "red;" : "gray;");
       }), onclick:function(c) {
         c.fmUp("job-listing");
@@ -8302,25 +8302,27 @@ function applied(c) {
 }
 ;Hiring.filtering = {};
 function jobListFilter(c, d) {
-  var e = c.fmUp("REMOTE").onOff, f = c.fmUp("VISA").onOff, g = c.fmUp("INTERN").onOff, h = c.fmUp("Starred").onOff, k = c.fmUp("Applied").onOff, l = c.fmUp("Noted").onOff;
+  var e = c.fmUp("REMOTE").onOff, f = c.fmUp("ONSITE").onOff, g = c.fmUp("VISA").onOff, h = c.fmUp("INTERNS").onOff, k = c.fmUp("Starred").onOff, l = c.fmUp("Applied").onOff, m = c.fmUp("Noted").onOff;
   c.fmUp("sortby");
-  var m = c.fmUp("titlergx").rgxTree, r = c.fmUp("listingrgx").rgxTree;
+  var r = c.fmUp("titlergx").rgxTree, t = c.fmUp("listingrgx").rgxTree;
   return d.filter(function(c) {
     return !e || c.remote;
   }).filter(function(c) {
-    return !f || c.visa;
+    return !f || c.onsite;
   }).filter(function(c) {
-    return !g || c.intern;
+    return !g || c.visa;
   }).filter(function(c) {
-    return !k || UNote.dict[c.hnId].applied;
+    return !h || c.intern;
   }).filter(function(c) {
-    return !h || 0 < UNote.dict[c.hnId].stars;
+    return !l || UNote.dict[c.hnId].applied;
   }).filter(function(c) {
-    return !l || UNote.dict[c.hnId].notes;
+    return !k || 0 < UNote.dict[c.hnId].stars;
   }).filter(function(c) {
-    return !m || rgxTreeMatch(c.titlesearch, m);
+    return !m || UNote.dict[c.hnId].notes;
   }).filter(function(c) {
-    return !r || rgxTreeMatch(c.titlesearch, r) || rgxTreeMatch(c.bodysearch, r);
+    return !r || rgxTreeMatch(c.titlesearch, r);
+  }).filter(function(c) {
+    return !t || rgxTreeMatch(c.titlesearch, t) || rgxTreeMatch(c.bodysearch, t);
   });
 }
 function rgxTreeMatch(c, d) {
@@ -8336,7 +8338,7 @@ function mkUserDefaults() {
     return onOffCheckbox(c);
   })));
 }
-var titleSelects = [["REMOTE", "Does regex search of title for remote jobs"], ["INTERN", "Does regex search of title for internships"], ["VISA", "Does regex search of title for Visa sponsors"]], userSelects = [["Starred", "Show only jobs you have rated with stars"], ["Applied", "Show only jobs you have marked as applied to"], ["Noted", "Show only jobs on which you have made a note"]];
+var titleSelects = [["REMOTE", "Does regex search of title for remote jobs"], ["ONSITE", "Does regex search of title for on-site jobs"], ["INTERNS", "Does regex search of title for internships"], ["VISA", "Does regex search of title for Visa sponsors"]], userSelects = [["Starred", "Show only jobs you have rated with stars"], ["Applied", "Show only jobs you have marked as applied to"], ["Noted", "Show only jobs on which you have made a note"]];
 function mkTitleSelects() {
   return mkJobSelects("title", "Title selects", titleSelects);
 }
@@ -8429,7 +8431,7 @@ function jobSpecExtend(c, d) {
           });
           g = new RegExp(/((internship|intern)(?=|s,\)))/, "i");
           h = new RegExp(/((visa|visas)(?=|s,\)))/, "i");
-          var l = new RegExp(/((no visa|no visas)(?=|s,\)))/, "i"), m = new RegExp(/(remote)/, "i"), r = new RegExp(/(no remote)/, "i"), t = function(c) {
+          var l = new RegExp(/((no visa|no visas)(?=|s,\)))/, "i"), m = new RegExp(/(on.?site)/, "i"), r = new RegExp(/(remote)/, "i"), t = new RegExp(/(no remote)/, "i"), v = function(c) {
             return k.some(function(d) {
               return null !== d.match(c);
             });
@@ -8440,9 +8442,10 @@ function jobSpecExtend(c, d) {
           c.bodysearch = c.body.map(function(c) {
             return c.textContent;
           }).join("<**>");
-          c.remote = t(m) && !t(r);
-          c.visa = t(h) && !t(l);
-          c.intern = t(g) && !t(l);
+          c.onsite = v(m);
+          c.remote = v(r) && !v(t);
+          c.visa = v(h) && !v(l);
+          c.intern = v(g) && !v(l);
         }
       }
     }
@@ -8670,7 +8673,7 @@ function rebuildRgxTree(c) {
       try {
         var e = $jscomp.makeIterator(c.trim().split(",")), f = e.next().value, k = e.next().value;
         e = void 0 === k ? "" : k;
-        d || (e += "i");
+        d || -1 !== e.search("i") || (e += "i");
         return new RegExp(f, e);
       } catch (l) {
         alert(l.toString() + ": <" + c.trim() + ">");
