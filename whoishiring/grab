@@ -7,7 +7,7 @@ fi
 
 echo "FYI: PWD is $PWD"
 
-if [ ! ${PWD##*/} = "whoshiring" ]; then
+if [ ! ${PWD##*/} = "whoishiring" ]; then
     echo "Wrong PWD $PWD"
     exit
 fi
