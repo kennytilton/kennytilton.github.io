@@ -34,14 +34,15 @@ header {
 }
 header .about {
     color: #fcfcfc;
-    font-size: 0.7em;
-    /*float: right;*/
+    font-size: 1em;
     cursor: pointer;
     text-align: right;
-    margin: 6px 6px 0 0;
+    right: 0;
+    margin: 0px 18px 0 0;
 }
 header .headermain {
     font-size: 1.7em;
+    margin-top: -14px;
     -webkit-font-smoothing: antialiased;
     display: flex;
     flex-wrap: no-wrap;
@@ -50,7 +51,7 @@ header .askhn {
     display: inline-block;
     color: #fcfcfc;
     border: 3px solid #fcfcfc;
-    margin: 15px 0 10px 24px;
+    margin: 15px 0 0px 24px;
     padding: 6px;
 }
 header .who {
@@ -62,20 +63,18 @@ header .who {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    margin: 9px 0 9px 24px;
+    margin: 0px 0 9px 30px;
 }
 
 .searchMonth {
     font-size: 1.5em;
     min-width: 128px;
-    /*border-radius:4px;border:1px solid #AAAAAA;*/
     border-radius: 6px;
     border-width: 1px;
     border-color: transparent;
     border-bottom-style: none;
-    /*opacity: 0.5;*/
     background: linear-gradient(#ffe7d6, #ffb59d);
-    margin: 0 12px 0 0;
+    margin: 6px 12px 0 0;
 }
 
 .listingRgx {
@@ -87,7 +86,7 @@ header .who {
 }
 
 .help {
-    margin: 6px;
+    margin: 0px;
     padding: 6px;
     background-color: PAPAYAWHIP;
     color: black;
