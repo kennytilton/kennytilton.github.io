@@ -14,6 +14,14 @@ html * {
     , "Lucida Sans", Tahoma, sans-serif;
 }
 
+body {
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px
+}
+
+
 header {
     /*position:fixed;*/
     top: 0;
@@ -22,8 +30,19 @@ header {
 
     background-color: #ff6600;
     min-height: 100px;
-    /*padding: 9px;*/
-    font-size: 2.5em;
+
+}
+header .about {
+    color: #fcfcfc;
+    font-size: 0.7em;
+    /*float: right;*/
+    cursor: pointer;
+    text-align: right;
+    margin: 6px 6px 0 0;
+}
+header .headermain {
+    font-size: 1.7em;
+    -webkit-font-smoothing: antialiased;
     display: flex;
     flex-wrap: no-wrap;
 }
@@ -31,15 +50,21 @@ header .askhn {
     display: inline-block;
     color: #fcfcfc;
     border: 3px solid #fcfcfc;
-    margin: 15px 0 10px 30px;
+    margin: 15px 0 10px 24px;
     padding: 6px;
 }
 header .who {
     color: #000;
-    -webkit-font-smoothing: antialiased;
-    margin: 15px 0 0 0;
-    padding: 6px;
+    margin: 23px 0 0 6px;
+    padding: 0px;
 }
+.pickAMonth {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 9px 0 9px 24px;
+}
+
 .searchMonth {
     font-size: 1.5em;
     min-width: 128px;
@@ -47,9 +72,14 @@ header .who {
     border-radius: 6px;
     border-width: 1px;
     border-color: transparent;
+    border-bottom-style: none;
     /*opacity: 0.5;*/
     background: linear-gradient(#ffe7d6, #ffb59d);
-    /*margin: 0 12px 6px 0;*/
+    margin: 0 12px 0 0;
+}
+
+.listingRgx {
+    margin-top: 6px;
 }
 
 .osBody {
@@ -64,11 +94,19 @@ header .who {
     list-style: none;
 }
 
+.userAnnotations {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 6px 0 6px;
+}
+
 .selector {
-    /*background-color: PAPAYAWHIP;*/
+    display: flex;
+    flex-wrap: wrap;
     min-width:104px;
-    /*margin-right:9px;*/
-    /*padding:4px;*/
+    margin-left: 24px
 }
 
 .slideIn {
