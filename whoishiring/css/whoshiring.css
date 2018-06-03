@@ -45,7 +45,7 @@ header .headermain {
     margin-top: -14px;
     -webkit-font-smoothing: antialiased;
     display: flex;
-    flex-wrap: no-wrap;
+    flex-wrap: nowrap;
 }
 header .askhn {
     display: inline-block;
@@ -74,7 +74,7 @@ header .who {
     border-color: transparent;
     border-bottom-style: none;
     background: linear-gradient(#ffe7d6, #ffb59d);
-    margin: 6px 12px 0 0;
+    margin: 6px 12px 4px 0;
 }
 
 .sortOption {
@@ -86,7 +86,7 @@ header .who {
     border-color: transparent;
     border-bottom-style: none;
     background: linear-gradient(#ffe7d6, #ffb59d);
-    margin: 0px 4px 2px 0;
+    margin: 0px 8px 2px 0;
 }
 
 .listingRgx {
