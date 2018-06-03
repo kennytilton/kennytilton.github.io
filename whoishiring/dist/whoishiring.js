@@ -2171,7 +2171,7 @@ function obsTagEventHandler(c, d, e, f, g) {
 }
 var AttrAliases = new Map([["class", "className"]]);
 function obsAttrGlobal(c, d, e, f, g) {
-  f !== kUnbound && (g = AttrAliases.get(c) || c, domlog("attr global", c, e, f), d.dom[g] = e);
+  f !== kUnbound && (c = AttrAliases.get(c) || c, d.dom[c] = e);
 }
 function obsStyleAttr(c, d, e, f, g) {
   f !== kUnbound && (c = tagStyleString(d), d.dom.style = c);
@@ -8394,7 +8394,10 @@ function mkJobSelects(c, d, e, f) {
     return div({style:"color: white; min-width:96px; align-items:center"}, input({id:d[0] + "ID", class:c + "-jSelect", style:"background:#eee", type:"checkbox", checked:cF(function(c) {
       return c.md.onOff;
     }), title:d[1], onclick:function(c) {
-      return c.onOff = !c.onOff;
+      c.dom.checked = !c.onOff;
+      window.requestAnimationFrame(function() {
+        return c.onOff = !c.onOff;
+      });
     }}, {name:d[0], onOff:cI(!1)}), label({for:d[0] + "ID", title:d[1]}, d[0]));
   }));
 }
@@ -8762,7 +8765,7 @@ function rebuildRgxTree(c) {
 ;function WhoIsHiring() {
   return div(header(div({class:"about", onclick:function(c) {
     return c.onOff = !c.onOff;
-  }, title:title, content:"about"}, {name:"appHelpToggle", onOff:cI(!1)}), div({class:"headermain"}, span({class:"askhn"}, "Ask HN:"), span({class:"who"}, "Who&rsquo;s Hiring?"))), div({style:"margin:0px; background:#ffb57d"}, helpList(appHelpEntry, "appHelpToggle"), pickAMonth(), jobListingLoader(), div({class:cF(function(c) {
+  }, title:"Usage hints, and credit where due.", content:"about"}, {name:"appHelpToggle", onOff:cI(!1)}), div({class:"headermain"}, span({class:"askhn"}, "Ask HN:"), span({class:"who"}, "Who&rsquo;s Hiring?"))), div({style:"margin:0px; background:#ffb57d"}, helpList(appHelpEntry, "appHelpToggle"), pickAMonth(), jobListingLoader(), div({class:cF(function(c) {
     return slideInRule(c, c.md.fmUp("searchMonth").value);
   }), style:cF(function(c) {
     return "display:" + (c.md.fmUp("searchMonth").value ? "block" : "none");
