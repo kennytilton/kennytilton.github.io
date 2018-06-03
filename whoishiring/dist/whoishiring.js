@@ -8395,9 +8395,9 @@ function mkJobSelects(c, d, e, f) {
       return c.md.onOff;
     }), title:d[1], onclick:function(c) {
       c.dom.checked = !c.onOff;
-      window.requestAnimationFrame(function() {
+      setTimeout(function() {
         return c.onOff = !c.onOff;
-      });
+      }, 0);
     }}, {name:d[0], onOff:cI(!1)}), label({for:d[0] + "ID", title:d[1]}, d[0]));
   }));
 }
@@ -8576,13 +8576,11 @@ function controlPanel() {
 window.controlPanel = controlPanel;
 var jobSorts = [{title:"Creation", keyFn:jobHnIdKey}, {title:"Stars", compFn:jobStarsCompare}, {title:"Company", keyFn:jobCompanyKey}];
 function sortBar() {
-  return div({style:{padding:"0 0 0 0", margin:"15px 0 0 24px", display:"flex"}}, span("Sort&nbsp"), ul({style:merge(hzFlexWrap, {padding:"0 0 0 0", margin:"0 0 0 0"})}, {name:"sortby", order:cI(1), selection:cI(jobSorts[0]), sortSpec:cF(function(c) {
+  return div({style:{padding:"0 0 0 0", margin:"15px 0 0 24px", display:"flex"}}, span("Sort &nbsp"), ul({style:merge(hzFlexWrap, {padding:"0 0 0 0", margin:"0 0 0 0"})}, {name:"sortby", order:cI(1), selection:cI(jobSorts[0]), sortSpec:cF(function(c) {
     return merge(c.md.selection, {order:c.md.order});
   })}, jobSorts.map(function(c) {
-    return button({selected:cF(function(d) {
+    return button({class:"sortOption", selected:cF(function(d) {
       return d.md.par.selection.title === c.title;
-    }), style:cF(function(c) {
-      return "margin-right:4px;min-width:72px;";
     }), onclick:function(d) {
       d.par.selection.title === c.title ? d.par.order = -d.par.order : d.par.selection = c;
     }, content:cF(function(d) {
@@ -8763,14 +8761,13 @@ function rebuildRgxTree(c) {
   });
 }
 ;function WhoIsHiring() {
-  return div(header(div({class:"about", onclick:function(c) {
-    return c.onOff = !c.onOff;
-  }, title:"Usage hints, and credit where due.", content:"about"}, {name:"appHelpToggle", onOff:cI(!1)}), div({class:"headermain"}, span({class:"askhn"}, "Ask HN:"), span({class:"who"}, "Who&rsquo;s Hiring?"))), div({style:"margin:0px; background:#ffb57d"}, helpList(appHelpEntry, "appHelpToggle"), pickAMonth(), jobListingLoader(), div({class:cF(function(c) {
-    return slideInRule(c, c.md.fmUp("searchMonth").value);
-  }), style:cF(function(c) {
-    return "display:" + (c.md.fmUp("searchMonth").value ? "block" : "none");
-  })}, controlPanel(), jobList())));
+  return div(appBanner(), div({style:"margin:0px; background:#ffb57d"}, pickAMonth(), jobListingLoader(), controlPanel(), jobList()));
 }
 window.WhoIsHiring = WhoIsHiring;
-var appHelpEntry = "Click any job header to show or hide the full listing.{All filters are ANDed except as you direct in RegExp fields.{Your edits are kept in local storage, so stick to one browser.{Works off page scrapes taken every fifteen minutes. Ping kentilton at gmail if they seem stopped.{RFEs welcome and can be raised <a href='https://github.com/kennytilton/whoshiring/issues'>here</a>. {Built with <a href='https://github.com/kennytilton/matrix/blob/master/js/matrix/readme.md'>Matrix Inside</a>&trade;.{This page is not affiliated with Hacker News, except...{..thanks to the HN crew for their assistance. All screw-ups remain <a href='https://news.ycombinator.com/user?id=kennytilton'>kennytilton</a>'s.{Graphic design by <a href='https://www.mloboscoart.com'>Michael Lobosco</a>. Implementation screw-ups are Kenny's</a>.".split("{");
+function appBanner() {
+  return div(header(div({class:"about", onclick:function(c) {
+    return c.onOff = !c.onOff;
+  }, title:"Usage hints, and credit where due.", content:"Guide"}, {name:"appHelpToggle", onOff:cI(!1)}), div({class:"headermain"}, span({class:"askhn"}, "Ask HN:"), span({class:"who"}, "Who&rsquo;s Hiring?"))), helpList(appHelpEntry, "appHelpToggle"));
+}
+var appHelpEntry = "Click any job header to show or hide the full listing.{All filters are ANDed except as you direct within RegExp fields.{Your edits are kept in local storage, so stick to one browser.{Works off page scrapes taken every fifteen minutes. Ping kentilton at gmail if they seem stopped.{RFEs welcome and can be raised <a href='https://github.com/kennytilton/whoshiring/issues'>here</a>. {Built with <a href='https://github.com/kennytilton/matrix/blob/master/js/matrix/readme.md'>Matrix Inside</a>&trade;.{This page is not affiliated with Hacker News, except...{..thanks to the HN crew for their assistance. All screw-ups remain <a href='https://news.ycombinator.com/user?id=kennytilton'>kennytilton</a>'s.{Graphic design by <a href='https://www.mloboscoart.com'>Michael Lobosco</a>. Implementation screw-ups are Kenny's</a>.".split("{");
 

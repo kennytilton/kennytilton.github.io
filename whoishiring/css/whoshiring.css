@@ -77,6 +77,18 @@ header .who {
     margin: 6px 12px 0 0;
 }
 
+.sortOption {
+    font-size: 0.8em;
+    color: #444;
+    min-width: 72px;
+    border-radius: 6px;
+    border-width: 1px;
+    border-color: transparent;
+    border-bottom-style: none;
+    background: linear-gradient(#ffe7d6, #ffb59d);
+    margin: 0px 4px 2px 0;
+}
+
 .listingRgx {
     margin-top: 6px;
 }
@@ -85,9 +97,13 @@ header .who {
     padding: 6px;
 }
 
+.workingworking {
+    cursor:wait;
+}
+
 .help {
     margin: 0px;
-    padding: 6px;
+    padding-bottom: 6px;
     background-color: PAPAYAWHIP;
     color: black;
     list-style: none;
