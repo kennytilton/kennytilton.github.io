@@ -13,7 +13,7 @@ if [ ! ${PWD##*/} = "whoishiring" ]; then
     exit
 fi
 
-MAX_P=3
+MAX_P=4
 
 echo "Grabbing HN message $1 at URLs https://news.ycombinator.com/item?id=$1/p=1..$MAX_P"
 
@@ -49,8 +49,8 @@ do
   git push
 
   git status
-  echo "sleeping 15 minutes..."
-  sleep 900
+  echo "sleeping one hour..."
+  sleep 3600
 done
 
 
