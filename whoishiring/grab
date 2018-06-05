@@ -49,8 +49,8 @@ do
   git push
 
   git status
-  echo "sleeping one hour..."
-  sleep 3600
+  echo "sleeping fifteen minutes..."
+  sleep 900
 done
 
 
