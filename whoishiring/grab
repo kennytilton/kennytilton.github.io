@@ -5,6 +5,12 @@ if [ ! $1 ]; then
     exit
 fi
 
+if [ ! $2 ]; then
+    echo "arg 2 re-grab minutes must be supplied"
+    exit
+fi
+
+SLP=$(( 60*$2 ))
 
 echo "FYI: PWD is $PWD"
 
@@ -49,8 +55,8 @@ do
   git push
 
   git status
-  echo "sleeping thirty minutes..."
-  sleep 1800
+  echo "sleeping $2 minutes"
+  sleep $SLP
 done
 
 
