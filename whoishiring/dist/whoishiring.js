@@ -1817,16 +1817,21 @@ Cell.prototype.unlinkFromCallers = function() {
   this.callers.clear();
 };
 Cell.prototype.kidValuesKids = function() {
-  var c = this, d = c.md, e = c.pv === kUnbound ? [] : c.pv;
+  var c = this, d = c.md, e = pnow(), f = c.pv === kUnbound ? [] : c.pv;
   if (d.kidValues.length > aDistinct(d.kidValues).length) {
     throw "Duplicate IDs not allowed in kidValues: " + d.kidValues.join();
   }
-  return d.kidValues.map(function(f) {
-    var g = e.findIndex(function(d) {
-      return c.md.kidKey(d) === f;
+  plaps("unique check", e);
+  var g = c.md.kidValues.map(function(e) {
+    var g = f.findIndex(function(d) {
+      d = c.md.kidKey(d);
+      var f = c.md.kidValueKey(e);
+      return d === f;
     });
-    return -1 === g ? d.kidFactory(c, f) : e[g];
+    return -1 === g ? d.kidFactory(c, e) : f[g];
   });
+  plaps("newkids build elapsed", e);
+  return g;
 };
 Cell.prototype.fm = function(c, d, e) {
   if (c) {
@@ -2106,7 +2111,6 @@ function domlog(c) {
 function dom2mx(c, d) {
   var e = mxDom[c.id];
   if (!e && (void 0 === d || d)) {
-    clg("trying parent", c.parentNode);
     if (c.parentNode) {
       return dom2mx(c.parentNode, !0);
     }
@@ -2132,26 +2136,27 @@ function notToBe(c) {
 }
 function obsKids(c, d, e, f, g) {
   if (f !== kUnbound) {
-    c = d.dom;
-    d = document.createDocumentFragment();
-    ast(c);
-    g = $jscomp.makeIterator(f);
-    for (var h = g.next(); !h.done; h = g.next()) {
-      h = h.value, find(h, e) || (domlog("dropping DOM", h.tag), notToBe(h));
+    c = pnow();
+    d = d.dom;
+    g = document.createDocumentFragment();
+    ast(d);
+    for (var h = $jscomp.makeIterator(f), k = h.next(); !k.done; k = h.next()) {
+      k = k.value, find(k, e) || notToBe(k);
     }
     e = $jscomp.makeIterator(e);
-    for (g = e.next(); !g.done; g = e.next()) {
-      if (g = g.value, find(g, f)) {
-        if (g.dom.parentNode !== c) {
+    for (h = e.next(); !h.done; h = e.next()) {
+      if (h = h.value, find(h, f)) {
+        if (h.dom.parentNode !== d) {
           throw "newk dom parent not = parent";
         }
-        d.appendChild(c.removeChild(g.dom));
+        g.appendChild(h.dom);
       } else {
-        h = document.createElement("div"), domlog("building new DOM", g.tag), h.innerHTML = Tag.toHTML(g), g = g.domCache = h.removeChild(h.firstChild), d.appendChild(g);
+        k = document.createElement("div"), k.innerHTML = Tag.toHTML(h), h = h.domCache = k.removeChild(k.firstChild), g.appendChild(h);
       }
     }
-    c.innerHTML = null;
-    c.appendChild(d);
+    d.innerHTML = null;
+    d.appendChild(g);
+    plaps("redid kids", c);
   }
 }
 function obsDisabled(c, d, e, f, g) {
@@ -2218,7 +2223,7 @@ var Tag = function(c, d, e, f) {
   this.domCache = null;
   Object.defineProperty(this, "dom", {enumerable:!0, get:function() {
     if (null === h.domCache && (h.domCache = document.getElementById(h.id), ast(h.domCache, "Unable to locate DOM for Tag via Tag.id " + h.id), !h.domCache)) {
-      throw clg("no dom", d), "Tag unanble find DOM";
+      throw clg("no dom", d), "Tag unable to find its DOM";
     }
     return h.domCache;
   }});
@@ -8187,9 +8192,6 @@ function toggleChar(c, d, e, f, g, h, k, l) {
     return c.md.onOff ? f : g;
   })}, h), Object.assign({name:c, onOff:cI(e)}, k));
 }
-function displayStyle(c, d) {
-  return "display:" + (c ? "block" : void 0 === d ? "none" : d) + ";";
-}
 function slideInRule(c, d) {
   return c.pv === kUnbound ? d ? "slideIn" : "" : d ? "slideIn" : "slideOut";
 }
@@ -8266,7 +8268,35 @@ function mobileCheck() {
   }
   return c;
 }
-;Hiring.usernote = {};
+function pnow() {
+  return performance.now();
+}
+function plaps(c, d) {
+}
+function helpOff(c, d, e) {
+  clg("helpoff doing", d, void 0 === e ? "anon" : e);
+  c.fmUp(d).onOff = !1;
+}
+function helpList(c, d) {
+  return div({class:cF(function(c) {
+    return "help " + slideInRule(c, c.md.fmUp(d).onOff);
+  }), style:cF(function(c) {
+    return "display:" + (c.md.fmUp(d).onOff ? "block" : "none");
+  }), onclick:function(c) {
+    return helpOff(c, d, "outerdiv");
+  }}, div({style:"cursor:pointer;text-align: right;margin-right:18px;", onclick:function(c) {
+    return helpOff(c, d, "Xchar");
+  }}, "X"), ul({style:"list-style:none; margin-left:0"}, c.map(function(c) {
+    return li({style:"padding:0px;margin: 0 18px 9px 0;"}, c);
+  })));
+}
+function getParameterByName(c, d) {
+  d || (d = window.location.href);
+  c = c.replace(/[\[\]]/g, "\\$&");
+  return (c = (new RegExp("[?&]" + c + "(=([^&#]*)|&|#|$)")).exec(d)) ? c[2] ? decodeURIComponent(c[2].replace(/\+/g, " ")) : "" : null;
+}
+window.getParameterByName = getParameterByName;
+Hiring.usernote = {};
 var UNOTE = "whoishiring.unote.", UserNotes = function(c) {
   MXStorable.call(this, Object.assign({lsPrefix:UNOTE}, c, {hnId:c.hnId, stars:cI(c.stars || 0), hidden:cI(c.hidden || !1), excluded:cI(c.excluded || !1), applied:cI(c.applied || !1), notes:cI(c.notes)}));
 };
@@ -8333,9 +8363,7 @@ function excludeJob(c) {
     return "margin:4px 4px 8px 0;font-size:1em;" + (UNote.dict[c.hnId].excluded ? "color:red;font-weight:bolder" : "color:black");
   }), onclick:function(d) {
     d = UNote.dict[c.hnId];
-    var e = !d.excluded;
-    clg("bam", d.excluded || !1, e);
-    d.excluded = e;
+    d.excluded = !d.excluded;
   }}, {name:"excluded?"});
 }
 function applied(c) {
@@ -8402,21 +8430,22 @@ function mkJobSelectsEx(c, d, e, f) {
   f = void 0 === f ? {} : f;
   return div({style:merge(hzFlexWrap, {margin:"8px 0 8px 24px"}, f)}, e.map(function(d) {
     return div({style:"display:flex; flex:nowrap;"}, d.map(function(d) {
-      return div({style:"color: white; min-width:96px; display:flex; align-items:center"}, input({id:d[0] + "ID", class:c + "-jSelect", style:"background:#eee", type:"checkbox", checked:cF(function(c) {
-        return c.md.onOff;
-      }), title:d[1], onclick:function(c) {
-        c.dom.checked = !c.onOff;
-        setTimeout(function() {
-          return c.onOff = !c.onOff;
-        }, 0);
-      }}, {name:d[0], onOff:cI(!1)}), label({for:d[0] + "ID", title:d[1]}, d[0]));
+      return mkJobSelect(c, d);
     }));
   }));
 }
-;Hiring.jobDomParse = {};
-function escH(c) {
-  return c;
+function mkJobSelect(c, d) {
+  return div({style:"color: white; min-width:96px; display:flex; align-items:center"}, input({id:d[0] + "ID", class:c + "-jSelect", style:"background:#eee", type:"checkbox", checked:cF(function(c) {
+    return c.md.onOff;
+  }), title:d[1], onclick:function(c) {
+    c.dom.checked = !c.onOff;
+    setTimeout(function() {
+      return c.onOff = !c.onOff;
+    }, 0);
+  }}, {name:d[0], onOff:cI(!1)}), label({for:d[0] + "ID", title:d[1]}, d[0]));
 }
+;Hiring.jobDomParse = {};
+var internOK = new RegExp(/((internship|intern)(?=|s,\)))/i), nointernOK = new RegExp(/((no internship|no intern)(?=|s,\)))/i), visaOK = new RegExp(/((visa|visas)(?=|s,\)))/i), novisaOK = new RegExp(/((no visa|no visas)(?=|s,\)))/i), onsiteOK = new RegExp(/(on.?site)/i), remoteOK = new RegExp(/(remote)/i), noremoteOK = new RegExp(/(no remote)/i);
 function jobSpecExtend(c, d, e) {
   var f = d.className;
   if (3 === f.length && -1 !== "c5a,cae,c00,c9c,cdd,c73,c88".search(f)) {
@@ -8429,7 +8458,7 @@ function jobSpecExtend(c, d, e) {
     if (3 === g[0].nodeType && 1 < g[0].textContent.split("|").length) {
       c.body = [];
       for (var l = 0; l < g.length; l++) {
-        w = g[l], h ? 1 === w.nodeType && "P" === w.nodeName ? (h = !1, c.body.push(w)) : k.push(w) : c.body.push(w);
+        r = g[l], h ? 1 === r.nodeType && "P" === r.nodeName ? (h = !1, c.body.push(r)) : k.push(r) : c.body.push(r);
       }
       g = k.map(function(c) {
         return c.textContent;
@@ -8437,11 +8466,7 @@ function jobSpecExtend(c, d, e) {
       var m = g.split("|").map(function(c) {
         return c.trim();
       });
-      h = new RegExp(/((internship|intern)(?=|s,\)))/i);
-      k = new RegExp(/((visa|visas)(?=|s,\)))/i);
-      l = new RegExp(/((no visa|no visas)(?=|s,\)))/i);
-      w = new RegExp(/(on.?site)/i);
-      var r = new RegExp(/(remote)/i), t = new RegExp(/(no remote)/i), v = function(c) {
+      h = function(c) {
         return m.some(function(d) {
           return null !== d.match(c);
         });
@@ -8452,15 +8477,15 @@ function jobSpecExtend(c, d, e) {
       c.bodysearch = c.body.map(function(c) {
         return c.textContent;
       }).join("*4*2*");
-      c.onsite = v(w);
-      c.remote = v(r) && !v(t);
-      c.visa = v(k) && !v(l);
-      c.intern = v(h) && !v(l);
+      c.onsite = h(onsiteOK);
+      c.remote = h(remoteOK) && !h(noremoteOK);
+      c.visa = h(visaOK) && !h(novisaOK);
+      c.intern = h(internOK) && !h(nointernOK);
     }
   }
   if ("reply" !== f) {
-    for (var w = 0; w < d.children.length; ++w) {
-      jobSpecExtend(c, d.children[w], e + 1);
+    for (var r = 0; r < d.children.length; ++r) {
+      jobSpecExtend(c, d.children[r], e + 1);
     }
   }
 }
@@ -8493,6 +8518,7 @@ function pickAMonth() {
     return !c.md.fmUp("searchMonth").value;
   }), value:cI(0)}, {name:"progress", maxN:cI(0), seen:cI(new Set)})));
 }
+var startLoad;
 function jobListingLoader() {
   return div({style:"visibility:collapsed;"}, {name:"jobLoader", jobs:cF(function(c) {
     c = c.md.kids.map(function(c) {
@@ -8506,6 +8532,7 @@ function jobListingLoader() {
   }, {observer:function(c, d, e) {
     e && (d.fmUp("progress").hidden = !0);
   }})}, function(c) {
+    startLoad = Date.now();
     var d = c.md.fmUp("searchMonth").value, e = gMonthlies.find(function(c) {
       return c.hnId === d;
     });
@@ -8521,11 +8548,7 @@ function mkPageLoader(c, d, e) {
     return jobsCollect(c);
   }}, {jobs:cI(null), pgNo:e});
 }
-var PARSE_CHUNK_SIZE = 100;
-function domAthings(c) {
-  c = c.contentDocument.getElementsByTagName("body")[0];
-  return Array.prototype.slice.call(c.querySelectorAll(".athing"));
-}
+var PARSE_CHUNK_SIZE = 100, PAGE_JOBS_MAX = 10000;
 function jobsCollect(c) {
   if (c.dom.contentDocument) {
     hnBody = c.dom.contentDocument.getElementsByTagName("body")[0];
@@ -8535,6 +8558,7 @@ function jobsCollect(c) {
     c.jobs = [];
   }
 }
+var dbg = !1;
 function parseListings(c, d, e, f, g) {
   var h = d.length, k = function(l) {
     var m = Math.min(h - l, f);
@@ -8549,11 +8573,11 @@ function parseListings(c, d, e, f, g) {
         }
       }
       g.value += 1;
-      30000 > e.length ? window.requestAnimationFrame(function() {
+      e.length < PAGE_JOBS_MAX ? window.requestAnimationFrame(function() {
         return k(l + m);
-      }) : (c.jobs = e, clg("page loaded", c.pgNo, e.length), frameZap(c));
+      }) : (c.jobs = e, frameZap(c));
     } else {
-      c.jobs = e, clg("page loaded", c.pgNo, e.length), frameZap(c);
+      c.jobs = e, frameZap(c);
     }
   };
   k(0);
@@ -8628,12 +8652,13 @@ function jobListingControlBar() {
     return c.md.expanded ? "Collapse All" : "Expand All";
   })}, {name:"expander", expanded:cI(!mobileCheck())}));
 }
+var RESULT_MAX = 42;
 function resultMax() {
   return div({style:merge(hzFlexWrapCentered, {margin_right:"6px"})}, span({}, "Show:"), input({value:cF(function(c) {
     return c.md.results;
-  }), style:"font-size:1em;max-width:24px;margin-left:6px;margin-right:6px", onchange:function(c, d) {
+  }), style:"font-size:1em;max-width:48px;margin-left:6px;margin-right:6px", onchange:function(c, d) {
     return c.results = parseInt(d.target.value);
-  }}, {name:"resultmax", results:cI(42)}));
+  }}, {name:"resultmax", results:cI(RESULT_MAX)}));
 }
 ;Hiring.jobListItem = {};
 function jobList() {
@@ -8641,11 +8666,14 @@ function jobList() {
     var d = c.md.fmUp("jobLoader").jobs;
     return jobListFilter(c.md, d);
   }), kidValues:cF(function(c) {
-    var d = jobListSort(c.md, c.md.selectedJobs) || [];
+    var d = pnow(), e = jobListSort(c.md, c.md.selectedJobs) || [];
     c = c.md.fmUp("resultmax");
-    return d.slice(0, c.results);
+    plaps("got new sort afetr ", d);
+    return e.slice(0, c.results);
   }), kidKey:function(c) {
-    return c.job;
+    return c.job.hnId;
+  }, kidValueKey:function(c) {
+    return c.hnId;
   }, kidFactory:jobListItem}, function(c) {
     return c.kidValuesKids();
   });
@@ -8654,10 +8682,8 @@ var jumpToHN = function(c) {
   return window.open("https://news.ycombinator.com/item?id=" + c, "_blank");
 };
 function jobListItem(c, d) {
-  return li({style:cF(function(c) {
-    var e = c.md.fmUp("job-list").kidValues.indexOf(d);
-    c = UNote.dict[d.hnId].excluded && !c.md.fmUp("showExcluded").onOff ? "none;" : "block;";
-    return "cursor:pointer;padding:12px;background-color:" + (e % 2 ? "#f8f8f8;" : "#eee;") + "display:" + c;
+  return li({class:"jobli", style:cF(function(c) {
+    return "cursor:pointer;padding:12px;display:" + (!UNote.dict[d.hnId].excluded || c.md.fmUp("showExcluded").onOff || c.md.fmUp("Excluded").onOff ? "block;" : "none;") + ";";
   }), onclick:function(c) {
     c = c.fmDown("showDetails");
     c.onOff = !c.onOff;
@@ -8681,7 +8707,7 @@ function jobDetails(c) {
     return c.pv === kUnbound ? d ? "slideIn" : "" : d ? "slideIn" : "slideOut";
   }), style:cF(function(c) {
     return "margin:6px;background:#fff; display:" + (c.md.fmUp("showDetails").onOff ? "block" : "none");
-  })}, userAnnotations(c), div({style:"margin:6px", ondblclick:function(d) {
+  })}, userAnnotations(c), div({style:"margin:6px;overflow:auto;", ondblclick:function(d) {
     return jumpToHN(c.hnId);
   }}, function(d) {
     return d.md.fmUp("showDetails") ? c.body.map(function(c, d) {
@@ -8743,23 +8769,6 @@ function labeledRow(c, d) {
 function mkRgxOptions() {
   return div(div({style:merge(hzFlexWrapCentered, {padding_right:"12px", margin:"4px 0 9px 30px"})}, mkRgxMatchCase(), mkRgxOrAnd(), helpToggle("rgxHelpToggle", "Show/hide RegExp help")), helpList(regexHelp, "rgxHelpToggle"));
 }
-function helpOff(c, d, e) {
-  clg("helpoff doing", d, void 0 === e ? "anon" : e);
-  c.fmUp(d).onOff = !1;
-}
-function helpList(c, d) {
-  return div({class:cF(function(c) {
-    return "help " + slideInRule(c, c.md.fmUp(d).onOff);
-  }), style:cF(function(c) {
-    return "display:" + (c.md.fmUp(d).onOff ? "block" : "none");
-  }), onclick:function(c) {
-    return helpOff(c, d, "outerdiv");
-  }}, div({style:"cursor:pointer;text-align: right;margin-right:18px;", onclick:function(c) {
-    return helpOff(c, d, "Xchar");
-  }}, "X"), ul({style:"list-style:none; margin-left:0"}, c.map(function(c) {
-    return li({style:"padding:0px;margin: 0 18px 9px 0;"}, c);
-  })));
-}
 function mkRgxMatchCase() {
   return div({style:"color: #fcfcfc; margin:0 9px 0 0; display:flex; flex-wrap: wrap; align-items:center"}, input({id:"rgxMatchCase", type:"checkbox", onclick:function(c) {
     return c.value = !c.value;
@@ -8776,7 +8785,7 @@ var regexHelp = ["Press <kbd style='background:cornsilk;font-size:1em'>Enter</kb
 "e.g. Enter <b>taipei,i</b> for case-insensitive search."];
 function buildRgxTree(c, d) {
   c.rgxRaw = d.target.value.trim();
-  "" === c.rgxRaw ? c.rgxTree = null : (-1 === c.history.indexOf(c.rgxRaw) && (clg("adding to rgx!!!!", c.rgxRaw), c.history = c.history.concat(c.rgxRaw)), rebuildRgxTree(c));
+  "" === c.rgxRaw ? c.rgxTree = null : (-1 === c.history.indexOf(c.rgxRaw) && (c.history = c.history.concat(c.rgxRaw)), rebuildRgxTree(c));
 }
 function rebuildRgxTrees(c) {
   ["titlergx", "listingrgx"].map(function(d) {
@@ -8785,8 +8794,8 @@ function rebuildRgxTrees(c) {
   });
 }
 function rebuildRgxTree(c) {
-  var d = c.fmUp("rgxMatchCase").value, e = c.fmUp("rgxOrAnd").value ? c.rgxRaw.replace(/\sor\s/, " || ").replace(/\sand\s/, " && ") : c.rgxRaw;
-  clg("building from search str", e);
+  var d = c.fmUp("rgxMatchCase").value, e = / or /g, f = / and /g;
+  e = c.fmUp("rgxOrAnd").value ? c.rgxRaw.replace(e, " || ").replace(f, " && ") : c.rgxRaw;
   c.rgxTree = e.split("||").map(function(c) {
     return c.trim().split("&&").map(function(c) {
       try {
@@ -8794,8 +8803,8 @@ function rebuildRgxTree(c) {
         e = void 0 === g ? "" : g;
         d || -1 !== e.search("i") || (e += "i");
         return new RegExp(f, e);
-      } catch (m) {
-        alert(m.toString() + ": <" + c.trim() + ">");
+      } catch (r) {
+        alert(r.toString() + ": <" + c.trim() + ">");
       }
     });
   });
@@ -8811,5 +8820,5 @@ function appBanner() {
     return c.md.onOff ? "hide" : "Pro tips";
   })}, {name:"appHelpToggle", onOff:cI(!1)}), div({class:"headermain"}, span({class:"askhn"}, "Ask HN:"), span({class:"who"}, "Who&rsquo;s Hiring?"))), helpList(appHelpEntry, "appHelpToggle"));
 }
-var appHelpEntry = "Click any job header to show or hide the full listing.{Double-click job description to open listing on HN in new tab.{All filters are ANDed except as you direct within RegExp fields.{Your edits are kept in local storage, so stick to one browser.{Works off page scrapes taken every two hours. E-mail <a href='mailto:kentilton@gmail.com'>Kenny</a> if they seem stopped.{RFEs welcome and can be raised <a href='https://github.com/kennytilton/whoshiring/issues'>here</a>. {Built with <a href='https://github.com/kennytilton/matrix/blob/master/js/matrix/readme.md'>Matrix Inside</a>&trade;.{This page is not affiliated with Hacker News, except...{..thanks to the HN crew for their assistance. All screw-ups remain <a href='https://news.ycombinator.com/user?id=kennytilton'>kennytilton</a>'s.{Graphic design by <a href='https://www.mloboscoart.com'>Michael Lobosco</a>.".split("{");
+var appHelpEntry = "Click any job header to show or hide the full listing.{Once visible, double-click the job description to open the listing on HN in a new tab.{All filters are ANDed except as you direct within RegExp fields.{Your annotations are kept in local storage, so stick to one browser.{Works off page scrapes taken every couple of hours. E-mail <a href='mailto:kentilton@gmail.com'>Kenny</a> if they seem stopped.{RFEs welcome and can be raised <a href='https://github.com/kennytilton/whoshiring/issues'>here</a>. {Built with <a href='https://github.com/kennytilton/matrix/blob/master/js/matrix/readme.md'>Matrix Inside</a>&trade;.{This page is not affiliated with Hacker News, but...{..thanks to the HN crew for their assistance. All screw-ups remain <a href='https://news.ycombinator.com/user?id=kennytilton'>kennytilton</a>'s.{Graphic design by <a href='https://www.mloboscoart.com'>Michael Lobosco</a>.".split("{");
 
