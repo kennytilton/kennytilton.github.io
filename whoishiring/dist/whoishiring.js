@@ -8577,6 +8577,7 @@ function jobListingLoader() {
   });
 }
 function mkPageLoader(c, d, e) {
+  clg("mkPageLoader entry", d, e);
   return iframe({src:cF(function(c) {
     return null === d ? "" : void 0 === e ? "files/" + d + "/" + d + ".html" : "files/" + d + "/" + e + ".html";
   }), style:"display: none", onload:function(c) {
@@ -8598,13 +8599,13 @@ function extraJobParse(c, d) {
     clg("no content!!!!!!!!!");
   }
 }
-var PARSE_CHUNK_SIZE = 100, PAGE_JOBS_MAX = 100;
+var PARSE_CHUNK_SIZE = 100, PAGE_JOBS_MAX = 1000;
 function jobsCollect(c, d) {
+  clg("collecting!!!", d);
   if (c.dom.contentDocument) {
     hnBody = c.dom.contentDocument.getElementsByTagName("body")[0];
-    d = Array.prototype.slice.call(hnBody.querySelectorAll(".athing"));
-    var e = [], f = c.fmUp("progress");
-    0 < d.length ? (f.maxN += Math.floor(d.length / PARSE_CHUNK_SIZE), parseListings(c, d, e, PARSE_CHUNK_SIZE, f)) : c.jobs = [];
+    var e = Array.prototype.slice.call(hnBody.querySelectorAll(".athing")), f = [], g = c.fmUp("progress");
+    0 < e.length ? (g.maxN += Math.floor(e.length / PARSE_CHUNK_SIZE), parseListings(c, e, f, PARSE_CHUNK_SIZE, g), c.jobs && clg("jobs found", c.jobs.length, "page", d)) : c.jobs = [];
   } else {
     c.jobs = [];
   }
@@ -8626,7 +8627,7 @@ function parseListings(c, d, e, f, g) {
       g.value += 1;
       e.length < PAGE_JOBS_MAX ? window.requestAnimationFrame(function() {
         return k(l + m);
-      }) : (c.jobs = e, frameZap(c));
+      }) : (c.jobs = e, clg("page loaded 1", c.pgNo, e.length, "elapsed=", Date.now() - startLoad), frameZap(c));
     } else {
       c.jobs = e, clg("page loaded 2", c.pgNo, e.length, "elapsed=", Date.now() - startLoad), frameZap(c);
     }
