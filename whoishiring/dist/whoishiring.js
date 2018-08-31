@@ -8470,9 +8470,12 @@ function charCount(c, d) {
   }
   return e;
 }
+var hdrClass = "c5a cae c00 c9c cdd c73 c88".split(" ");
 function jobSpecExtend(c, d, e) {
   var f = d.className;
-  if (3 === f.length && -1 !== "c5a,cae,c00,c9c,cdd,c73,c88".search(f)) {
+  if (hdrClass.some(function(c) {
+    return d.classList.contains(c);
+  })) {
     var g = d.getElementsByClassName("reply");
     Array.prototype.map.call(g, function(c) {
       c.remove();
