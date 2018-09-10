@@ -319,7 +319,7 @@ $jscomp.polyfill("Map", function(c) {
       }
       g = f.next();
       return g.done || 4 != g.value[0].x || "t" != g.value[1] || !f.next().done ? !1 : !0;
-    } catch (x) {
+    } catch (v) {
       return !1;
     }
   }
@@ -5201,8 +5201,8 @@ goog.debug.deepExpose = function(c, d) {
       } else {
         e.push("undefined");
       }
-    } catch (w) {
-      e.push("*** " + w + " ***");
+    } catch (x) {
+      e.push("*** " + x + " ***");
     }
   };
   h(c, "");
@@ -8371,8 +8371,8 @@ function jobStars(c) {
   });
 }
 function excludeJob(c) {
-  return span({content:"&#x20E0;", style:cF(function(d) {
-    return "margin:4px 4px 8px 0;font-size:1em;" + (UNote.dict[c.hnId].excluded ? "color:red;font-weight:bolder" : "color:black");
+  return span({content:"&#x20E0;", title:"Exclude from view (reversible)", style:cF(function(d) {
+    return "margin:4px 4px 8px 0;min-width:1em;font-size:1em;" + (UNote.dict[c.hnId].excluded ? "color:red;font-weight:bolder" : "color:black");
   }), onclick:function(d) {
     d = UNote.dict[c.hnId];
     d.excluded = !d.excluded;
@@ -8393,9 +8393,9 @@ function jobListFilter(c, d) {
   if (!d) {
     return [];
   }
-  var e = c.fmUp("REMOTE").onOff, f = c.fmUp("ONSITE").onOff, g = c.fmUp("VISA").onOff, h = c.fmUp("INTERNS").onOff, k = c.fmUp("Excluded").onOff, l = c.fmUp("Starred").onOff, m = c.fmUp("Applied").onOff, r = c.fmUp("Noted").onOff;
+  var e = c.fmUp("REMOTE").onOff, f = c.fmUp("ONSITE").onOff, g = c.fmUp("VISA").onOff, h = c.fmUp("INTERNS").onOff, k = c.fmUp("Excluded").onOff, l = c.fmUp("Starred").onOff, m = c.fmUp("Applied").onOff, r = c.fmUp("Noted").onOff, t = c.fmUp("Unreviewed").onOff;
   c.fmUp("sortby");
-  var t = c.fmUp("titlergx").rgxTree, w = c.fmUp("listingrgx").rgxTree;
+  var x = c.fmUp("titlergx").rgxTree, v = c.fmUp("listingrgx").rgxTree;
   return d.filter(function(c) {
     return !e || c.remote;
   }).filter(function(c) {
@@ -8411,11 +8411,13 @@ function jobListFilter(c, d) {
   }).filter(function(c) {
     return !l || 0 < UNote.dict[c.hnId].stars;
   }).filter(function(c) {
+    return !t || !(UNote.dict[c.hnId].applied || UNote.dict[c.hnId].excluded || UNote.dict[c.hnId].stars || UNote.dict[c.hnId].notes);
+  }).filter(function(c) {
     return !r || UNote.dict[c.hnId].notes;
   }).filter(function(c) {
-    return !t || rgxTreeMatch(c.titlesearch, t);
+    return !x || rgxTreeMatch(c.titlesearch, x);
   }).filter(function(c) {
-    return !w || rgxTreeMatch(c.titlesearch, w) || rgxTreeMatch(c.bodysearch, w);
+    return !v || rgxTreeMatch(c.titlesearch, v) || rgxTreeMatch(c.bodysearch, v);
   });
 }
 function rgxTreeMatch(c, d) {
@@ -8431,7 +8433,8 @@ function mkUserDefaults() {
     return onOffCheckbox(c);
   })));
 }
-var titleSelects = [[["REMOTE", "Does regex search of title for remote jobs"], ["ONSITE", "Does regex search of title for on-site jobs"]], [["INTERNS", "Does regex search of title for internships"], ["VISA", "Does regex search of title for Visa sponsors"]]], userSelects = [[["Starred", "Show only jobs you have rated with stars"], ["Noted", "Show only jobs on which you have made a note"]], [["Applied", "Show only jobs you have marked as applied to"], ["Excluded", "Show jobs you exluded from view"]]];
+var titleSelects = [[["REMOTE", "Does regex search of title for remote jobs"], ["ONSITE", "Does regex search of title for on-site jobs"]], [["INTERNS", "Does regex search of title for internships"], ["VISA", "Does regex search of title for Visa sponsors"]]], userSelects = [[["Starred", "Show only jobs you have rated with stars"], ["Noted", "Show only jobs on which you have made a note"]], [["Applied", "Show only jobs you have marked as applied to"], ["Excluded", "Show jobs you exluded from view"], 
+["Unreviewed", "Show only jobs you have not annotated in any way"]]];
 function mkTitleSelects() {
   return mkJobSelectsEx("title", "Title selects", titleSelects);
 }
@@ -8482,35 +8485,35 @@ function jobSpecExtend(c, d, e) {
     });
     g = d.childNodes;
     for (var h = !0, k = 0, l = !1, m = [], r = 0; r < g.length; r++) {
-      if (v = g[r], h) {
-        if (1 === v.nodeType && "P" === v.nodeName) {
+      if (w = g[r], h) {
+        if (1 === w.nodeType && "P" === w.nodeName) {
           var t = m.map(function(c) {
             return c.textContent;
-          }).join(" | "), w = t.split("|").map(function(c) {
+          }).join(" | "), x = t.split("|").map(function(c) {
             return c.trim();
-          }), x = function(c) {
-            return w.some(function(d) {
+          }), v = function(c) {
+            return x.some(function(d) {
               return null !== d.match(c);
             });
           };
           h = !1;
-          c.onsite = x(onsiteOK);
-          c.remote = x(remoteOK) && !x(noremoteOK);
-          c.visa = x(visaOK) && !x(novisaOK);
-          c.intern = x(internOK) && !x(nointernOK);
+          c.onsite = v(onsiteOK);
+          c.remote = v(remoteOK) && !v(noremoteOK);
+          c.visa = v(visaOK) && !v(novisaOK);
+          c.intern = v(internOK) && !v(nointernOK);
           if (!(l || k || c.onsite || c.remote || c.visa || c.intern)) {
             break;
           }
           c.OK = !0;
-          c.body.push(v);
-          c.company = w[0];
+          c.body.push(w);
+          c.company = x[0];
           c.titlesearch = t;
           c.title = m;
         } else {
-          k += charCount(v.textContent, "|"), 1 === v.nodeType && "A" === v.nodeName && (l = !0), m.push(v);
+          k += charCount(w.textContent, "|"), 1 === w.nodeType && "A" === w.nodeName && (l = !0), m.push(w);
         }
       } else {
-        c.body.push(v);
+        c.body.push(w);
       }
     }
     c.OK && (c.bodysearch = c.body.map(function(c) {
@@ -8518,8 +8521,8 @@ function jobSpecExtend(c, d, e) {
     }).join("*4*2*"));
   }
   if ("reply" !== f) {
-    for (var v = 0; v < d.children.length; ++v) {
-      jobSpecExtend(c, d.children[v], e + 1);
+    for (var w = 0; w < d.children.length; ++w) {
+      jobSpecExtend(c, d.children[w], e + 1);
     }
   }
 }
