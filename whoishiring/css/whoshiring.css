@@ -27,10 +27,13 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-
     background-color: #ff6600;
     min-height: 100px;
 
+}
+.donate {
+    background-color: #ff6600;
+    padding: 6px;
 }
 header .about {
     color: #fcfcfc;
