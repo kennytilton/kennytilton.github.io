@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Leiningen: rewrite-cljs:0.4.3">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/rewrite-cljs/rewrite-cljs/0.4.3/rewrite-cljs-0.4.3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

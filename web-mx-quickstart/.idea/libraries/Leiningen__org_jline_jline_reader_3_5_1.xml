@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Leiningen: org.jline/jline-reader:3.5.1">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/jline/jline-reader/3.5.1/jline-reader-3.5.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

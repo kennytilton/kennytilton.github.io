@@ -1,0 +1,51 @@
+div, h1, input {
+    font-family: HelveticaNeue, Helvetica;
+    color: #777;
+}
+/* the top page DIV */
+.intro {
+    display:         flex;
+    flex-direction: column;
+    align-items:     center;
+    justify-content: start;
+    gap: 1em;
+    padding: 9px;
+}
+
+.control-panel {
+    display:         flex;
+    flex-direction:  row;
+    align-items:     center;
+    justify-content: start;
+    gap: 1em;
+}
+.lesson-code {
+    background: #eef;
+    padding: 12px;
+    margin: 12px 48px 0px 48px;
+}
+
+/* the + button */
+.push-button {
+  background-color: rgba(51, 51, 51, 0.05);
+  border-radius: 16px;
+  border-width: 0;
+  color: #333333;
+  cursor: pointer;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 64px;
+  min-width: 1em;
+  text-align: center;
+}
+
+.preamble {
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+}
+
+.exercise {
+  font-family: 'Times Roman', serif;
+  font-size: 18px;
+  background: linen;
+  padding: 1em;
+}

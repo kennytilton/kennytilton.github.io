@@ -1,0 +1,74 @@
+/* style */
+body {
+	color: black;
+}
+code {
+    background: #eef;
+}
+
+.toolbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  margin: 6px;
+  gap: 1em
+}
+
+.pushbutton {
+  background-color: rgba(51, 51, 51, 0.05);
+  border-radius: 8px;
+  border-width: 1px;
+  color: #333333;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  list-style: none;
+  padding: 10px 12px;
+  text-align: center;
+  transition: all 200ms;
+  vertical-align: baseline;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+/* the counter display */
+@font-face{
+ font-family:'digital-clock-font';
+ src: url('../font/digital-7 (mono italic).ttf');
+}
+
+.digi-readout {
+    font-size: 96px;
+    font-family: digital-clock-font, HelveticaNeue-UltraLight, Helvetica;
+    padding: 16px 24px;
+    min-width: 325px;
+    color: cyan;
+    text-align: center;
+    background: black;
+    user-select: none;
+}
+
+.heavychar {
+  stroke: black;
+  fill: black;
+  font: bold 48px sans-serif;
+  user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.cat-chat {
+  display: flex;
+  flex-direction: column;
+  font: 24px serif;
+  min-width: 20em;
+  max-width: 20em;
+  min-height: 6em;
+}
