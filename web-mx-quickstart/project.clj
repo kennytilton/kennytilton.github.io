@@ -22,7 +22,7 @@
                  [com.tiltontec/mxxhr "1.0.1-SNAPSHOT"]
                  [com.tiltontec/web-mx "1.0.0-SNAPSHOT"]
                  ]
-  
+
   :aliases {"fig:build" ["trampoline" "run" "-m" "figwheel.main" "-b" "dev" "-r"]
             "fig:min"   ["run" "-m" "figwheel.main" "-O" "advanced" "-bo" "dev"]
             "fig:test"  ["run" "-m" "figwheel.main" "-co" "test.cljs.edn" "-m" "web-mx-quickstart.test-runner"]}
