@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Leiningen: io.methvin/directory-watcher:0.15.0">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/io/methvin/directory-watcher/0.15.0/directory-watcher-0.15.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
