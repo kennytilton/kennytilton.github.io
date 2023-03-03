@@ -36,14 +36,14 @@ return goog.log.log.call(null,log,figwheel.repl.logging.LogLevel.FINEST,msg);
 figwheel.repl.logging.console_logging = (function figwheel$repl$logging$console_logging(){
 if(cljs.core.truth_(goog.object.get(goog.debug.Console,"instance"))){
 } else {
-var c_20681 = (new goog.debug.Console());
-var G__20680_20682 = c_20681.getFormatter();
-goog.object.set(G__20680_20682,"showAbsoluteTime",false);
+var c_37602 = (new goog.debug.Console());
+var G__37601_37603 = c_37602.getFormatter();
+goog.object.set(G__37601_37603,"showAbsoluteTime",false);
 
-goog.object.set(G__20680_20682,"showRelativeTime",false);
+goog.object.set(G__37601_37603,"showRelativeTime",false);
 
 
-goog.object.set(goog.debug.Console,"instance",c_20681);
+goog.object.set(goog.debug.Console,"instance",c_37602);
 
 }
 
@@ -57,8 +57,8 @@ return true;
 return null;
 }
 });
-figwheel.repl.logging.log_levels = cljs.core.into.call(null,cljs.core.PersistentArrayMap.EMPTY,cljs.core.map.call(null,cljs.core.juxt.call(null,clojure.string.lower_case,(function (p1__20683_SHARP_){
-return goog.object.get(figwheel.repl.logging.LogLevel,p1__20683_SHARP_);
+figwheel.repl.logging.log_levels = cljs.core.into.call(null,cljs.core.PersistentArrayMap.EMPTY,cljs.core.map.call(null,cljs.core.juxt.call(null,clojure.string.lower_case,(function (p1__37604_SHARP_){
+return goog.object.get(figwheel.repl.logging.LogLevel,p1__37604_SHARP_);
 })),cljs.core.map.call(null,cljs.core.str,cljs.core.list(new cljs.core.Symbol(null,"SEVERE","SEVERE",2038088045,null),new cljs.core.Symbol(null,"WARNING","WARNING",1233939303,null),new cljs.core.Symbol(null,"INFO","INFO",578874437,null),new cljs.core.Symbol(null,"CONFIG","CONFIG",1613043737,null),new cljs.core.Symbol(null,"FINE","FINE",1120074650,null),new cljs.core.Symbol(null,"FINER","FINER",1219697631,null),new cljs.core.Symbol(null,"FINEST","FINEST",-1116440228,null)))));
 figwheel.repl.logging.set_log_level = (function figwheel$repl$logging$set_log_level(logger_SINGLEQUOTE_,level){
 var temp__5802__auto__ = cljs.core.get.call(null,figwheel.repl.logging.log_levels,level);

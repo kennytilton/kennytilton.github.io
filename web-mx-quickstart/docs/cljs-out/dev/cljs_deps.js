@@ -155,7 +155,6 @@ goog.addDependency("html/sanitizer/elementweakmap.js", ['goog.html.sanitizer.Ele
 goog.addDependency("html/sanitizer/safedomtreeprocessor.js", ['goog.html.sanitizer.SafeDomTreeProcessor'], ['goog.dom', 'goog.dom.NodeType', 'goog.dom.TagName', 'goog.dom.safe', 'goog.html.sanitizer.ElementWeakMap', 'goog.html.sanitizer.noclobber', 'goog.html.uncheckedconversions', 'goog.log', 'goog.string.Const', 'goog.userAgent']);
 goog.addDependency("html/sanitizer/tagblacklist.js", ['goog.html.sanitizer.TagBlacklist'], []);
 goog.addDependency("html/sanitizer/htmlsanitizer.js", ['goog.html.sanitizer.HtmlSanitizer', 'goog.html.sanitizer.HtmlSanitizer.Builder', 'goog.html.sanitizer.HtmlSanitizerAttributePolicy', 'goog.html.sanitizer.HtmlSanitizerPolicy', 'goog.html.sanitizer.HtmlSanitizerPolicyContext', 'goog.html.sanitizer.HtmlSanitizerPolicyHints', 'goog.html.sanitizer.HtmlSanitizerUrlPolicy'], ['goog.array', 'goog.asserts', 'goog.dom', 'goog.dom.TagName', 'goog.functions', 'goog.html.SafeHtml', 'goog.html.SafeStyle', 'goog.html.SafeStyleSheet', 'goog.html.SafeUrl', 'goog.html.sanitizer.AttributeSanitizedWhitelist', 'goog.html.sanitizer.AttributeWhitelist', 'goog.html.sanitizer.CssSanitizer', 'goog.html.sanitizer.SafeDomTreeProcessor', 'goog.html.sanitizer.TagBlacklist', 'goog.html.sanitizer.TagWhitelist', 'goog.html.sanitizer.noclobber', 'goog.html.uncheckedconversions', 'goog.object', 'goog.string', 'goog.string.Const']);
-goog.addDependency("structs/node.js", ['goog.structs.Node'], []);
 goog.addDependency("../cljs/core/async/impl/protocols.js", ['cljs.core.async.impl.protocols'], ['cljs.core']);
 goog.addDependency("../cljs/core/async/impl/ioc_helpers.js", ['cljs.core.async.impl.ioc_helpers'], ['cljs.core', 'cljs.core.async.impl.protocols']);
 goog.addDependency("../cljs/tools/reader/impl/utils.js", ['cljs.tools.reader.impl.utils'], ['goog.string', 'cljs.core', 'clojure.string']);
@@ -172,21 +171,6 @@ goog.addDependency("../com/cognitect/transit/eq.js", ['com.cognitect.transit.eq'
 goog.addDependency("../com/cognitect/transit/types.js", ['com.cognitect.transit.types'], ['com.cognitect.transit.util', 'com.cognitect.transit.eq', 'goog.math.Long']);
 goog.addDependency("../com/cognitect/transit/impl/decoder.js", ['com.cognitect.transit.impl.decoder'], ['com.cognitect.transit.util', 'com.cognitect.transit.delimiters', 'com.cognitect.transit.caching', 'com.cognitect.transit.types']);
 goog.addDependency("../com/cognitect/transit/impl/reader.js", ['com.cognitect.transit.impl.reader'], ['com.cognitect.transit.impl.decoder', 'com.cognitect.transit.caching']);
-goog.addDependency("structs/queue.js", ['goog.structs.Queue'], ['goog.array']);
-goog.addDependency("structs/collection.js", ['goog.structs.Collection'], []);
-goog.addDependency("structs/set.js", ['goog.structs.Set'], ['goog.structs', 'goog.structs.Collection', 'goog.structs.Map']);
-goog.addDependency("structs/pool.js", ['goog.structs.Pool'], ['goog.Disposable', 'goog.structs.Queue', 'goog.structs.Set']);
-goog.addDependency("structs/heap.js", ['goog.structs.Heap'], ['goog.array', 'goog.object', 'goog.structs.Node']);
-goog.addDependency("structs/priorityqueue.js", ['goog.structs.PriorityQueue'], ['goog.structs.Heap']);
-goog.addDependency("structs/prioritypool.js", ['goog.structs.PriorityPool'], ['goog.structs.Pool', 'goog.structs.PriorityQueue']);
-goog.addDependency("net/xhriopool.js", ['goog.net.XhrIoPool'], ['goog.net.XhrIo', 'goog.structs.PriorityPool']);
-goog.addDependency("../cljs/tools/reader/impl/commons.js", ['cljs.tools.reader.impl.commons'], ['cljs.tools.reader.impl.errors', 'cljs.core', 'cljs.tools.reader.reader_types', 'cljs.tools.reader.impl.utils']);
-goog.addDependency("../cljs/tools/reader.js", ['cljs.tools.reader'], ['cljs.tools.reader.impl.commons', 'goog.string', 'cljs.tools.reader.impl.errors', 'cljs.core', 'cljs.tools.reader.reader_types', 'goog.string.StringBuffer', 'cljs.tools.reader.impl.utils', 'goog.array']);
-goog.addDependency("../cljs/tools/reader/edn.js", ['cljs.tools.reader.edn'], ['cljs.tools.reader.impl.commons', 'cljs.tools.reader', 'goog.string', 'cljs.tools.reader.impl.errors', 'cljs.core', 'cljs.tools.reader.reader_types', 'goog.string.StringBuffer', 'cljs.tools.reader.impl.utils']);
-goog.addDependency("../taoensso/truss/impl.js", ['taoensso.truss.impl'], ['cljs.core', 'clojure.set']);
-goog.addDependency("../taoensso/truss.js", ['taoensso.truss'], ['cljs.core', 'taoensso.truss.impl']);
-goog.addDependency("../cljs/reader.js", ['cljs.reader'], ['cljs.tools.reader.edn', 'cljs.tools.reader', 'cljs.core', 'goog.object', 'goog.string.StringBuffer']);
-goog.addDependency("../taoensso/encore.js", ['taoensso.encore'], ['goog.net.XhrIoPool', 'cljs.tools.reader.edn', 'taoensso.truss', 'goog.net.XhrIo', 'goog.string', 'goog.Uri.QueryData', 'cljs.core', 'goog.object', 'goog.string.StringBuffer', 'goog.net.EventType', 'clojure.set', 'goog.string.format', 'clojure.string', 'cljs.reader', 'goog.array', 'goog.events', 'goog.net.ErrorCode']);
 goog.addDependency("math/irect.js", ['goog.math.IRect'], []);
 goog.addDependency("../com/cognitect/transit/handlers.js", ['com.cognitect.transit.handlers'], ['com.cognitect.transit.util', 'com.cognitect.transit.types', 'goog.math.Long']);
 goog.addDependency("../com/cognitect/transit/impl/writer.js", ['com.cognitect.transit.impl.writer'], ['com.cognitect.transit.util', 'com.cognitect.transit.caching', 'com.cognitect.transit.handlers', 'com.cognitect.transit.types', 'com.cognitect.transit.delimiters', 'goog.math.Long']);
@@ -201,8 +185,6 @@ goog.addDependency("math/rect.js", ['goog.math.Rect'], ['goog.asserts', 'goog.ma
 goog.addDependency("net/jsonp.js", ['goog.net.Jsonp'], ['goog.html.TrustedResourceUrl', 'goog.net.jsloader', 'goog.object']);
 goog.addDependency("dom/vendor.js", ['goog.dom.vendor'], ['goog.string', 'goog.userAgent']);
 goog.addDependency("dom/forms.js", ['goog.dom.forms'], ['goog.dom.InputType', 'goog.dom.TagName', 'goog.dom.safe', 'goog.structs.Map', 'goog.window']);
-goog.addDependency("../taoensso/tufte/stats.js", ['taoensso.tufte.stats'], ['cljs.core', 'clojure.string', 'taoensso.encore', 'goog.array']);
-goog.addDependency("../taoensso/tufte/impl.js", ['taoensso.tufte.impl'], ['taoensso.tufte.stats', 'cljs.core', 'clojure.string', 'taoensso.encore']);
 goog.addDependency("../tiltontec/model/macros.js", ['tiltontec.model.macros'], ['tiltontec.cell.base', 'cljs.core']);
 goog.addDependency("../tiltontec/cell/observer.js", ['tiltontec.cell.observer'], ['tiltontec.cell.base', 'tiltontec.util.core', 'cljs.core', 'tiltontec.model.macros', 'tiltontec.util.base']);
 goog.addDependency("../tiltontec/cell/integrity.js", ['tiltontec.cell.integrity'], ['tiltontec.cell.base', 'tiltontec.util.core', 'cljs.core', 'tiltontec.util.base']);
@@ -214,6 +196,10 @@ goog.addDependency("../tiltontec/web_mx/gen.js", ['tiltontec.web_mx.gen'], ['goo
 goog.addDependency("../tiltontec/web_mx/gen_macro.js", ['tiltontec.web_mx.gen_macro'], ['cljs.core', 'goog.object', 'clojure.walk', 'tiltontec.web_mx.gen']);
 goog.addDependency("crypt/crypt.js", ['goog.crypt'], ['goog.array', 'goog.asserts']);
 goog.addDependency("crypt/base64.js", ['goog.crypt.base64'], ['goog.asserts', 'goog.crypt', 'goog.string', 'goog.userAgent', 'goog.userAgent.product']);
+goog.addDependency("../cljs/tools/reader/impl/commons.js", ['cljs.tools.reader.impl.commons'], ['cljs.tools.reader.impl.errors', 'cljs.core', 'cljs.tools.reader.reader_types', 'cljs.tools.reader.impl.utils']);
+goog.addDependency("../cljs/tools/reader.js", ['cljs.tools.reader'], ['cljs.tools.reader.impl.commons', 'goog.string', 'cljs.tools.reader.impl.errors', 'cljs.core', 'cljs.tools.reader.reader_types', 'goog.string.StringBuffer', 'cljs.tools.reader.impl.utils', 'goog.array']);
+goog.addDependency("../cljs/tools/reader/edn.js", ['cljs.tools.reader.edn'], ['cljs.tools.reader.impl.commons', 'cljs.tools.reader', 'goog.string', 'cljs.tools.reader.impl.errors', 'cljs.core', 'cljs.tools.reader.reader_types', 'goog.string.StringBuffer', 'cljs.tools.reader.impl.utils']);
+goog.addDependency("../cljs/reader.js", ['cljs.reader'], ['cljs.tools.reader.edn', 'cljs.tools.reader', 'cljs.core', 'goog.object', 'goog.string.StringBuffer']);
 goog.addDependency("../no/en/core.js", ['no.en.core'], ['cljs.core', 'goog.crypt.base64', 'clojure.string', 'cljs.reader']);
 goog.addDependency("../cljs_http/util.js", ['cljs_http.util'], ['no.en.core', 'goog.Uri', 'cljs.core', 'goog.userAgent', 'cognitect.transit', 'clojure.string']);
 goog.addDependency("../cljs/core/async/impl/timers.js", ['cljs.core.async.impl.timers'], ['cljs.core.async.impl.channels', 'cljs.core.async.impl.dispatch', 'cljs.core', 'cljs.core.async.impl.protocols']);
@@ -226,7 +212,6 @@ goog.addDependency("../tiltontec/web_mx/base.js", ['tiltontec.web_mx.base'], ['g
 goog.addDependency("editor/focus.js", ['goog.editor.focus'], ['goog.dom.selection']);
 goog.addDependency("style/style.js", ['goog.style'], ['goog.array', 'goog.asserts', 'goog.dom', 'goog.dom.NodeType', 'goog.dom.TagName', 'goog.dom.vendor', 'goog.html.SafeStyleSheet', 'goog.math.Box', 'goog.math.Coordinate', 'goog.math.Rect', 'goog.math.Size', 'goog.object', 'goog.reflect', 'goog.string', 'goog.userAgent']);
 goog.addDependency("../tiltontec/web_mx/style.js", ['tiltontec.web_mx.style'], ['tiltontec.cell.observer', 'goog.dom', 'tiltontec.cell.base', 'goog.dom.classlist', 'tiltontec.util.core', 'tiltontec.web_mx.base', 'cljs.core', 'tiltontec.cell.evaluate', 'tiltontec.model.core', 'cljs.pprint', 'tiltontec.util.base', 'goog.style', 'clojure.string']);
-goog.addDependency("../taoensso/tufte.js", ['taoensso.tufte'], ['taoensso.tufte.stats', 'cljs.core', 'taoensso.tufte.impl', 'taoensso.encore']);
-goog.addDependency("../tiltontec/web_mx/html.js", ['tiltontec.web_mx.html'], ['tiltontec.cell.observer', 'goog.dom.forms', 'goog.dom', 'tiltontec.cell.base', 'goog.dom.classlist', 'goog.editor.focus', 'tiltontec.util.core', 'tiltontec.web_mx.base', 'cljs.core', 'tiltontec.cell.evaluate', 'tiltontec.model.core', 'clojure.set', 'cljs.pprint', 'tiltontec.util.base', 'goog.html.sanitizer.HtmlSanitizer', 'taoensso.tufte', 'goog.dom.selection', 'clojure.string', 'clojure.walk', 'tiltontec.web_mx.style']);
+goog.addDependency("../tiltontec/web_mx/html.js", ['tiltontec.web_mx.html'], ['tiltontec.cell.observer', 'goog.dom.forms', 'goog.dom', 'tiltontec.cell.base', 'goog.dom.classlist', 'goog.editor.focus', 'tiltontec.util.core', 'tiltontec.web_mx.base', 'cljs.core', 'tiltontec.cell.evaluate', 'tiltontec.model.core', 'clojure.set', 'cljs.pprint', 'tiltontec.util.base', 'goog.html.sanitizer.HtmlSanitizer', 'goog.dom.selection', 'clojure.string', 'clojure.walk', 'tiltontec.web_mx.style']);
 goog.addDependency("../figwheel/main/generated/dev_auto_test_runner.js", ['figwheel.main.generated.dev_auto_test_runner'], ['cljs.core', 'figwheel.main.testing']);
 goog.addDependency("../web_mx_quickstart/core.js", ['web_mx_quickstart.core'], ['goog.dom', 'tiltontec.web_mx.gen_macro', 'cljs.core', 'web_mx_quickstart.lesson', 'tiltontec.cell.core', 'tiltontec.model.core', 'tiltontec.web_mx.html', 'tiltontec.web_mx.gen']);

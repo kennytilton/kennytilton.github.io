@@ -41,7 +41,7 @@ code {
 /* the counter display */
 @font-face{
  font-family:'digital-clock-font';
- src: url('font/digital-7 (mono italic).ttf');
+ src: url('../font/digital-7 (mono italic).ttf');
 }
 
 .digi-readout {
