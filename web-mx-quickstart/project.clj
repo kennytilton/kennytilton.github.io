@@ -3,9 +3,7 @@
   :url "https://github.com/kennytilton/web-mx/"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-
   :min-lein-version "2.7.1"
-
   :dependencies [[org.clojure/clojure "1.11.0"]
                  [org.clojure/clojurescript "1.11.60"]
                  [org.clojure/data.json "2.4.0"]
@@ -19,9 +17,8 @@
                  [cheshire "5.11.0"]
                  [com.taoensso/tufte "2.4.5"]
                  [com.tiltontec/matrix "4.3.1-SNAPSHOT"]
-                 [com.tiltontec/mxxhr "1.0.1-SNAPSHOT"]
-                 [com.tiltontec/web-mx "1.0.0-SNAPSHOT"]
-                 ]
+                 ;[com.tiltontec/mxxhr "1.0.1-SNAPSHOT"]
+                 [com.tiltontec/web-mx "1.0.0-SNAPSHOT"]]
 
   :aliases {"fig:build" ["trampoline" "run" "-m" "figwheel.main" "-b" "dev" "-r"]
             "fig:min"   ["run" "-m" "figwheel.main" "-O" "advanced" "-bo" "dev"]
@@ -31,10 +28,6 @@
                                   [com.bhauman/figwheel-main "0.2.18"]
                                   ;; optional but recommended
                                   [com.bhauman/rebel-readline-cljs "0.1.4"]]
-                   #_ [[com.bhauman/figwheel-main "0.2.17"]
-                                  [org.slf4j/slf4j-nop "1.7.30"]
-                                  [com.bhauman/rebel-readline-cljs "0.1.4"]]
-                   
                    :resource-paths ["target"]
                    ;; need to add the compiled assets to the :clean-targets
                    :clean-targets ^{:protect false} ["target"]}}
