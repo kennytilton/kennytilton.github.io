@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Leiningen: org.iq80.snappy/snappy:0.4">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/iq80/snappy/snappy/0.4/snappy-0.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
