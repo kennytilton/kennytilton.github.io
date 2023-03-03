@@ -16,6 +16,27 @@
              svg g circle p span div text radialGradient defs stop
              rect ellipse line polyline path polygon script use]]))
 
+;;; --- 0. tl; dr
+
+(defn tl-dr []
+  (div {:class :intro}
+    ;; <b>^^ if the first argument to any tag is a literal map, the key-values</b>
+    ;; <b>become HTML element attribute-values, with keywords => strings</b>
+
+    (h2 "The count is now....")
+    (span {:class :digi-readout} "42")
+    ;; <b>^^ arguments following the optional maps become children, or text content</b>
+
+    (svg {:width   64 :height 64
+          ;; <b> ^^^ numbers also get string-ified for the DOM constructors</b>
+          :cursor  :pointer
+          :onclick #(js/alert "Increment Feature Not Yet Implemented")}
+      (circle {:cx     "50%" :cy "50%" :r "40%"
+               :stroke "orange" :stroke-width 5
+               :fill   :transparent})
+      (text {:class       :heavychar
+             :x           "50%" :y "70%"
+             :text-anchor :middle} "+"))))
 
 ;;; --- 1. It's just html -------------------------------------
 
@@ -481,7 +502,7 @@
 (def ex-in-review
   {:title    "Review"
    :builder  in-review
-   :preamble "Our closing example reprises all the keyWeb/MX features."
+   :preamble "Our closing example reprises all the key Web/MX features."
    :code     "(div {:class :intro}\n    (h2 (let [excess (- (mget (fmu :speedometer) :mph) 55)]\n          (pp/cl-format nil \"The speed is ~8,1f mph ~:[over~;under~] the speed limit.\"\n            (Math/abs excess)  (neg? excess) )))\n    (span {:class   :digi-readout\n           :style   (cF {:color (if (> (mget me :mph) 55)\n                                  \"red\" \"cyan\")})}\n      {:name :speedometer\n       :mph     (cI 42)\n       :air-drag (cF (js/setInterval\n                       #(mswap! me :mph * 0.98) 1000))}\n      (pp/cl-format nil  \"~8,1f mph\" (mget me :mph)))\n    (speed-plus #(mswap! (fmu :speedometer (evt-md %)) :mph inc)))"
    :comment  "
    <li>it looks and works like standard HTML, SVG, CSS, and CLJS;</li>
