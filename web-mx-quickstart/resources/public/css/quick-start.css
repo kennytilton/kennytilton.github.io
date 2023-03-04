@@ -55,3 +55,13 @@ li {
   background: linen;
   padding: 1em;
 }
+
+
+.cat-chat {
+  display: flex;
+  flex-direction: column;
+  font: 24px serif;
+  min-width: 20em;
+  max-width: 20em;
+  min-height: 6em;
+}

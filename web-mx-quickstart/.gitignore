@@ -13,4 +13,4 @@ pom.xml
 .rebel_readline_history
 resources/public/cljs-out/
 .clj-kondo/.cache
-
+**/.DS_Store

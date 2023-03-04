@@ -521,12 +521,13 @@
       <a target=_blank href=\"http://tiltonsalgebra.com/#\">Algebra app</a>,
      by mastering just a few ideas:<br>
                 <ul type=circle>
-                <li>reactive HLL functions produce standard HTML, SVG, and CSS;</li>
+                <li>reactive HLL functions will produce standard HTML, SVG, and CSS;</li>
                 <li>HTML attribute values and custom state can be computed by HLL \"formulas\";</li>
-                <li>formulas can derive from any other node's properties;</li>
-                <li>\"input\" properties can be mutated by event handlers; and</li>
+                <li>formulas can compute off any other node's properties;</li>
+                <li>any \"input\" properties can be mutated by event handlers; and</li>
                 <li>optional \"watch\" functions run when a property changes, for side effects.</li>
                  </ul>
-                 There is no VDOM, no pre-processor, no compiler, and no Flux-model separate store."
-                "Spoiler alert: programming UI this way is fun. Please read on for details."]
+                 There is no VDOM, no pre-processor, no compiler, and no Flux-model separate store.
+                 We think mostly about the application and user experience."
+                "Please read on for details."]
      :comment  nil}))
