@@ -514,18 +514,19 @@
 
 (def ex-tl-dr
   (merge ex-in-review
-    {:menu "Synopsis"
+    {:menu "Intro"
      :title    "Web/MX&trade;: The Un-Framework"
      :builder  in-review
-     :preamble ["Build rich interfaces like this <a target=_blank href=\"http://tiltonsalgebra.com/#\">Algebra app</a>
-     by learning just these concepts:<br>
-                <li>CLJS functions produce standard HTML, SVG, and CSS;</li>
-                <li>the functions can be parameterized and freely composed;</li>
-                <li>HTML attribute values and children can be computed by CLJS functions, or \"formulas\";</li>
-                <li>formulas can \"navigate\" the app structure to read other nodes' properties reactively;</li>
-                <li>dependencies are tracked transparently. There is no separate store;</li>
-                <li>some properties can be \"inputs\" to which event handlers write;</li>
-                <li>property \"watch\" functions run when a property changes in value;</li>
-                <li>watches can execute side-effects outside the reactive graph, or enqueue graph
-                 changes for execution next.</li>"]
-     :comment  "Please read on for details."}))
+     :preamble ["Web/MX can be used to build rich interfaces, like this
+      <a target=_blank href=\"http://tiltonsalgebra.com/#\">Algebra app</a>,
+     by mastering just a few ideas:<br>
+                <ul type=circle>
+                <li>reactive HLL functions produce standard HTML, SVG, and CSS;</li>
+                <li>HTML attribute values and custom state can be computed by HLL \"formulas\";</li>
+                <li>formulas can derive from any other node's properties;</li>
+                <li>\"input\" properties can be mutated by event handlers; and</li>
+                <li>optional \"watch\" functions run when a property changes, for side effects.</li>
+                 </ul>
+                 There is no VDOM, no pre-processor, no compiler, and no Flux-model separate store."
+                "Spoiler alert: programming UI this way is fun. Please read on for details."]
+     :comment  nil}))
