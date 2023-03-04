@@ -38,6 +38,12 @@ div, h1, input {
   text-align: center;
 }
 
+li:first-child {
+  padding-top: 4px;
+}
+li {
+  padding: 4px;
+}
 .preamble {
   font-family: 'Roboto', sans-serif;
   font-size: 20px;
@@ -48,4 +54,14 @@ div, h1, input {
   font-size: 18px;
   background: linen;
   padding: 1em;
+}
+
+
+.cat-chat {
+  display: flex;
+  flex-direction: column;
+  font: 24px serif;
+  min-width: 20em;
+  max-width: 20em;
+  min-height: 6em;
 }
