@@ -94,10 +94,7 @@
             (code {:style {:font-size "16px"}}
               (:code demo)))
 
-          (div {:style {:display        :flex
-                        :flex-direction :row
-                        :gap            "6px"
-                        :margin     "9px 48px 0px 48px"}}
+          (div {:class :glossary}
             {:name :glossary}
             (span {:class   :pushbutton
                    :onclick #(mswap! (fasc :demos (evt-md %)) :show-glossary? not)}
@@ -153,17 +150,6 @@
                    #_{:title "Reactivity All-In" :builder reactivity-all-in :code reactivity-all-in-code}
                    #_{:title "Mini test" :builder minitest :code minitest-code})))
 
-
-;
-;(println "This text is printed from src/web_mx_quickstart/core.cljs. Go ahead and edit it and see reloading in action.")
-;
-;(defn multiply [a b] (* a b))
-;
-;;; define your app data so that it doesn't get over-written on reload
-;(defonce app-state (atom {:text "Hello world!"}))
-;
-;(defn get-app-element []
-;  (gdom/getElement "app"))
 ;
 ;
 ;

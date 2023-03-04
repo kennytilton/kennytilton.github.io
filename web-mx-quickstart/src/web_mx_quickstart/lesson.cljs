@@ -65,7 +65,7 @@
    :title    "It's Just HTML"
    :ns       "tiltontec.example.quick-start.lesson/just-html"
    :builder  just-html
-   :preamble "To begin with, we just write HTML, SVG, and CSS, each thinly disguised as CLJS."
+   :preamble "We just write HTML, SVG, and CSS, using thinly disguised functions."
    :comment  ["Web/MX introduces no framework of its own, it just manages the DOM.
     Aside from CLJS->JS, no preprocessor is involved, and the stability of CLJS makes this one exception
     a net win."
@@ -152,7 +152,7 @@
    positionally, so an empty first map must be coded even if no HTML attributes need specification."
               "Here, a generic <code>span</code> embodying a speedometer thinks it might usefully have a <code>{:mph 42}</code> property.
    We will put that to use next."
-              "`mget` can be used anywhere. Inside a formula, it transparently subscribes to the property being read."
+              "<code>mget</code> can be used anywhere. Inside a formula, it transparently subscribes to the property being read."
               "Big picture: Matrix follows the <a href=https://en.wikipedia.org/wiki/Prototype-based_programming target=\"_blank\">prototype model</a>,\n
                      so generic tags can be re-used without subclassing."]})
 
@@ -291,8 +291,8 @@
   {:menu     "State Watch<br>Functions"
    :title    "\"On-change\" watch functions"
    :builder  watches
-   :preamble "Any input or computed cell can specify an on-change 'watch' function to execute side-effects outside Matrix dataflow."
-   :code     "(div {:class :intro}\n    (h2 \"The speed is now...\")\n    (span {:class   :digi-readout\n           :onclick #(mswap! (evt-md %) :mph inc)}\n      {:name    :speedometer\n       :mph     (cI 42 :watch (fn [slot me new-val prior-val cell]\n                                ;; <b>`cI`, cell input, takes a :watch option for an \"on change\" function</b>\n                                (prn :watch-sees-change slot new-val)))\n       :display (cF (str (mget me :mph) \" mph\"))}\n      (mget me :display))\n    (speed-plus (fn [evt]\n                  (mswap! (fmu :speedometer (evt-md evt)) :mph inc))))"
+   :preamble "Any input or computed cell can specify an on-change \"watch\" function to execute side-effects outside Matrix dataflow."
+   :code     "(div {:class :intro}\n    (h2 \"The speed is now...\")\n    (span {:class   :digi-readout\n           :onclick #(mswap! (evt-md %) :mph inc)}\n      {:name    :speedometer\n       :mph     (cI 42 :watch (fn [slot me new-val prior-val cell]\n                                ;; <b>`cI`, cell input, takes a :watch function</b>\n                                (prn :watch-sees-change slot new-val)))\n       :display (cF (str (mget me :mph) \" mph\"))}\n      (mget me :display))\n    (speed-plus (fn [evt]\n                  (mswap! (fmu :speedometer (evt-md evt)) :mph inc))))"
    :comment  ["A watch function fires when a cell value is initialized, and if the value changes. Watches are used to
    dispatch actions outside the Matrix, if only for logging/debugging, as here. (See the browser console.)"
               "The watch function in this example simply logs the new value. Other watches could write to
@@ -325,7 +325,7 @@
    :builder  watch-cc
    :preamble "Watch functions must operate outside Matrix state flow, but <i>can</i> enqueue alterations
     of Matrix state for execution."
-   :code     "(div {:class :intro}\n    (h2 \"The speed limit is 55 mph. Your speed is now...\")\n    (span {:class   :digi-readout\n           :onclick #(mswap! (evt-md %) :mph inc)}\n      {:name    :speedometer\n       :mph     (cI 42 :watch (fn [slot me new-val prior-val cell]\n                                (when (> new-val 55)\n                                  (js/alert \"You have triggered the speed governor; auto-resetting to 45 mph.\")\n                                  \n                                  ;; <b>`with-cc` must wrap any DAG mutation by a watch function </b>\n                                  (with-cc :speed-governor\n                                    ;; <b>'mset!', like its alias 'mreset!, performs a 'reset!' of a model property.</b>\n                                    (mset! me :mph 45)))))\n       :display (cF (str (mget me :mph) \" mph\"))}\n      (mget me :display))\n    (speed-plus (fn [evt]\n                  (mswap! (fmu :speedometer (evt-md evt)) :mph inc))))"
+   :code     "(div {:class :intro}\n    (h2 \"The speed limit is 55 mph. Your speed is now...\")\n    (span {:class   :digi-readout\n           :onclick #(mswap! (evt-md %) :mph inc)}\n      {:name    :speedometer\n       :mph     (cI 42 :watch (fn [slot me new-val prior-val cell]\n                                (when (> new-val 55)\n                                  (js/alert \"Speed governor auto-resetting to 45 mph.\")\n                                  \n                                  ;; <b>`with-cc` must wrap any DAG mutation by a watch function </b>\n                                  (with-cc :speed-governor\n                                    ;; <b>'mset!' mutates a model property.</b>\n                                    (mset! me :mph 45)))))\n       :display (cF (str (mget me :mph) \" mph\"))}\n      (mget me :display))\n    (speed-plus (fn [evt]\n                  (mswap! (fmu :speedometer (evt-md evt)) :mph inc))))"
    :comment  ["Try increasing the speed above 55. A watch function will intervene."
               "In our experience coding with Matrix, we frequently
    encounter opportunities for the app to usefully update state normally controlled by the user. The macro <code>(with-cc TAG & BODY)</code> schedules the <code>mset!</code> mutation for execution
@@ -408,16 +408,18 @@
       {:name          :cat-fact
        :get-new-fact? (cI false
 
-                        ;; <b>The "plus" widget will just set this property repeatedly to the same value, 'true'.</b>
-                        ;; <b>Declaring this input Cell "ephemeral?" means it will fire each time that same value is set.</b>
+                        ;; <b>The "plus" widget will set this property repeatedly
+                        ;; to the same value, 'true'. Declaring it "ephemeral?" means
+                        ;; it will fire each time that same value is set.</b>
                         :ephemeral? true)
        :cat-request   (cF+
-                        ;; <b>`cF+`, or "cell formula plus", accepts cell options in a vector first parameter</b>
+                        ;; <b>`cF+`, or "cF plus", accepts cell options</b>
                         [:watch (fn [_ me response-chan _ _]
                                   (when response-chan
                                     (go (let [response (<! response-chan)]
 
-                                          ;; <b>whenever the XHR responds, we just `mset!` the waiting input cell</b>
+                                          ;; <b>whenever the XHR responds,</b>
+                                          ;; <b>we just `mset!` the "waiting" input cell</b>
                                           (with-cc :set-cat
                                             (mset! me :cat-response response))))))]
                         (when (mget me :get-new-fact?)
@@ -436,7 +438,7 @@
    :title    "Async event processing"
    :builder  async-cat
    :preamble "Async processing can be a challenge, but in Matrix an async response is just another \"input\" property mutation."
-   :code     "(div {:class \"intro\"}\n    (span {:class :push-button}\n      \"Cat Chat\")\n    (speed-plus #(mset! (fmu :cat-fact (evt-md %)) :get-new-fact? true))\n    (div {:class :cat-chat}\n      {:name          :cat-fact\n       :get-new-fact? (cI false\n\n                        ;; <b>The \"plus\" widget will just set this property repeatedly to the same value, 'true'.</b>\n                        ;; <b>Declaring this input Cell \"ephemeral?\" means it will fire each time that same value is set.</b>\n                        :ephemeral? true)\n       :cat-request   (cF+ \n                        ;; <b>`cF+`, or \"cell formula plus\", accepts cell options in a vector first parameter</b>\n                        [:watch (fn [_ me response-chan _ _]\n                                     (when response-chan\n                                       (go (let [response (&lt;! response-chan)]\n\n                                             ;; <b>whenever the XHR responds, we just `mset!` the waiting input cell</b>\n                                             (with-cc :set-cat\n                                               (mset! me :cat-response response))))))]\n                        (when (mget me :get-new-fact?)\n                          (client/get cat-fact-uri {:with-credentials? false})))\n       :cat-response  (cI nil)}\n\n      (if-let [response (mget me :cat-response)]\n        (if (:success response)\n          (span (get-in response [:body :fact]))\n          (str \"Error>  \" (:error-code response)\n            \": \" (:error-text response)))\n        \"Click (+) to see a chat fact.\")))"
+   :code     "(div {:class \"intro\"}\n    (span {:class :push-button}\n      \"Cat Chat\")\n    (speed-plus #(mset! (fmu :cat-fact (evt-md %)) :get-new-fact? true))\n    (div {:class :cat-chat}\n      {:name          :cat-fact\n       :get-new-fact? (cI false\n\n                        ;; <b>The \"plus\" widget will set this property repeatedly\n                        ;; to the same value, 'true'. Declaring it \"ephemeral?\" means\n                        ;; it will fire each time that same value is set.</b>\n                        :ephemeral? true)\n       :cat-request   (cF+\n                        ;; <b>`cF+`, or \"cF plus\", accepts cell options</b>\n                        [:watch (fn [_ me response-chan _ _]\n                                  (when response-chan\n                                    (go (let [response (&lt;! response-chan)]\n\n                                          ;; <b>whenever the XHR responds,</b>\n                                          ;; <b>we just `mset!` the \"waiting\" input cell</b>\n                                          (with-cc :set-cat\n                                            (mset! me :cat-response response))))))]\n                        (when (mget me :get-new-fact?)\n                          (client/get cat-fact-uri {:with-credentials? false})))\n       :cat-response  (cI nil)}\n\n      (if-let [response (mget me :cat-response)]\n        (if (:success response)\n          (span (get-in response [:body :fact]))\n          (str \"Error>  \" (:error-code response)\n            \": \" (:error-text response)))\n        \"Click (+) to see a chat fact.\")))"
    :comment  ["The <code>cat-request</code> property creates and dispatches an XHR via <code>client/get</code>, producing a core.async channel
    to receive the response. Its watch function awaits the async response and feeds it into a conventional input property."
               "We handle async events by directing them to input Cells purpose-created to receive their output, where
@@ -496,14 +498,13 @@
        :mph      (cI 42)
        :air-drag (let [xi (atom nil)]
                    (cF+ [:watch (fn [_ _ new _ _]
-                                  (prn :bam-xi new)
                                   (reset! xi new))]
+                     ;; todo get finalize working
                      (js/setInterval
                        (fn []
                          (try
                            (mswap! me :mph * 0.98)
                            (catch js/Error e
-                             (prn :int!!! @xi :err e)
                              (js/clearInterval @xi)))) 1000)))
        }
       (pp/cl-format nil "~8,1f mph" (mget me :mph)))
@@ -525,18 +526,19 @@
 (def ex-tl-dr
   (merge ex-in-review
     {:menu "Intro"
-     :title    "Web/MX&trade;: Simplicity. Power. Fun."
+     :title    "Web/MX: Simplicity. Power. Fun."
      :builder  in-review
-     :preamble ["Web/MX lets us build sophisticated interfaces from just a few big ideas:<br>
+     :preamble ["With Web/MX, we build sophisticated interfaces from just a few big ideas:<br>
                 <ul type=circle>
-                <li>stick to standard HTML, SVG, and CSS;</li>
-                <li>bring the DOM alive with reactive formulas for attributes, custom app state, and children;</li>
+                <li>stick to <a target=_blank href='https://developer.mozilla.org/en-US/docs/Web/HTML'>standard</a> HTML, SVG, and CSS;</li>
+                <li>bring the DOM alive with reactive formulas for attributes, custom state, and children;</li>
                 <li>let formulas consult any other app state;</li>
-                <li>let event handlers modify any app state; and</li>
-                <li>let property \"watch\" functions handle side effects.</li>
+                <li>let event handlers modify any app state;</li>
+                <li>let property \"watch\" functions handle side effects; and</li>
+                <li>because programming this way is so much fun, create thin reactive wrappers for routing, XHR, localStorage&ndash;as many
+                as we can.</li>
                  </ul>
-                 There is no VDOM, no pre-processor, no compiler, and no Flux-pattern separate store.
-                 Just <a target=_blank href='https://developer.mozilla.org/en-US/docs/Web/HTML'>MDN</a>."
-                "Yes, it scales: <a target=_blank href=\"http://tiltonsalgebra.com/#\">simulated Algebra private tutor</a>."
+                 No VDOM, no pre-processor, no compiler, and no separate store."
+                "Yet it scales to a simulated <a target=_blank href=\"http://tiltonsalgebra.com/#\">private Algebra tutor</a>."
                 "In the remaining panels, we expand on each idea above, exemplified below.<br>&nbsp;"]
      :comment  nil}))
