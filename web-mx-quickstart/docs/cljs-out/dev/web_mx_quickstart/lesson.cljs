@@ -16,6 +16,27 @@
              svg g circle p span div text radialGradient defs stop
              rect ellipse line polyline path polygon script use]]))
 
+;;; --- 0. tl; dr
+
+(defn tl-dr []
+  (div {:class :intro}
+    ;; <b>^^ if the first argument to any tag is a literal map, the key-values</b>
+    ;; <b>become HTML element attribute-values, with keywords => strings</b>
+
+    (h2 "The count is now....")
+    (span {:class :digi-readout} "42")
+    ;; <b>^^ arguments following the optional maps become children, or text content</b>
+
+    (svg {:width   64 :height 64
+          ;; <b> ^^^ numbers also get string-ified for the DOM constructors</b>
+          :cursor  :pointer
+          :onclick #(js/alert "Increment Feature Not Yet Implemented")}
+      (circle {:cx     "50%" :cy "50%" :r "40%"
+               :stroke "orange" :stroke-width 5
+               :fill   :transparent})
+      (text {:class       :heavychar
+             :x           "50%" :y "70%"
+             :text-anchor :middle} "+"))))
 
 ;;; --- 1. It's just html -------------------------------------
 
@@ -393,12 +414,12 @@
        :cat-request   (cF+
                         ;; <b>`cF+`, or "cell formula plus", accepts cell options in a vector first parameter</b>
                         [:watch (fn [_ me response-chan _ _]
-                                     (when response-chan
-                                       (go (let [response (<! response-chan)]
+                                  (when response-chan
+                                    (go (let [response (<! response-chan)]
 
-                                             ;; <b>whenever the XHR responds, we just `mset!` the waiting input cell</b>
-                                             (with-cc :set-cat
-                                               (mset! me :cat-response response))))))]
+                                          ;; <b>whenever the XHR responds, we just `mset!` the waiting input cell</b>
+                                          (with-cc :set-cat
+                                            (mset! me :cat-response response))))))]
                         (when (mget me :get-new-fact?)
                           (client/get cat-fact-uri {:with-credentials? false})))
        :cat-response  (cI nil)}
@@ -481,7 +502,7 @@
 (def ex-in-review
   {:title    "Review"
    :builder  in-review
-   :preamble "Our closing example reprises all the keyWeb/MX features."
+   :preamble "Our closing example reprises all the key Web/MX features."
    :code     "(div {:class :intro}\n    (h2 (let [excess (- (mget (fmu :speedometer) :mph) 55)]\n          (pp/cl-format nil \"The speed is ~8,1f mph ~:[over~;under~] the speed limit.\"\n            (Math/abs excess)  (neg? excess) )))\n    (span {:class   :digi-readout\n           :style   (cF {:color (if (> (mget me :mph) 55)\n                                  \"red\" \"cyan\")})}\n      {:name :speedometer\n       :mph     (cI 42)\n       :air-drag (cF (js/setInterval\n                       #(mswap! me :mph * 0.98) 1000))}\n      (pp/cl-format nil  \"~8,1f mph\" (mget me :mph)))\n    (speed-plus #(mswap! (fmu :speedometer (evt-md %)) :mph inc)))"
    :comment  "
    <li>it looks and works like standard HTML, SVG, CSS, and CLJS;</li>
@@ -490,3 +511,23 @@
    <li>the <code>(speed-plus ...)</code> button navigates to the speedometer to mutate <code>mph</code> value;</li>
    <li>the <code>air-drag</code> async interval mutates the DAG, reducing the <code>mph</code>;</li>
    <li>function <code>speed-plus</code> demonstrates reusable composition.</li>"})
+
+(def ex-tl-dr
+  (merge ex-in-review
+    {:menu "Intro"
+     :title    "Web/MX&trade;: The Un-Framework"
+     :builder  in-review
+     :preamble ["Web/MX can be used to build rich interfaces, like this
+      <a target=_blank href=\"http://tiltonsalgebra.com/#\">Algebra app</a>,
+     by mastering just a few ideas:<br>
+                <ul type=circle>
+                <li>reactive HLL functions will produce standard HTML, SVG, and CSS;</li>
+                <li>HTML attribute values and custom state can be computed by HLL \"formulas\";</li>
+                <li>formulas can compute off any other node's properties;</li>
+                <li>any \"input\" properties can be mutated by event handlers; and</li>
+                <li>optional \"watch\" functions run when a property changes, for side effects.</li>
+                 </ul>
+                 There is no VDOM, no pre-processor, no compiler, and no Flux-model separate store.
+                 We think mostly about the application and user experience."
+                "Please read on for details."]
+     :comment  nil}))
