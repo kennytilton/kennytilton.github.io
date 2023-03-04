@@ -515,7 +515,7 @@
 (def ex-tl-dr
   (merge ex-in-review
     {:menu "Intro"
-     :title    "Web/MX&trade;: The Un-Framework"
+     :title    "Web/MX&trade;: Simplicity. Power. Fun."
      :builder  in-review
      :preamble ["Web/MX can be used to build rich interfaces, like this
       <a target=_blank href=\"http://tiltonsalgebra.com/#\">Algebra app</a>,
