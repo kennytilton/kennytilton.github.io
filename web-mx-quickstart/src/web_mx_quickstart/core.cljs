@@ -147,6 +147,7 @@
 
 (main #(md/make ::intro
              :mx-dom (quick-start "Web/MX&trade;<br>Quick Start" 0
+                       lesson/ex-tl-dr
                        lesson/ex-just-html
                        lesson/ex-and-cljs
                        lesson/ex-html-composition

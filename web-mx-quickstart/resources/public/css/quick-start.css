@@ -38,6 +38,12 @@ div, h1, input {
   text-align: center;
 }
 
+li:first-child {
+  padding-top: 18px;
+}
+li {
+  padding: 4px;
+}
 .preamble {
   font-family: 'Roboto', sans-serif;
   font-size: 20px;

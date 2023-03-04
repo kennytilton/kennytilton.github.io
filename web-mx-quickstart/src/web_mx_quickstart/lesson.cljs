@@ -414,12 +414,12 @@
        :cat-request   (cF+
                         ;; <b>`cF+`, or "cell formula plus", accepts cell options in a vector first parameter</b>
                         [:watch (fn [_ me response-chan _ _]
-                                     (when response-chan
-                                       (go (let [response (<! response-chan)]
+                                  (when response-chan
+                                    (go (let [response (<! response-chan)]
 
-                                             ;; <b>whenever the XHR responds, we just `mset!` the waiting input cell</b>
-                                             (with-cc :set-cat
-                                               (mset! me :cat-response response))))))]
+                                          ;; <b>whenever the XHR responds, we just `mset!` the waiting input cell</b>
+                                          (with-cc :set-cat
+                                            (mset! me :cat-response response))))))]
                         (when (mget me :get-new-fact?)
                           (client/get cat-fact-uri {:with-credentials? false})))
        :cat-response  (cI nil)}
@@ -511,3 +511,21 @@
    <li>the <code>(speed-plus ...)</code> button navigates to the speedometer to mutate <code>mph</code> value;</li>
    <li>the <code>air-drag</code> async interval mutates the DAG, reducing the <code>mph</code>;</li>
    <li>function <code>speed-plus</code> demonstrates reusable composition.</li>"})
+
+(def ex-tl-dr
+  (merge ex-in-review
+    {:menu "Synopsis"
+     :title    "Web/MX&trade;: The Un-Framework"
+     :builder  in-review
+     :preamble ["Build rich interfaces like this <a target=_blank href=\"http://tiltonsalgebra.com/#\">Algebra app</a>
+     by learning just these concepts:<br>
+                <li>CLJS functions produce standard HTML, SVG, and CSS;</li>
+                <li>the functions can be parameterized and freely composed;</li>
+                <li>HTML attribute values and children can be computed by CLJS functions, or \"formulas\";</li>
+                <li>formulas can \"navigate\" the app structure to read other nodes' properties reactively;</li>
+                <li>dependencies are tracked transparently. There is no separate store;</li>
+                <li>some properties can be \"inputs\" to which event handlers write;</li>
+                <li>property \"watch\" functions run when a property changes in value;</li>
+                <li>watches can execute side-effects outside the reactive graph, or enqueue graph
+                 changes for execution next.</li>"]
+     :comment  "Please read on for details."}))
