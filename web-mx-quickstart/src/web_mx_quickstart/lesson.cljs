@@ -517,17 +517,16 @@
     {:menu "Intro"
      :title    "Web/MX&trade;: Simplicity. Power. Fun."
      :builder  in-review
-     :preamble ["Web/MX can be used to build rich interfaces, like this
-      <a target=_blank href=\"http://tiltonsalgebra.com/#\">Algebra app</a>,
-     by mastering just a few ideas:<br>
+     :preamble ["Web/MX lets us build sophisticated interfaces from just a few big ideas:<br>
                 <ul type=circle>
-                <li>reactive HLL functions will produce standard HTML, SVG, and CSS;</li>
-                <li>HTML attribute values and custom state can be computed by HLL \"formulas\";</li>
-                <li>formulas can compute off any other node's properties;</li>
-                <li>any \"input\" properties can be mutated by event handlers; and</li>
-                <li>optional \"watch\" functions run when a property changes, for side effects.</li>
+                <li>stick to standard HTML, SVG, and CSS;</li>
+                <li>bring the DOM alive with reactive formulas for attributes, custom app state, and children;</li>
+                <li>let formulas consult any other app state;</li>
+                <li>let event handlers modify any app state; and</li>
+                <li>let property \"watch\" functions handle side effects.</li>
                  </ul>
-                 There is no VDOM, no pre-processor, no compiler, and no Flux-model separate store.
-                 We think mostly about the application and user experience."
-                "Please read on for details."]
+                 There is no VDOM, no pre-processor, no compiler, and no Flux-pattern separate store.
+                 Just <a target=_blank href='https://developer.mozilla.org/en-US/docs/Web/HTML'>MDN</a>."
+                "Yes, it scales: <a target=_blank href=\"http://tiltonsalgebra.com/#\">simulated Algebra private tutor</a>."
+                "In the remaining panels, we expand on each idea above, exemplified below.<br>&nbsp;"]
      :comment  nil}))
