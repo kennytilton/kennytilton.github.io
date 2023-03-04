@@ -183,7 +183,6 @@ goog.addDependency("window/window.js", ['goog.window'], ['goog.dom', 'goog.dom.T
 goog.addDependency("math/box.js", ['goog.math.Box'], ['goog.asserts', 'goog.math.Coordinate']);
 goog.addDependency("math/rect.js", ['goog.math.Rect'], ['goog.asserts', 'goog.math.Box', 'goog.math.Coordinate', 'goog.math.IRect', 'goog.math.Size']);
 goog.addDependency("net/jsonp.js", ['goog.net.Jsonp'], ['goog.html.TrustedResourceUrl', 'goog.net.jsloader', 'goog.object']);
-goog.addDependency("dom/vendor.js", ['goog.dom.vendor'], ['goog.string', 'goog.userAgent']);
 goog.addDependency("dom/forms.js", ['goog.dom.forms'], ['goog.dom.InputType', 'goog.dom.TagName', 'goog.dom.safe', 'goog.structs.Map', 'goog.window']);
 goog.addDependency("../tiltontec/model/macros.js", ['tiltontec.model.macros'], ['tiltontec.cell.base', 'cljs.core']);
 goog.addDependency("../tiltontec/cell/observer.js", ['tiltontec.cell.observer'], ['tiltontec.cell.base', 'tiltontec.util.core', 'cljs.core', 'tiltontec.model.macros', 'tiltontec.util.base']);
@@ -194,6 +193,8 @@ goog.addDependency("../tiltontec/model/base.js", ['tiltontec.model.base'], ['til
 goog.addDependency("../tiltontec/model/core.js", ['tiltontec.model.core'], ['tiltontec.cell.observer', 'tiltontec.cell.base', 'tiltontec.util.core', 'cljs.core', 'tiltontec.cell.evaluate', 'tiltontec.model.base', 'tiltontec.cell.core', 'clojure.set', 'tiltontec.util.base', 'tiltontec.cell.integrity']);
 goog.addDependency("../tiltontec/web_mx/gen.js", ['tiltontec.web_mx.gen'], ['goog.dom.forms', 'tiltontec.cell.base', 'cljs.core', 'tiltontec.cell.evaluate', 'tiltontec.model.core', 'cljs.pprint', 'clojure.string']);
 goog.addDependency("../tiltontec/web_mx/gen_macro.js", ['tiltontec.web_mx.gen_macro'], ['cljs.core', 'goog.object', 'clojure.walk', 'tiltontec.web_mx.gen']);
+goog.addDependency("../web_mx_quickstart/extra.js", ['web_mx_quickstart.extra'], ['tiltontec.web_mx.gen_macro', 'cljs.core']);
+goog.addDependency("dom/vendor.js", ['goog.dom.vendor'], ['goog.string', 'goog.userAgent']);
 goog.addDependency("crypt/crypt.js", ['goog.crypt'], ['goog.array', 'goog.asserts']);
 goog.addDependency("crypt/base64.js", ['goog.crypt.base64'], ['goog.asserts', 'goog.crypt', 'goog.string', 'goog.userAgent', 'goog.userAgent.product']);
 goog.addDependency("../cljs/tools/reader/impl/commons.js", ['cljs.tools.reader.impl.commons'], ['cljs.tools.reader.impl.errors', 'cljs.core', 'cljs.tools.reader.reader_types', 'cljs.tools.reader.impl.utils']);
@@ -214,4 +215,4 @@ goog.addDependency("style/style.js", ['goog.style'], ['goog.array', 'goog.assert
 goog.addDependency("../tiltontec/web_mx/style.js", ['tiltontec.web_mx.style'], ['tiltontec.cell.observer', 'goog.dom', 'tiltontec.cell.base', 'goog.dom.classlist', 'tiltontec.util.core', 'tiltontec.web_mx.base', 'cljs.core', 'tiltontec.cell.evaluate', 'tiltontec.model.core', 'cljs.pprint', 'tiltontec.util.base', 'goog.style', 'clojure.string']);
 goog.addDependency("../tiltontec/web_mx/html.js", ['tiltontec.web_mx.html'], ['tiltontec.cell.observer', 'goog.dom.forms', 'goog.dom', 'tiltontec.cell.base', 'goog.dom.classlist', 'goog.editor.focus', 'tiltontec.util.core', 'tiltontec.web_mx.base', 'cljs.core', 'tiltontec.cell.evaluate', 'tiltontec.model.core', 'clojure.set', 'cljs.pprint', 'tiltontec.util.base', 'goog.html.sanitizer.HtmlSanitizer', 'goog.dom.selection', 'clojure.string', 'clojure.walk', 'tiltontec.web_mx.style']);
 goog.addDependency("../figwheel/main/generated/dev_auto_test_runner.js", ['figwheel.main.generated.dev_auto_test_runner'], ['cljs.core', 'figwheel.main.testing']);
-goog.addDependency("../web_mx_quickstart/core.js", ['web_mx_quickstart.core'], ['goog.dom', 'tiltontec.web_mx.gen_macro', 'cljs.core', 'web_mx_quickstart.lesson', 'tiltontec.cell.core', 'tiltontec.model.core', 'tiltontec.web_mx.html', 'tiltontec.web_mx.gen']);
+goog.addDependency("../web_mx_quickstart/core.js", ['web_mx_quickstart.core'], ['goog.dom', 'tiltontec.web_mx.gen_macro', 'cljs.core', 'goog.object', 'web_mx_quickstart.lesson', 'web_mx_quickstart.extra', 'tiltontec.cell.core', 'tiltontec.model.core', 'tiltontec.web_mx.html', 'tiltontec.web_mx.gen']);

@@ -39,7 +39,7 @@ div, h1, input {
 }
 
 li:first-child {
-  padding-top: 4px;
+  padding-top: -4px;
 }
 li {
   padding: 4px;
@@ -47,6 +47,7 @@ li {
 .preamble {
   font-family: 'Roboto', sans-serif;
   font-size: 20px;
+  max-width: 35em;
 }
 
 .exercise {
@@ -55,7 +56,6 @@ li {
   background: linen;
   padding: 1em;
 }
-
 
 .cat-chat {
   display: flex;
