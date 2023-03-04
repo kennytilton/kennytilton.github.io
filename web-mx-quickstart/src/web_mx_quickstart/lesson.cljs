@@ -494,8 +494,18 @@
                                 "red" "cyan")})}
       {:name     :speedometer
        :mph      (cI 42)
-       :air-drag (cF (js/setInterval
-                       #(mswap! me :mph * 0.98) 1000))}
+       :air-drag (let [xi (atom nil)]
+                   (cF+ [:watch (fn [_ _ new _ _]
+                                  (prn :bam-xi new)
+                                  (reset! xi new))]
+                     (js/setInterval
+                       (fn []
+                         (try
+                           (mswap! me :mph * 0.98)
+                           (catch js/Error e
+                             (prn :int!!! @xi :err e)
+                             (js/clearInterval @xi)))) 1000)))
+       }
       (pp/cl-format nil "~8,1f mph" (mget me :mph)))
     (speed-plus #(mswap! (fmu :speedometer (evt-md %)) :mph inc))))
 
