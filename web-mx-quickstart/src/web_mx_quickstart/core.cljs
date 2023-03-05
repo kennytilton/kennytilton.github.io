@@ -42,6 +42,7 @@
      :keydowner      (cF+ [:watch (fn [_ me new _ _]
                                     (.addEventListener js/document "keydown" new))]
                        (fn [evt]
+                         (.stopPropagation evt)
                          (let [demos (mget me :demos)
                                demo (mget me :selected-demo)
                                curr-x (.indexOf demos demo)]

@@ -530,18 +530,20 @@
      :builder  in-review
      :preamble ["With Web/MX, we build sophisticated interfaces from just a few big ideas:<br>
                 <ul type=circle>
-                <li>stick to <a target=_blank href='https://developer.mozilla.org/en-US/docs/Web/HTML'>standard</a> HTML, SVG, and CSS...;</li>
-                <li>...but extend standard elements with ad hoc <a href=https://en.wikipedia.org/wiki/Prototype-based_programming target=\"_blank\">custom state</a>;</li>
-                <li>bring the DOM alive with reactive formulas for attributes, custom state, and children;</li>
-                <li>let formulas read arbitrary other app state;</li>
-                <li>let event handlers reactively modify arbitrary app state;</li>
-                <li><i>make the read and write reactivity transparent;</i></li>
-                <li>let property \"watch\" functions handle side effects; and</li>
-                <li>because programming this way is so much fun, create thin reactive wrappers for routing, XHR, localStorage&mdash;as many
-                as we can.</li>
+                <li>stick to <a target=_blank href='https://developer.mozilla.org/en-US/docs/Web/HTML'>standard</a> HTML, SVG, and CSS&hellip;</li>
+                <li>...but extend standard elements with ad hoc state;</li>
+                <li>bring it all alive with reactive formulas;</li>
+                <li>let formulas derive from any other app state;</li>
+                <li>let event handlers modify any app state;</li>
+                <li>support \"watch\" functions for side effects;</li>
+                <li>make it all declarative and transparent; and</li>
+                <li>because programming this way is so much fun, create thin reactive wrappers for routing, XHR, localStorage&mdash;as much
+                as practical.</li>
                  </ul>
                  No VDOM, no pre-processor, no compiler, no special view functions, no <code>setState</code>, and no separate store.
                  Just transparent, fine-grained reactivity."
-                "Does it scale? A simulated <a target=_blank href=\"http://tiltonsalgebra.com/#\">private Algebra tutor</a>."
+                "And it scales:
+                <li>a simulated <a target=_blank href=\"http://tiltonsalgebra.com/#\">private Algebra tutor</a>;</li>
+                <li>a browser for the monthly <a target=_blank href=\"https://kennytilton.github.io/whoishiring/\">AskHN: Who's Hiring?</a> question.</li>"
                 "In the remaining panels, we expand on each idea above, exemplified below.<br>&nbsp;"]
      :comment  nil}))
