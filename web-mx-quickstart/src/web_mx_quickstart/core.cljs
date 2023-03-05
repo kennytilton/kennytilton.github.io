@@ -2,6 +2,7 @@
   (:require
     [goog.dom :as gdom]
     [goog.object :as gobj]
+    [bide.core :as r]
     [tiltontec.cell.core :refer [cF cF+ cFn cFonce cI cf-freeze]]
     [tiltontec.model.core
      :refer [mx-par mpar mget mset! mswap! mset! mxi-find mxu-find-name fasc fmu fm!] :as md]
@@ -121,9 +122,22 @@
         app-dom (tag-dom-create
                   (mget app-matrix :mx-dom))]
     (set! (.-innerHTML root) nil)
-    (gdom/appendChild root app-dom)))
+    (gdom/appendChild root app-dom)
+
+    (when-let [route-starter (md/mget app-matrix :router-starter)]
+      (route-starter))))
 
 (main #(md/make ::intro
+         :route (cI "tl-dr")
+         :router-starter (r/start! (r/router [["/" :tl-dr]
+                                              ["/tl-dr" :tl-dr]
+                                              ["/just-html" :just-html]
+                                              ["/and-cljs" :and-cljs]])
+                           {:default     :ignore
+                            :on-navigate (fn [route params query]
+                                           (prn :on-navigate-sees route params query)
+                                           (when-let [mtx @md/matrix]
+                                             (mset! mtx :route (name route))))})
          :mx-dom (quick-start "Web/MX&trade;<br>Quick Start" 0
                    lesson/ex-tl-dr
                    lesson/ex-just-html
