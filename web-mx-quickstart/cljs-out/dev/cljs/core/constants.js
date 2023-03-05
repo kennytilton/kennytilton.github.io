@@ -234,6 +234,7 @@ cljs.core.cst$kw$bet_DASH_obs_DASH_sees = new cljs.core.Keyword(null,"bet-obs-se
 cljs.core.cst$kw$queue = new cljs.core.Keyword(null,"queue","queue",1455835879);
 cljs.core.cst$sym$cI = new cljs.core.Symbol(null,"cI","cI",480228135,null);
 cljs.core.cst$kw$transit_DASH_params = new cljs.core.Keyword(null,"transit-params","transit-params",357261095);
+cljs.core.cst$sym$$stopPropagation = new cljs.core.Symbol(null,".stopPropagation",".stopPropagation",-1758290105,null);
 cljs.core.cst$sym$xform = new cljs.core.Symbol(null,"xform","xform",-85179481,null);
 cljs.core.cst$kw$validator = new cljs.core.Keyword(null,"validator","validator",-1966190681);
 cljs.core.cst$sym$description = new cljs.core.Symbol(null,"description","description",211970983,null);
