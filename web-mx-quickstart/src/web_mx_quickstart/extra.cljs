@@ -9,6 +9,20 @@
     (tr
       (th "Symbol")
       (th "Comments"))
+    (tr (th "Accessors"))
+    (mapv (fn [[usage description]]
+            (tr
+              (td usage)
+              (td description)))
+      [["(mget <i>model</i> <i>property</i>)"
+        "The MX getter. Can be called from anywhere. When called in the scope of a Cell formula,
+      establishes a reactive dependency on the gotten property."]
+       ["(mset! <i>model</i> <i>property</i> <i>value</i>)"
+        "The MX setter. Alias <code>mreset!</code>. Call from any imperative code. When calling
+      from a <code>watch/observer</code>, must be wrapped in <code>(with-cc :tag setter)</code>"]
+       ["(mswap! md prop fn & args)" "mx swap!"]
+       ["(with-cc tag & body)"
+        "Required wrapper for MX mutation in scope of a watch function."]])
     (mapv (fn [[usage description]]
             (tr
               (td usage)

@@ -65,11 +65,10 @@
    :title    "It's Just HTML"
    :ns       "tiltontec.example.quick-start.lesson/just-html"
    :builder  just-html
-   :preamble "We just write HTML, SVG, and CSS, using thinly disguised functions."
-   :comment  ["Web/MX introduces no framework of its own, it just manages the DOM.
-    Aside from CLJS->JS, no preprocessor is involved, and the stability of CLJS makes this one exception
-    a net win."
-              "Matrix just manages the state."]
+   :preamble "We just write HTML, SVG, and CSS, using CLJS workalikes."
+   :comment  ["Web/MX introduces no framework of its own, it just manages the DOM. Matrix just manages the state."
+    "Aside from CLJS->JS, no preprocessor is involved, and the stability of CLJS makes this one exception
+    a net win."]
    :code     "(div {:class :intro}\n    ;; <b>^^ if the first argument to any tag is a literal map, the key-values</b>\n    ;; <b>become HTML element attribute-values, with keywords => strings</b>\n\n    (h2 \"The count is now....\")\n    (span {:class :digi-readout} \"42\")\n    ;; <b>^^ arguments following the optional maps become children, or text content</b>\n\n    (svg {:width   64 :height 64\n          ;; <b> ^^^ numbers also get string-ified for the DOM constructors</b>\n          :cursor :pointer\n          :onclick #(js/alert \"Increment Feature Not Yet Implemented\")}\n      (circle {:cx     \"50%\" :cy \"50%\" :r \"40%\"\n               :stroke \"orange\" :stroke-width 5\n               :fill   :transparent})\n      (text {:class       :heavychar\n             :x \"50%\" :y \"70%\"\n             :text-anchor :middle} \"+\")))"
    :exercise ["Feel free to experiment with other HTML or SVG tags."
               "Where HTML has <code>&lt;tag attributes*> children*&lt;/tag></code><br>...Web/MX has: <code>(tag {attributes*} children*)</code>."
@@ -530,7 +529,7 @@
     {:menu "Intro"
      :title    "Web/MX: Simplicity. Power. Fun."
      :builder  in-review
-     :preamble ["With Web/MX, we build sophisticated interfaces from just a few big ideas:<br>
+     :preamble ["With <a target=_blank href='https://github.com/kennytilton/web-mx'>Web/MX</a>, we build sophisticated interfaces around a few ideas:<br>
                 <ul type=circle>
                 <li>stick to <a target=_blank href='https://developer.mozilla.org/en-US/docs/Web/HTML'>standard</a> HTML, SVG, and CSS&hellip;</li>
                 <li>...but extend standard elements with ad hoc state;</li>
@@ -539,12 +538,12 @@
                 <li>let event handlers change any app state;</li>
                 <li>support \"watch\" functions for side effects;</li>
                 <li>make it all declarative and transparent; and</li>
-                <li>because programming this way is so much fun, create thin reactive wrappers for routing, XHR, localStorage&mdash;as much
-                as practical.</li>
+                <li>because this is so much fun, create reactive wrappers for routing, XHR, localStorage&mdash;as much
+                as we like.</li>
                  </ul>
                  No VDOM, no pre-processor, no compiler, no special view functions, no setState, and no separate store.
                  Just transparent, fine-grained reactivity."
-                "And it scales:
+                "Minimalist, but it scales:
                 <li>a simulated <a target=_blank href=\"http://tiltonsalgebra.com/#\">private Algebra tutor</a>;</li>
                 <li>a browser for the monthly <a target=_blank href=\"https://kennytilton.github.io/whoishiring/\">AskHN: Who's Hiring?</a> question.</li>"
                 "In the remaining panels, we expand on each idea above, exemplified below.<br>&nbsp;"]
