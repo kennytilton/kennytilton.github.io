@@ -147,10 +147,10 @@
   {:menu     "In-place<br>State"
    :title    "\"In-place\" widget state, property by property"
    :builder  custom-state
-   :preamble "Widgets define local state as needed."
+   :preamble "Widgets define whatever state they need."
    :code     "(div {:class :intro}\n    (h2 \"The speed is now...\")\n    (span {:class :digi-readout}\n      ;; <b>An optional second map is for custom state.</b>\n      {:mph  42}\n\n      ;; <b>below: mget, short for \"model-get\", is the MX \"getter\" for model (object) properties</b>\n      ;; <b>n.b. Tag children, even plain strings, always start out in an auto-genned formula.</b>\n      (str (mget me :mph) \" mph\")))"
    :comment  ["Tag macros take an optional second map of custom widget state. The map for custom state is identified
-   positionally, so an empty first map must be coded even if no HTML attributes need specification."
+   positionally, so an empty first map must be coded even if no HTML attributes are needed."
               "Here, a generic <code>span</code> embodying a speedometer thinks it might usefully have a <code>{:mph 42}</code> property.
    We will put that to use next."
               "<code>mget</code> can be used anywhere. Inside a formula, it transparently subscribes to the property being read."
@@ -158,7 +158,6 @@
                      so generic tags can be re-used without subclassing."]})
 
 ;;; --- derived state ------------------------------
-
 
 (defn derived-state []
   (div {:class :intro}
@@ -331,54 +330,6 @@
               "In our experience coding with Matrix, we frequently
    encounter opportunities for the app to usefully update state normally controlled by the user. The macro <code>(with-cc TAG & BODY)</code> schedules the <code>mset!</code> mutation for execution
               immediately after the current propagation, when state consistency can be guaranteed. TAG is just for debugging."]})
-
-;;; --- async --------------------------------------------------------
-
-(defn throttle-button [[opcode factor :as setting]]
-  (button {:class   :push-button
-           :style   (cF (let [[current-opcode] (mget (fmu :throttle) :setting)]
-                          {:min-width  "96px"
-                           :background (if (= opcode current-opcode)
-                                         "cyan" "linen")
-                           :font-size  "18px"}))
-           :onclick (cF #(mset! (fmu :throttle) :setting setting))}
-    (name opcode)))
-
-(defn speedometer []
-  (span {:class :digi-readout
-         :style (cF {:min-width "5em"
-                     :color     (if (> (mget me :mph) 55)
-                                  "red" "cyan")})}
-    {:mph     (cI 42)
-     :time    (cF (js/setInterval
-                    (fn [] (let [mph-now (mget me :mph)
-                                 throttle (fmu :throttle)]
-                             (when throttle
-                               (mswap! me :mph *
-                                 (second (mget throttle :setting))))))
-                    1000))
-     :display (cF (pp/cl-format nil "~8,1f mph" (mget me :mph)))}
-    (mget me :display)))
-
-(defn async-throttle []
-  (let [settings [[:maintain 1] [:coast .98] [:brake-gently .8] [:panic-stop .60]
-                  [:speed-up 1.1] [:floor-it 1.3]]]
-    (div {:class :intro}
-      (h2 "The speed is now...")
-      (speedometer)
-      (div {:style {:display :flex
-                    :gap     "1em"}}
-        {:name    :throttle
-         :setting (cI (second settings))}
-        (mapv throttle-button settings)))))
-
-(def ex-async-throttle
-  {:menu     "Async mutation"
-   :title    "Handling async"
-   :builder  async-throttle
-   :preamble "Async processing can be challenging, but in Matrix are just mutations of normal \"input\" properties."
-   :code     "(defn throttle-button [[opcode factor :as setting]]\n  (button {:class   :push-button\n           :style   (cF (let [[current-opcode] (mget (fmu :throttle) :setting)]\n                          {:min-width  \"96px\"\n                           :background (if (= opcode current-opcode)\n                                         \"cyan\" \"linen\")\n                           :font-size  \"18px\"}))\n           :onclick (cF #(mset! (fmu :throttle) :setting setting))}\n    (name opcode)))\n\n(defn speedometer []\n  (span {:class :digi-readout\n         :style (cF {:color (if (> (mget me :mph) 55)\n                              \"red\" \"cyan\")})}\n    {:mph     (cI 42)\n     :time    (cF (js/setInterval\n                    (fn [] (let [mph-now (mget me :mph)]\n                             (mswap! me :mph *\n                               (second (mdv! :throttle :setting)))))\n                    1000))\n     :display (cF (pp/cl-format nil \"~8,1f mph\" (mget me :mph)))}\n    (mget me :display)))\n\n(defn async-throttle []\n  (let [settings [[:maintain 1] [:coast .95] [:brake-gently .8] [:panic-stop .60]\n                  [:speed-up 1.1] [:floor-it 1.3]]]\n    (div {:class :intro}\n      (h2 \"The speed is now...\")\n      (speedometer)\n      (div {:style {:display :flex\n                    :gap     \"1em\"}}\n        {:name    :throttle\n         :setting (cI (second settings))}\n        (mapv throttle-button settings)))))"
-   :comment  ["We handle async events by directing them to input Cells."]})
 
 ;;; --- data integrity ---------------------------------
 

@@ -126,31 +126,21 @@
     (gdom/appendChild root app-dom)))
 
 (main #(md/make ::intro
-         :mx-dom (quick-start "Web/MX&trade;<br>Quick Start" 0
+         :mx-dom (quick-start "Web/MX&trade;<br>Quick Start" 4
                    lesson/ex-tl-dr
                    lesson/ex-just-html
                    lesson/ex-and-cljs
                    lesson/ex-html-composition
                    lesson/ex-custom-state
                    lesson/ex-derived-state
-
                    lesson/ex-navigation
                    lesson/ex-handler-mutation
                    lesson/ex-watches
                    lesson/ex-watch-cc
-                   ;; lesson/ex-async-throttle
                    lesson/ex-async-cat
-
                    lesson/ex-data-integrity
-                   lesson/ex-in-review
-                   ;;lesson/ex-ephemeral ;; too much?
-                   #_{:title "Counter Omniscient" :builder counter-omniscience :code counter-omniscience-code}
-                   #_{:title "Counter Omnipotent" :builder counter-omnipotent :code counter-omnipotent-code}
-                   #_{:title "Reactivity All-In" :builder reactivity-all-in :code reactivity-all-in-code}
-                   #_{:title "Mini test" :builder minitest :code minitest-code})))
+                   lesson/ex-in-review)))
 
-;
-;
 ;
 ;;; specify reload hook with ^:after-load metadata
 ;(defn ^:after-load on-reload []
