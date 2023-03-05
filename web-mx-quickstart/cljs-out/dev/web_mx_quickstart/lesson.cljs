@@ -263,14 +263,14 @@
    :title    "Random state DAG change"
    :ns       "tiltontec.example.quick-start.lesson/handler-mutation"
    :builder  handler-mutation
-   :preamble ["A widget event handler can mutate any property of any widget. (This button works.)"]
+   :preamble ["A widget event handler can mutate any property of any widget. Give it a try."]
    :code     "(defn speed-plus [onclick]\n  (svg {:width   64 :height 64 :cursor :pointer\n        :onclick onclick}\n    (circle {:cx     \"50%\" :cy \"50%\" :r \"40%\"\n             :stroke \"orange\" :stroke-width 5\n             :fill   :transparent})\n    (text {:class       :heavychar :x \"50%\" :y \"70%\"\n           :text-anchor :middle} \"+\")))\n\n(defn handler-mutation []\n  (div {:class :intro}\n    (h2 \"The speed limit is 55 mph. Your speed is now...\")\n    (span {:class :digi-readout\n           :style (cF {:color (if (> (mget me :mph) 55)\n                                \"red\" \"cyan\")})}\n      {:name    :speedometer\n       ;; <b>If we intend to mutate a property, we must wrap the value in `cI`, short for \"cell input\"</b>\n       :mph     (cI 42)\n       :display (cF (str (mget me :mph) \" mph\"))}\n      (mget me :display))\n    (speed-plus (fn [evt]\n                  ;; <b>`evt-md` (event model) determines the MX proxy/model associated with a handler event.</b>\n                  ;; <b>'mswap!' performs a Clojure 'swap!' on the ':mph' property of the model.</b>\n                  (mswap! (fmu :speedometer (evt-md evt)) :mph inc)))))"
    :exercise "Add custom state <code>throttled</code>, with a formula that computes <code>true</code> if <code>mph</code> is
    fifty-five or more. Check <code>throttled</code> in the <code>onclick</code> handler before allowing increment."
    :comment  ["Wrapping <code>mph</code> value in <code>(cI 42)</code>, <code>cI</code> for \"cell Input\",
-    lets us mutate <code>mph</code> imperatively."
+    lets us alter <code>mph</code> imperatively."
               "Here, an event handler navigates via
-    utility <code>fmu</code> (search \"family up\") to the speedometer widget and mutates it."]})
+    utility <code>fmu</code> (search \"family up\") to the speedometer widget and increments it."]})
 
 ;;; --- watches ----------------------------------
 
@@ -292,12 +292,13 @@
   {:menu     "State Watch<br>Functions"
    :title    "\"On-change\" watch functions"
    :builder  watches
-   :preamble "Any input or computed cell can specify an on-change \"watch\" function to execute side-effects outside Matrix dataflow."
+   :preamble "Any property can use an on-change \"watch\" function for side-effects."
    :code     "(div {:class :intro}\n    (h2 \"The speed is now...\")\n    (span {:class   :digi-readout\n           :onclick #(mswap! (evt-md %) :mph inc)}\n      {:name    :speedometer\n       :mph     (cI 42 :watch (fn [slot me new-val prior-val cell]\n                                ;; <b>`cI`, cell input, takes a :watch function</b>\n                                (prn :watch-sees-change slot new-val)))\n       :display (cF (str (mget me :mph) \" mph\"))}\n      (mget me :display))\n    (speed-plus (fn [evt]\n                  (mswap! (fmu :speedometer (evt-md evt)) :mph inc))))"
    :comment  ["A watch function fires when a cell value is initialized, and if the value changes. Watches are used to
    dispatch actions outside the Matrix, if only for logging/debugging, as here. (See the browser console.)"
               "The watch function in this example simply logs the new value. Other watches could write to
-              localStorage or dispatch XHR requests. Web/MX does all its dynamic DOM maintenance in watch functions."]})
+              localStorage or dispatch XHR requests, etc."
+              "Web/MX, for an extreme example, does all its dynamic DOM maintenance in watch functions on HTML attributes."]})
 
 ;;; --- throttling watch -------------------
 
@@ -325,7 +326,7 @@
    :title    "Exception: how watches can mutate state"
    :builder  watch-cc
    :preamble "Watch functions must operate outside Matrix state flow, but <i>can</i> enqueue alterations
-    of Matrix state for execution."
+    of Matrix state for subsequent execution."
    :code     "(div {:class :intro}\n    (h2 \"The speed limit is 55 mph. Your speed is now...\")\n    (span {:class   :digi-readout\n           :onclick #(mswap! (evt-md %) :mph inc)}\n      {:name    :speedometer\n       :mph     (cI 42 :watch (fn [slot me new-val prior-val cell]\n                                (when (> new-val 55)\n                                  (js/alert \"Speed governor auto-resetting to 45 mph.\")\n                                  \n                                  ;; <b>`with-cc` must wrap any DAG mutation by a watch function </b>\n                                  (with-cc :speed-governor\n                                    ;; <b>'mset!' mutates a model property.</b>\n                                    (mset! me :mph 45)))))\n       :display (cF (str (mget me :mph) \" mph\"))}\n      (mget me :display))\n    (speed-plus (fn [evt]\n                  (mswap! (fmu :speedometer (evt-md evt)) :mph inc))))"
    :comment  ["Try increasing the speed above 55. A watch function will intervene."
               "In our experience coding with Matrix, we frequently
@@ -395,49 +396,10 @@
    :comment  ["The <code>cat-request</code> property creates and dispatches an XHR via <code>client/get</code>, producing a core.async channel
    to receive the response. Its watch function awaits the async response and feeds it into a conventional input property."
               "We handle async events by directing them to input Cells purpose-created to receive their output, where
-              Matrix handles them like any other input."]})
-
-;;; --- ephemeral roulette ------------------------------------------
-
-
-(defn ephemeral []
-  (div {:class :intro}
-    {:name        :roulette
-     :bet         (cI nil :ephemeral? true
-                    :obs (fn [_ me new-val _ _]
-                           (prn :bet-obs-sees new-val (mget me :bet)
-                             (mget me :spin) (mget me :outcome) (mget me :bet-history)))) ;; <====== ephemeral
-     :bet-history (cF (when-let [bet (mget me :bet)]
-                        (conj _cache bet)))                 ;; <====== _cache
-     :spin        (cF (when (mget me :bet)
-                        (if (zero? (rand-int 2))
-                          :black :red)))
-     :outcome     (cF (when-let [bet (mget me :bet)]
-                        (if (= bet (mget me :spin))
-                          :win :loss)))}
-    (h2 "Faites votre pari, s'il vous plaît")
-    (div {:style {:display :flex :gap "1em"}}
-      (mapv (fn [color]
-              (opcode-button color
-                #(mset! (fmu :roulette) :bet (keyword color))))
-        ["red" "black"]))
-    (span {:style (cF (str "visibility:" (name (if (mget (fmu :roulette) :bet)
-                                                 :visible :hidden))))}
-      "The background below shows the spin.")
-    (span {:style (cF (str "font-size:28px; padding:9px; color:white; background:" (if-let [spin (mget (fmu :roulette) :spin)]
-                                                                                     (name spin) :white)))}
-      (case (mget (fmu :roulette) :outcome)
-        :win "Wins!"
-        :loss "Loses :("
-        "..."))))
-
-(def ex-ephemeral
-  {:title    "Ephemerals" :builder ephemeral
-   :preamble "When processing events, consecutive identical events are still two different events."
-   :code     "(div {:class :intro}\n    {:name    :roulette\n     :bet     (cI nil :ephemeral? true) ;; <====== ephemeral\n     :bet-history (cF (when-let [bet (mget me :bet)]\n                        (conj _cache bet))) ;; <====== _cache\n     :spin    (cF (when (mget me :bet)\n                    (if (zero? (rand-int 2))\n                      :black :red)))\n     :outcome (cF (when-let [bet (mget me :bet)]\n                    (if (= bet (mget me :spin))\n                      :win :loss)))}\n    (h2 (str \"Faites jeux #\" (inc (count (mget (mx-par me) :bet-history)))))\n    (div {:style {:display :flex :gap     \"1em\"}}\n      (mapv (fn [color]\n              (opcode-button color\n                #(mset! (fmu :roulette) :bet (keyword color))))\n        [\"red\" \"black\"]))\n    (span {:style (cF (str \"visibility:\" (name (if (mget (fmu :roulette) :bet)\n                                                 :visible :hidden))))}\n      \"The background below shows the spin.\")\n    (span {:style (cF (str \"font-size:28px; padding:9px; color:white; background:\" (if-let [spin (mget (fmu :roulette) :spin)]\n                                                       (name spin) :white)))}\n      (case (mget (fmu :roulette) :outcome)\n        :win \"Wins!\"\n        :loss \"Loses :(\"\n        \"...\")))"
-   :comment  "Ephemeral cells start at nil. When changed to some value X, they propagate fully, then revert silently to nil.
-   When they are changed to X again, it is still recognized as a change.
-   <br><br>The lexically injected <code>_cache</code> lets us consider history in formulas."})
+              Matrix handles them like any other input."
+              "We used a special <code>:ephemeral?</code> qualifier for <code>:get-new-fact?</code> because
+              it works like an event, something that happens and is over.
+              Ephemeral properties revert to nil after propagating, without propagating that change."]})
 
 (defn in-review []
   (div {:class :intro}
@@ -469,12 +431,14 @@
    :preamble "Our closing example reprises all the key Web/MX features."
    :code     "(div {:class :intro}\n    (h2 (let [excess (- (mget (fmu :speedometer) :mph) 55)]\n          (pp/cl-format nil \"The speed is ~8,1f mph ~:[over~;under~] the speed limit.\"\n            (Math/abs excess)  (neg? excess) )))\n    (span {:class   :digi-readout\n           :style   (cF {:color (if (> (mget me :mph) 55)\n                                  \"red\" \"cyan\")})}\n      {:name :speedometer\n       :mph     (cI 42)\n       :air-drag (cF (js/setInterval\n                       #(mswap! me :mph * 0.98) 1000))}\n      (pp/cl-format nil  \"~8,1f mph\" (mget me :mph)))\n    (speed-plus #(mswap! (fmu :speedometer (evt-md %)) :mph inc)))"
    :comment  "
+   <ul type=circle>
    <li>it looks and works like standard HTML, SVG, CSS, and CLJS;</li>
    <li>all state dependencies are property to property;</li>
    <li>the <code>H2</code> computes its text by navigating to the speedometer widget to read the <code>mph</code> value;</li>
    <li>the <code>(speed-plus ...)</code> button navigates to the speedometer to mutate <code>mph</code> value;</li>
    <li>the <code>air-drag</code> async interval mutates the DAG, reducing the <code>mph</code>;</li>
-   <li>function <code>speed-plus</code> demonstrates reusable composition.</li>"})
+   <li>function <code>speed-plus</code> demonstrates reusable composition.</li>
+   </ul>"})
 
 (def ex-tl-dr
   (merge ex-in-review
@@ -500,6 +464,7 @@
                 <li>a simulated <a target=_blank href=\"http://tiltonsalgebra.com/#\">private Algebra tutor</a>;</li>
                 <li>a browser for the monthly <a target=_blank
                 href=\"https://kennytilton.github.io/whoishiring/\">AskHN: Who's Hiring?</a> question; and</li>
-                <li>to a lesser degree, this <a target=_blank href=\"https://github.com/kennytilton/kennytilton.github.io/tree/master/web-mx-quickstart\">Quick Start.</a>;</li>"
+                <li>to a lesser degree, this <a target=_blank href=\"https://github.com/kennytilton/kennytilton.github.io/tree/master/web-mx-quickstart\">Quick Start</a>
+                and the classic <a target=_blank and href='https://kennytilton.github.io/TodoFRP/'>TodoMVC.</li>"
                 "In the remaining panels, we expand on each idea above, exemplified below.<br>&nbsp;"]
      :comment  nil}))
