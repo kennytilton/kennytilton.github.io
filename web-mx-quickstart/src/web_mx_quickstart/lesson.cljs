@@ -500,7 +500,7 @@
        :air-drag (let [xi (atom nil)]
                    (cF+ [:watch (fn [_ _ new _ _]
                                   (reset! xi new))]
-                     ;; todo get finalize working
+                     ;; todo implement finalize
                      (js/setInterval
                        (fn []
                          (try
@@ -535,16 +535,19 @@
                 <li>...but extend standard elements with ad hoc state;</li>
                 <li>bring it all alive with reactive formulas;</li>
                 <li>let formulas use any other app state;</li>
-                <li>let event handlers change any app state;</li>
+                <li>let async handlers change any app state;</li>
                 <li>support \"watch\" functions for side effects;</li>
                 <li>make it all declarative and transparent; and</li>
                 <li>because this is so much fun, create reactive wrappers for routing, XHR, localStorage&mdash;as much
                 as we like.</li>
                  </ul>
-                 No VDOM, no pre-processor, no compiler, no special view functions, no setState, and no separate store.
-                 Just transparent, fine-grained reactivity."
+                 No VDOM, no pre-processor, no compiler, no special view functions, no setState, no subscribe/notify, no hooks,
+                 no refs, and no separate store.
+                 <br><br>Just transparent, fine-grained reactivity."
                 "Minimalist, but it scales:
                 <li>a simulated <a target=_blank href=\"http://tiltonsalgebra.com/#\">private Algebra tutor</a>;</li>
-                <li>a browser for the monthly <a target=_blank href=\"https://kennytilton.github.io/whoishiring/\">AskHN: Who's Hiring?</a> question.</li>"
+                <li>a browser for the monthly <a target=_blank
+                href=\"https://kennytilton.github.io/whoishiring/\">AskHN: Who's Hiring?</a> question; and</li>
+                <li>to a lesser degree, this <a target=_blank href=\"https://github.com/kennytilton/kennytilton.github.io/tree/master/web-mx-quickstart\">Quick Start.</a>;</li>"
                 "In the remaining panels, we expand on each idea above, exemplified below.<br>&nbsp;"]
      :comment  nil}))
