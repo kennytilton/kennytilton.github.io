@@ -124,7 +124,7 @@
     (gdom/appendChild root app-dom)))
 
 (main #(md/make ::intro
-         :mx-dom (quick-start "Web/MX&trade;<br>Quick Start" 8
+         :mx-dom (quick-start "Web/MX&trade;<br>Quick Start" 0
                    lesson/ex-tl-dr
                    lesson/ex-just-html
                    lesson/ex-and-cljs
