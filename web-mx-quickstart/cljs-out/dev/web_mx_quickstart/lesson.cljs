@@ -65,11 +65,10 @@
    :title    "It's Just HTML"
    :ns       "tiltontec.example.quick-start.lesson/just-html"
    :builder  just-html
-   :preamble "We just write HTML, SVG, and CSS, using thinly disguised functions."
-   :comment  ["Web/MX introduces no framework of its own, it just manages the DOM.
-    Aside from CLJS->JS, no preprocessor is involved, and the stability of CLJS makes this one exception
-    a net win."
-              "Matrix just manages the state."]
+   :preamble "We just write HTML, SVG, and CSS, using CLJS workalikes."
+   :comment  ["Web/MX introduces no framework of its own, it just manages the DOM. Matrix just manages the state."
+    "Aside from CLJS->JS, no preprocessor is involved, and the stability of CLJS makes this one exception
+    a net win."]
    :code     "(div {:class :intro}\n    ;; <b>^^ if the first argument to any tag is a literal map, the key-values</b>\n    ;; <b>become HTML element attribute-values, with keywords => strings</b>\n\n    (h2 \"The count is now....\")\n    (span {:class :digi-readout} \"42\")\n    ;; <b>^^ arguments following the optional maps become children, or text content</b>\n\n    (svg {:width   64 :height 64\n          ;; <b> ^^^ numbers also get string-ified for the DOM constructors</b>\n          :cursor :pointer\n          :onclick #(js/alert \"Increment Feature Not Yet Implemented\")}\n      (circle {:cx     \"50%\" :cy \"50%\" :r \"40%\"\n               :stroke \"orange\" :stroke-width 5\n               :fill   :transparent})\n      (text {:class       :heavychar\n             :x \"50%\" :y \"70%\"\n             :text-anchor :middle} \"+\")))"
    :exercise ["Feel free to experiment with other HTML or SVG tags."
               "Where HTML has <code>&lt;tag attributes*> children*&lt;/tag></code><br>...Web/MX has: <code>(tag {attributes*} children*)</code>."
@@ -84,11 +83,13 @@
     (span {:class "digi-readout"} "42")
     (div {:style {:display :flex
                   :gap     "1em"}}
-      ;; <b>children, below built into a vector, are automatically flattened, with any nils removed</b>
+      ;; <b>children, below built into a vector using CLJS,
+      ;; are automatically flattened, with any nils removed</b>
       (mapv (fn [opcode]
               (when (= 1 (count opcode))
                 (button {:class   :push-button
-                         :onclick #(js/alert (str "Opcode \"" opcode "\" not yet implemented"))}
+                         :onclick #(js/alert
+                                     (str "Opcode \"" opcode "\" RSN."))}
                   opcode)))
         ["-" "=" "+" "boom"]))))
 
@@ -96,7 +97,7 @@
   {:menu     "...and CLJS"
    :title    "...and CLJS" :builder and-cljs
    :preamble "It is just HTML <i>and</i> CLJS."
-   :code     "(div {:class :intro}\n    (h2 \"The count is now...\")\n    (span {:class \"digi-readout\"} \"42\")\n    (div {:style {:display :flex\n                  :gap     \"1em\"}}\n      ;; <b>children, below built into a vector, are automatically flattened, with any nils removed</b>\n      (mapv (fn [opcode]\n              (when (= 1 (count opcode))\n                (button {:class   :push-button\n                         :onclick #(js/alert (str \"Opcode \\\"\" opcode \"\\\" not yet implemented\"))}\n                  opcode)))\n        [\"-\" \"=\" \"+\" \"boom\"])))"
+   :code     "(defn and-cljs []\n  (div {:class :intro}\n    (h2 \"The count is now...\")\n    (span {:class \"digi-readout\"} \"42\")\n    (div {:style {:display :flex\n                  :gap     \"1em\"}}\n      ;; <b>children, below built into a vector using CLJS,\n      ;; are automatically flattened, with any nils removed</b>\n      (mapv (fn [opcode]\n              (when (= 1 (count opcode))\n                (button {:class   :push-button\n                         :onclick #(js/alert\n                                     (str \"Opcode \\\"\" opcode \"\\\" RSN.\"))}\n                  opcode)))\n        [\"-\" \"=\" \"+\" \"boom\"]))))"
    :comment  ["In fact, all this code is CLJS. For example, DIV is a CLJS macro that returns
     a Clojure <i>proxy</i> for a DOM DIV. Proxies are not VDOM. Proxies are long-lived models that manage their DOM incarnations as events unfold."]})
 
@@ -146,10 +147,10 @@
   {:menu     "In-place<br>State"
    :title    "\"In-place\" widget state, property by property"
    :builder  custom-state
-   :preamble "Widgets define local state as needed."
+   :preamble "Widgets define whatever state they need."
    :code     "(div {:class :intro}\n    (h2 \"The speed is now...\")\n    (span {:class :digi-readout}\n      ;; <b>An optional second map is for custom state.</b>\n      {:mph  42}\n\n      ;; <b>below: mget, short for \"model-get\", is the MX \"getter\" for model (object) properties</b>\n      ;; <b>n.b. Tag children, even plain strings, always start out in an auto-genned formula.</b>\n      (str (mget me :mph) \" mph\")))"
    :comment  ["Tag macros take an optional second map of custom widget state. The map for custom state is identified
-   positionally, so an empty first map must be coded even if no HTML attributes need specification."
+   positionally, so an empty first map must be coded even if no HTML attributes are needed."
               "Here, a generic <code>span</code> embodying a speedometer thinks it might usefully have a <code>{:mph 42}</code> property.
    We will put that to use next."
               "<code>mget</code> can be used anywhere. Inside a formula, it transparently subscribes to the property being read."
@@ -158,17 +159,16 @@
 
 ;;; --- derived state ------------------------------
 
-
 (defn derived-state []
   (div {:class :intro}
     (h2 "The speed is now...")
     (span {:class :digi-readout}
       {:name        :speedometer
        :mph         65
-
-       ;; <b>'cF', or "cell formula", defines a computed/derived property.</b>
-       ;; <b>When properties, such as 'mph', are read by a formula, the formula is re-run.</b>
        :too-fast?   (cF (> (mget me :mph) 55))
+       ;; <b>'cF', or "cell formula", defines a computed/derived property.</b>
+       ;; <b>'me' is lexically injected, like JS 'this' or Smalltalk 'self'.</b>
+       ;; <b>Properties such as 'mph' are transparently subscribed.</b>
        :speedo-text (cF (str (mget me :mph) " mph"
                           (when (mget me :too-fast?) "<br>Slow down")))}
       (mget me :speedo-text))))
@@ -177,13 +177,14 @@
   {:menu     "Functional<br>Properties"
    :title    "Functional, computed, reactive properties"
    :builder  derived-state
-   :code     "(div {:class :intro}\n    (h2 \"The speed is now...\")\n    (span {:class :digi-readout}\n      {:name :speedometer\n       :mph         65\n       \n       ;; <b>'cF', or \"cell formula\", defines a computed/derived property.</b>\n       ;; <b>When properties, such as 'mph', are read by a formula, the formula is re-run.</b>\n       :too-fast?   (cF (> (mget me :mph) 55))\n       :speedo-text (cF (str (mget me :mph) \" mph\"\n                          (when (mget me :too-fast?) \"Slow down\")))}\n      (mget me :speedo-text)))"
+   :code     "(div {:class :intro}\n    (h2 \"The speed is now...\")\n    (span {:class :digi-readout}\n      {:name        :speedometer\n       :mph         65\n       :too-fast?   (cF (> (mget me :mph) 55))\n       ;; <b>'cF', or \"cell formula\", defines a computed/derived property.</b>\n       ;; <b>'me' is lexically injected, like JS 'this' or Smalltalk 'self'.</b>\n       ;; <b>Properties such as 'mph' are transparently subscribed.</b>\n       :speedo-text (cF (str (mget me :mph) \" mph\"\n                          (when (mget me :too-fast?) \"<br>Slow down\")))}\n      (mget me :speedo-text)))"
    :preamble "A property can be expressed as a function, or \"formula\", of other properties."
    :comment  ["The <code>too-fast?</code> property is fed by the reactive formula <code>(cF (> (mget me :mph) 55))</code>.
     When <code>mph</code> changes, <code>too-fast?</code> will be recomputed, then <code>speedo-text</code>."
-              "Interdependent properties form the same coherent, one-way graph (DAG) as found in Flux derivatives,
-              but without us doing anything; Matrix internals identify the DAG for us."
-              "D/X note: different instances can have different formulas for the same property,
+              "Formula dependencies are automatically captured, and adjusted on each evaluation.
+               Together they form the same coherent, one-way DAG found in Flux derivatives,
+               but without us doing anything; Matrix internals identify the DAG for us."
+              "Note that different instances can have different formulas for the same property,
               extending the \"prototype\" reusability win.</li>"]})
 
 ;;; --- Navigation ------------------------------
@@ -331,54 +332,6 @@
    encounter opportunities for the app to usefully update state normally controlled by the user. The macro <code>(with-cc TAG & BODY)</code> schedules the <code>mset!</code> mutation for execution
               immediately after the current propagation, when state consistency can be guaranteed. TAG is just for debugging."]})
 
-;;; --- async --------------------------------------------------------
-
-(defn throttle-button [[opcode factor :as setting]]
-  (button {:class   :push-button
-           :style   (cF (let [[current-opcode] (mget (fmu :throttle) :setting)]
-                          {:min-width  "96px"
-                           :background (if (= opcode current-opcode)
-                                         "cyan" "linen")
-                           :font-size  "18px"}))
-           :onclick (cF #(mset! (fmu :throttle) :setting setting))}
-    (name opcode)))
-
-(defn speedometer []
-  (span {:class :digi-readout
-         :style (cF {:min-width "5em"
-                     :color     (if (> (mget me :mph) 55)
-                                  "red" "cyan")})}
-    {:mph     (cI 42)
-     :time    (cF (js/setInterval
-                    (fn [] (let [mph-now (mget me :mph)
-                                 throttle (fmu :throttle)]
-                             (when throttle
-                               (mswap! me :mph *
-                                 (second (mget throttle :setting))))))
-                    1000))
-     :display (cF (pp/cl-format nil "~8,1f mph" (mget me :mph)))}
-    (mget me :display)))
-
-(defn async-throttle []
-  (let [settings [[:maintain 1] [:coast .98] [:brake-gently .8] [:panic-stop .60]
-                  [:speed-up 1.1] [:floor-it 1.3]]]
-    (div {:class :intro}
-      (h2 "The speed is now...")
-      (speedometer)
-      (div {:style {:display :flex
-                    :gap     "1em"}}
-        {:name    :throttle
-         :setting (cI (second settings))}
-        (mapv throttle-button settings)))))
-
-(def ex-async-throttle
-  {:menu     "Async mutation"
-   :title    "Handling async"
-   :builder  async-throttle
-   :preamble "Async processing can be challenging, but in Matrix are just mutations of normal \"input\" properties."
-   :code     "(defn throttle-button [[opcode factor :as setting]]\n  (button {:class   :push-button\n           :style   (cF (let [[current-opcode] (mget (fmu :throttle) :setting)]\n                          {:min-width  \"96px\"\n                           :background (if (= opcode current-opcode)\n                                         \"cyan\" \"linen\")\n                           :font-size  \"18px\"}))\n           :onclick (cF #(mset! (fmu :throttle) :setting setting))}\n    (name opcode)))\n\n(defn speedometer []\n  (span {:class :digi-readout\n         :style (cF {:color (if (> (mget me :mph) 55)\n                              \"red\" \"cyan\")})}\n    {:mph     (cI 42)\n     :time    (cF (js/setInterval\n                    (fn [] (let [mph-now (mget me :mph)]\n                             (mswap! me :mph *\n                               (second (mdv! :throttle :setting)))))\n                    1000))\n     :display (cF (pp/cl-format nil \"~8,1f mph\" (mget me :mph)))}\n    (mget me :display)))\n\n(defn async-throttle []\n  (let [settings [[:maintain 1] [:coast .95] [:brake-gently .8] [:panic-stop .60]\n                  [:speed-up 1.1] [:floor-it 1.3]]]\n    (div {:class :intro}\n      (h2 \"The speed is now...\")\n      (speedometer)\n      (div {:style {:display :flex\n                    :gap     \"1em\"}}\n        {:name    :throttle\n         :setting (cI (second settings))}\n        (mapv throttle-button settings)))))"
-   :comment  ["We handle async events by directing them to input Cells."]})
-
 ;;; --- data integrity ---------------------------------
 
 (def ex-data-integrity
@@ -499,7 +452,7 @@
        :air-drag (let [xi (atom nil)]
                    (cF+ [:watch (fn [_ _ new _ _]
                                   (reset! xi new))]
-                     ;; todo get finalize working
+                     ;; todo implement finalize
                      (js/setInterval
                        (fn []
                          (try
@@ -528,22 +481,25 @@
     {:menu "Intro"
      :title    "Web/MX: Simplicity. Power. Fun."
      :builder  in-review
-     :preamble ["With Web/MX, we build sophisticated interfaces from just a few big ideas:<br>
+     :preamble ["With <a target=_blank href='https://github.com/kennytilton/web-mx'>Web/MX</a>, we build sophisticated interfaces around a few ideas:<br>
                 <ul type=circle>
                 <li>stick to <a target=_blank href='https://developer.mozilla.org/en-US/docs/Web/HTML'>standard</a> HTML, SVG, and CSS&hellip;</li>
                 <li>...but extend standard elements with ad hoc state;</li>
                 <li>bring it all alive with reactive formulas;</li>
-                <li>let formulas derive from any other app state;</li>
-                <li>let event handlers modify any app state;</li>
+                <li>let formulas use any other app state;</li>
+                <li>let async handlers change any app state;</li>
                 <li>support \"watch\" functions for side effects;</li>
                 <li>make it all declarative and transparent; and</li>
-                <li>because programming this way is so much fun, create thin reactive wrappers for routing, XHR, localStorage&mdash;as much
-                as practical.</li>
+                <li>because this is so much fun, create reactive wrappers for routing, XHR, localStorage&mdash;as much
+                as we like.</li>
                  </ul>
-                 No VDOM, no pre-processor, no compiler, no special view functions, no <code>setState</code>, and no separate store.
-                 Just transparent, fine-grained reactivity."
-                "And it scales:
+                 No VDOM, no pre-processor, no compiler, no special view functions, no setState, no subscribe/notify, no hooks,
+                 no refs, and no separate store.
+                 <br><br>Just transparent, fine-grained reactivity."
+                "Minimalist, but it scales:
                 <li>a simulated <a target=_blank href=\"http://tiltonsalgebra.com/#\">private Algebra tutor</a>;</li>
-                <li>a browser for the monthly <a target=_blank href=\"https://kennytilton.github.io/whoishiring/\">AskHN: Who's Hiring?</a> question.</li>"
+                <li>a browser for the monthly <a target=_blank
+                href=\"https://kennytilton.github.io/whoishiring/\">AskHN: Who's Hiring?</a> question; and</li>
+                <li>to a lesser degree, this <a target=_blank href=\"https://github.com/kennytilton/kennytilton.github.io/tree/master/web-mx-quickstart\">Quick Start.</a>;</li>"
                 "In the remaining panels, we expand on each idea above, exemplified below.<br>&nbsp;"]
      :comment  nil}))

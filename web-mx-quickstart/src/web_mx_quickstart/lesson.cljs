@@ -165,10 +165,10 @@
     (span {:class :digi-readout}
       {:name        :speedometer
        :mph         65
-
-       ;; <b>'cF', or "cell formula", defines a computed/derived property.</b>
-       ;; <b>When properties, such as 'mph', are read by a formula, the formula is re-run.</b>
        :too-fast?   (cF (> (mget me :mph) 55))
+       ;; <b>'cF', or "cell formula", defines a computed/derived property.</b>
+       ;; <b>'me' is lexically injected, like JS 'this' or Smalltalk 'self'.</b>
+       ;; <b>Properties such as 'mph' are transparently subscribed.</b>
        :speedo-text (cF (str (mget me :mph) " mph"
                           (when (mget me :too-fast?) "<br>Slow down")))}
       (mget me :speedo-text))))
@@ -177,13 +177,14 @@
   {:menu     "Functional<br>Properties"
    :title    "Functional, computed, reactive properties"
    :builder  derived-state
-   :code     "(div {:class :intro}\n    (h2 \"The speed is now...\")\n    (span {:class :digi-readout}\n      {:name :speedometer\n       :mph         65\n       \n       ;; <b>'cF', or \"cell formula\", defines a computed/derived property.</b>\n       ;; <b>When properties, such as 'mph', are read by a formula, the formula is re-run.</b>\n       :too-fast?   (cF (> (mget me :mph) 55))\n       :speedo-text (cF (str (mget me :mph) \" mph\"\n                          (when (mget me :too-fast?) \"Slow down\")))}\n      (mget me :speedo-text)))"
+   :code     "(div {:class :intro}\n    (h2 \"The speed is now...\")\n    (span {:class :digi-readout}\n      {:name        :speedometer\n       :mph         65\n       :too-fast?   (cF (> (mget me :mph) 55))\n       ;; <b>'cF', or \"cell formula\", defines a computed/derived property.</b>\n       ;; <b>'me' is lexically injected, like JS 'this' or Smalltalk 'self'.</b>\n       ;; <b>Properties such as 'mph' are transparently subscribed.</b>\n       :speedo-text (cF (str (mget me :mph) \" mph\"\n                          (when (mget me :too-fast?) \"<br>Slow down\")))}\n      (mget me :speedo-text)))"
    :preamble "A property can be expressed as a function, or \"formula\", of other properties."
    :comment  ["The <code>too-fast?</code> property is fed by the reactive formula <code>(cF (> (mget me :mph) 55))</code>.
     When <code>mph</code> changes, <code>too-fast?</code> will be recomputed, then <code>speedo-text</code>."
-              "Interdependent properties form the same coherent, one-way graph (DAG) as found in Flux derivatives,
-              but without us doing anything; Matrix internals identify the DAG for us."
-              "D/X note: different instances can have different formulas for the same property,
+              "Formula dependencies are automatically captured, and adjusted on each evaluation.
+               Together they form the same coherent, one-way DAG found in Flux derivatives,
+               but without us doing anything; Matrix internals identify the DAG for us."
+              "Note that different instances can have different formulas for the same property,
               extending the \"prototype\" reusability win.</li>"]})
 
 ;;; --- Navigation ------------------------------

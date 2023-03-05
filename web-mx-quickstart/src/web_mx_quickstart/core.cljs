@@ -57,7 +57,7 @@
                                (mset! me :selected-demo (nth demos new-x)))))
                          (prn :keydowner (.-key evt) (.-shiftKey evt) #_(gobj/getKeys evt))))
      :demos          demos
-     :show-glossary? (cI true)}
+     :show-glossary? (cI false)}
 
     (div {:style {:display :flex
                   :gap     "2em"}}
@@ -126,7 +126,7 @@
     (gdom/appendChild root app-dom)))
 
 (main #(md/make ::intro
-         :mx-dom (quick-start "Web/MX&trade;<br>Quick Start" 4
+         :mx-dom (quick-start "Web/MX&trade;<br>Quick Start" 0
                    lesson/ex-tl-dr
                    lesson/ex-just-html
                    lesson/ex-and-cljs
