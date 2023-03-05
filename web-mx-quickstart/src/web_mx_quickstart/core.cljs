@@ -46,7 +46,6 @@
                          (let [demos (mget me :demos)
                                demo (mget me :selected-demo)
                                curr-x (.indexOf demos demo)]
-                           (prn :curr curr-x :key (.-key evt) :shift (.-shiftKey evt))
                            (when-let [new-x (case (.-key evt)
                                               "Home" 0
                                               "End" (dec (count demos))
@@ -54,8 +53,7 @@
                                               ("ArrowLeft" "ArrowUp" "PageUp") (dec curr-x)
                                               nil)]
                              (when (<= 0 new-x (dec (count demos)))
-                               (mset! me :selected-demo (nth demos new-x)))))
-                         (prn :keydowner (.-key evt) (.-shiftKey evt) #_(gobj/getKeys evt))))
+                               (mset! me :selected-demo (nth demos new-x)))))))
      :demos          demos
      :show-glossary? (cI false)}
 
@@ -126,7 +124,7 @@
     (gdom/appendChild root app-dom)))
 
 (main #(md/make ::intro
-         :mx-dom (quick-start "Web/MX&trade;<br>Quick Start" 0
+         :mx-dom (quick-start "Web/MX&trade;<br>Quick Start" 8
                    lesson/ex-tl-dr
                    lesson/ex-just-html
                    lesson/ex-and-cljs
