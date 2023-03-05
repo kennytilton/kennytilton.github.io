@@ -86,13 +86,11 @@
               (p {:class :preamble} preamble)
               (doall (for [elt preamble]
                        (p {:class :preamble} elt)))))
-          (div {:style {:border-color "orange"
-                        :border-style "solid"
-                        :border-width "2px"}}
+          (div {:class :demo}
             ((:builder demo)))
 
           (pre {:class :lesson-code}
-            (code {:style {:font-size "16px"}}
+            (code {:style {:font-size "14px"}}
               (:code demo)))
 
           (div {:class :glossary}

@@ -84,11 +84,13 @@
     (span {:class "digi-readout"} "42")
     (div {:style {:display :flex
                   :gap     "1em"}}
-      ;; <b>children, below built into a vector, are automatically flattened, with any nils removed</b>
+      ;; <b>children, below built into a vector using CLJS,
+      ;; are automatically flattened, with any nils removed</b>
       (mapv (fn [opcode]
               (when (= 1 (count opcode))
                 (button {:class   :push-button
-                         :onclick #(js/alert (str "Opcode \"" opcode "\" not yet implemented"))}
+                         :onclick #(js/alert
+                                     (str "Opcode \"" opcode "\" RSN."))}
                   opcode)))
         ["-" "=" "+" "boom"]))))
 
@@ -96,7 +98,7 @@
   {:menu     "...and CLJS"
    :title    "...and CLJS" :builder and-cljs
    :preamble "It is just HTML <i>and</i> CLJS."
-   :code     "(div {:class :intro}\n    (h2 \"The count is now...\")\n    (span {:class \"digi-readout\"} \"42\")\n    (div {:style {:display :flex\n                  :gap     \"1em\"}}\n      ;; <b>children, below built into a vector, are automatically flattened, with any nils removed</b>\n      (mapv (fn [opcode]\n              (when (= 1 (count opcode))\n                (button {:class   :push-button\n                         :onclick #(js/alert (str \"Opcode \\\"\" opcode \"\\\" not yet implemented\"))}\n                  opcode)))\n        [\"-\" \"=\" \"+\" \"boom\"])))"
+   :code     "(defn and-cljs []\n  (div {:class :intro}\n    (h2 \"The count is now...\")\n    (span {:class \"digi-readout\"} \"42\")\n    (div {:style {:display :flex\n                  :gap     \"1em\"}}\n      ;; <b>children, below built into a vector using CLJS,\n      ;; are automatically flattened, with any nils removed</b>\n      (mapv (fn [opcode]\n              (when (= 1 (count opcode))\n                (button {:class   :push-button\n                         :onclick #(js/alert\n                                     (str \"Opcode \\\"\" opcode \"\\\" RSN.\"))}\n                  opcode)))\n        [\"-\" \"=\" \"+\" \"boom\"]))))"
    :comment  ["In fact, all this code is CLJS. For example, DIV is a CLJS macro that returns
     a Clojure <i>proxy</i> for a DOM DIV. Proxies are not VDOM. Proxies are long-lived models that manage their DOM incarnations as events unfold."]})
 
@@ -533,14 +535,14 @@
                 <li>stick to <a target=_blank href='https://developer.mozilla.org/en-US/docs/Web/HTML'>standard</a> HTML, SVG, and CSS&hellip;</li>
                 <li>...but extend standard elements with ad hoc state;</li>
                 <li>bring it all alive with reactive formulas;</li>
-                <li>let formulas derive from any other app state;</li>
-                <li>let event handlers modify any app state;</li>
+                <li>let formulas use any other app state;</li>
+                <li>let event handlers change any app state;</li>
                 <li>support \"watch\" functions for side effects;</li>
                 <li>make it all declarative and transparent; and</li>
                 <li>because programming this way is so much fun, create thin reactive wrappers for routing, XHR, localStorage&mdash;as much
                 as practical.</li>
                  </ul>
-                 No VDOM, no pre-processor, no compiler, no special view functions, no <code>setState</code>, and no separate store.
+                 No VDOM, no pre-processor, no compiler, no special view functions, no setState, and no separate store.
                  Just transparent, fine-grained reactivity."
                 "And it scales:
                 <li>a simulated <a target=_blank href=\"http://tiltonsalgebra.com/#\">private Algebra tutor</a>;</li>
