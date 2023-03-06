@@ -31,9 +31,9 @@
                           label)))
              (do
                (prn :toolbar-sees menu route (keys demo))
-               (a {:href     route
+               (a {:href     (str "#/" (name route))
                    :selector menu
-                   :class    nil #_(cF (when (= (:selector @me) (mx-route me))
+                   :class    :pushbutton #_ (cF (when (= (:selector @me) (mx-route me))
                                          "selected"))}
                  menu))
              #_(button {:class   :pushbutton
@@ -50,24 +50,25 @@
 (defn quick-start [demo-title start-demo-ix demos]
   (div {}
     {:name           :demos
-     :selected-demo  (cF (let [app (fmu :app)]
+     :selected-demo  (cF (let [app @md/matrix]
                            (prn :got-app!!! app)
+                           (prn :got-app!!!-route (mget app :route))
                            (nth demos 2)))
-     #_#_ :keydowner      (cF+ [:watch (fn [_ me new _ _]
-                                    (.addEventListener js/document "keydown" new))]
-                       (fn [evt]
-                         (.stopPropagation evt)
-                         (let [demos (mget me :demos)
-                               demo (mget me :selected-demo)
-                               curr-x (.indexOf demos demo)]
-                           (when-let [new-x (case (.-key evt)
-                                              "Home" 0
-                                              "End" (dec (count demos))
-                                              ("ArrowRight" "ArrowDown" "PageDown") (inc curr-x)
-                                              ("ArrowLeft" "ArrowUp" "PageUp") (dec curr-x)
-                                              nil)]
-                             (when (<= 0 new-x (dec (count demos)))
-                               (mset! me :selected-demo (nth demos new-x)))))))
+     #_#_:keydowner (cF+ [:watch (fn [_ me new _ _]
+                                   (.addEventListener js/document "keydown" new))]
+                      (fn [evt]
+                        (.stopPropagation evt)
+                        (let [demos (mget me :demos)
+                              demo (mget me :selected-demo)
+                              curr-x (.indexOf demos demo)]
+                          (when-let [new-x (case (.-key evt)
+                                             "Home" 0
+                                             "End" (dec (count demos))
+                                             ("ArrowRight" "ArrowDown" "PageDown") (inc curr-x)
+                                             ("ArrowLeft" "ArrowUp" "PageUp") (dec curr-x)
+                                             nil)]
+                            (when (<= 0 new-x (dec (count demos)))
+                              (mset! me :selected-demo (nth demos new-x)))))))
      :demos          (take 3 demos)
      :show-glossary? (cI false)}
 
@@ -138,8 +139,8 @@
     (set! (.-innerHTML root) nil)
     (gdom/appendChild root app-dom)
 
-    (when-let [route-starter (md/mget app-matrix :router-starter)]
-      (route-starter))))
+    (when-let [router-starter (md/mget app-matrix :router-starter)]
+      (router-starter))))
 
 (def lessons [lesson/ex-tl-dr
               lesson/ex-just-html
@@ -158,16 +159,22 @@
 (main #(md/make ::intro
          :name :app
          :route (cI "tl-dr")
-         :router-starter (r/start! (r/router (into [] (concat [["/" :tl-dr]]
-                                               (mapv (fn [{:keys [route]}]
-                                                       [(str "/" (name route)) route])
-                                                 (take 3 lessons)))))
-                           {:default     :ignore
-                            :on-navigate (fn [route params query]
-                                           (prn :on-navigate-sees route params query)
-                                           (when-let [mtx @md/matrix]
-                                             (prn :on-navigate-seTs!!! route params query)
-                                             (mset! mtx :route (name route))))})
+         :router-starter (fn []
+                           (r/start! (r/router [["/" :tl-dr]
+                                                ["/just-html" :just-html]
+                                                ["/and-cljs" :and-cljs]
+                                                ["/intro" :tl-dr]]
+                                       #_(into [] (concat [["/" :tl-dr]]
+                                                    (map (fn [{:keys [route]}]
+                                                           (prn :routing [(str "/" (name route)) route])
+                                                           [(str "/" (name route)) route])
+                                                      (take 3 lessons)))))
+                             {:default     :ignore
+                              :on-navigate (fn [route params query]
+                                             (prn :on-navigate-sees route params query)
+                                             (when-let [mtx @md/matrix]
+                                               (prn :on-navigate-seTs!!! route params query)
+                                               (mset! mtx :route (name route))))}))
          :mx-dom (quick-start "Web/MX&trade;<br>Quick Start" 0 lessons)))
 
 ;

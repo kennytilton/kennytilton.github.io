@@ -62,7 +62,7 @@
 
 (def ex-just-html
   {:menu     "Just HTML"
-   :route "#/just-html"
+   :route :just-html
    :title    "It's Just HTML"
    :ns       "tiltontec.example.quick-start.lesson/just-html"
    :builder  just-html
@@ -96,7 +96,7 @@
 
 (def ex-and-cljs
   {:menu     "...and CLJS"
-   :route "#/and-cljs"
+   :route :and-cljs
    :title    "...and CLJS" :builder and-cljs
    :preamble "It is just HTML <i>and</i> CLJS."
    :code     "(defn and-cljs []\n  (div {:class :intro}\n    (h2 \"The count is now...\")\n    (span {:class \"digi-readout\"} \"42\")\n    (div {:style {:display :flex\n                  :gap     \"1em\"}}\n      ;; <b>children, below built into a vector using CLJS,\n      ;; are automatically flattened, with any nils removed</b>\n      (mapv (fn [opcode]\n              (when (= 1 (count opcode))\n                (button {:class   :push-button\n                         :onclick #(js/alert\n                                     (str \"Opcode \\\"\" opcode \"\\\" RSN.\"))}\n                  opcode)))\n        [\"-\" \"=\" \"+\" \"boom\"]))))"
@@ -126,7 +126,7 @@
 
 (def ex-html-composition
   {:menu     "Composable<br>Widgets"
-   :route "#/html-composition"
+   :route :html-composition
    :title    "Functional GUI Composition"
    :builder  html-composition
    :preamble "Because it is all CLJS, we can move sub-structure into functions."
@@ -148,7 +148,7 @@
 
 (def ex-custom-state
   {:menu     "In-place<br>State"
-   :route "#/custom-state"
+   :route :custom-state
    :title    "\"In-place\" widget state, property by property"
    :builder  custom-state
    :preamble "Widgets define whatever state they need."
@@ -179,7 +179,7 @@
 
 (def ex-derived-state
   {:menu     "Functional<br>Properties"
-   :route "#/derived-state"
+   :route :derived-state
    :title    "Functional, computed, reactive properties"
    :builder  derived-state
    :code     "(div {:class :intro}\n    (h2 \"The speed is now...\")\n    (span {:class :digi-readout}\n      {:name        :speedometer\n       :mph         65\n       :too-fast?   (cF (> (mget me :mph) 55))\n       ;; <b>'cF', or \"cell formula\", defines a computed/derived property.</b>\n       ;; <b>'me' is lexically injected, like JS 'this' or Smalltalk 'self'.</b>\n       ;; <b>Properties such as 'mph' are transparently subscribed.</b>\n       :speedo-text (cF (str (mget me :mph) \" mph\"\n                          (when (mget me :too-fast?) \"<br>Slow down\")))}\n      (mget me :speedo-text)))"
@@ -448,7 +448,7 @@
 (def ex-tl-dr
   (merge ex-in-review
     {:menu "Intro"
-     :route "#/tl-dr"
+     :route :intro
      :title    "Web/MX: Simplicity. Power. Fun."
      :builder  in-review
      :preamble ["With <a target=_blank href='https://github.com/kennytilton/web-mx'>Web/MX</a>, we build sophisticated interfaces around a few ideas:<br>
