@@ -62,13 +62,14 @@
 
 (def ex-just-html
   {:menu     "Just HTML"
+   :route    :just-html
    :title    "It's Just HTML"
    :ns       "tiltontec.example.quick-start.lesson/just-html"
    :builder  just-html
    :preamble "We just write HTML, SVG, and CSS, using CLJS workalikes."
    :comment  ["Web/MX introduces no framework of its own, it just manages the DOM. Matrix just manages the state."
-    "Aside from CLJS->JS, no preprocessor is involved, and the stability of CLJS makes this one exception
-    a net win."]
+              "Aside from CLJS->JS, no preprocessor is involved, and the stability of CLJS makes this one exception
+              a net win."]
    :code     "(div {:class :intro}\n    ;; <b>^^ if the first argument to any tag is a literal map, the key-values</b>\n    ;; <b>become HTML element attribute-values, with keywords => strings</b>\n\n    (h2 \"The count is now....\")\n    (span {:class :digi-readout} \"42\")\n    ;; <b>^^ arguments following the optional maps become children, or text content</b>\n\n    (svg {:width   64 :height 64\n          ;; <b> ^^^ numbers also get string-ified for the DOM constructors</b>\n          :cursor :pointer\n          :onclick #(js/alert \"Increment Feature Not Yet Implemented\")}\n      (circle {:cx     \"50%\" :cy \"50%\" :r \"40%\"\n               :stroke \"orange\" :stroke-width 5\n               :fill   :transparent})\n      (text {:class       :heavychar\n             :x \"50%\" :y \"70%\"\n             :text-anchor :middle} \"+\")))"
    :exercise ["Feel free to experiment with other HTML or SVG tags."
               "Where HTML has <code>&lt;tag attributes*> children*&lt;/tag></code><br>...Web/MX has: <code>(tag {attributes*} children*)</code>."
@@ -95,6 +96,7 @@
 
 (def ex-and-cljs
   {:menu     "...and CLJS"
+   :route    :and-cljs
    :title    "...and CLJS" :builder and-cljs
    :preamble "It is just HTML <i>and</i> CLJS."
    :code     "(defn and-cljs []\n  (div {:class :intro}\n    (h2 \"The count is now...\")\n    (span {:class \"digi-readout\"} \"42\")\n    (div {:style {:display :flex\n                  :gap     \"1em\"}}\n      ;; <b>children, below built into a vector using CLJS,\n      ;; are automatically flattened, with any nils removed</b>\n      (mapv (fn [opcode]\n              (when (= 1 (count opcode))\n                (button {:class   :push-button\n                         :onclick #(js/alert\n                                     (str \"Opcode \\\"\" opcode \"\\\" RSN.\"))}\n                  opcode)))\n        [\"-\" \"=\" \"+\" \"boom\"]))))"
@@ -124,6 +126,7 @@
 
 (def ex-html-composition
   {:menu     "Composable<br>Widgets"
+   :route    :html-composition
    :title    "Functional GUI Composition"
    :builder  html-composition
    :preamble "Because it is all CLJS, we can move sub-structure into functions."
@@ -145,6 +148,7 @@
 
 (def ex-custom-state
   {:menu     "In-place<br>State"
+   :route    :custom-state
    :title    "\"In-place\" widget state, property by property"
    :builder  custom-state
    :preamble "Widgets define whatever state they need."
@@ -175,6 +179,7 @@
 
 (def ex-derived-state
   {:menu     "Functional<br>Properties"
+   :route    :derived-state
    :title    "Functional, computed, reactive properties"
    :builder  derived-state
    :code     "(div {:class :intro}\n    (h2 \"The speed is now...\")\n    (span {:class :digi-readout}\n      {:name        :speedometer\n       :mph         65\n       :too-fast?   (cF (> (mget me :mph) 55))\n       ;; <b>'cF', or \"cell formula\", defines a computed/derived property.</b>\n       ;; <b>'me' is lexically injected, like JS 'this' or Smalltalk 'self'.</b>\n       ;; <b>Properties such as 'mph' are transparently subscribed.</b>\n       :speedo-text (cF (str (mget me :mph) \" mph\"\n                          (when (mget me :too-fast?) \"<br>Slow down\")))}\n      (mget me :speedo-text)))"
@@ -211,6 +216,7 @@
 (def ex-navigation
   {:menu     "Random State<br>Access"
    :title    "Random state access"
+   :route :navigation
    :builder  navigation
    :preamble "A widget property can retrieve state as needed from any other component."
    :code     "(div {:class :intro}\n    {:name        :speed-zone\n     :speed-limit 55}\n    (h2 {}\n      ;; <b>`fasc` searches up the parent chain only</b>\n      {:text (cF (let [zone (fasc :speed-zone me)\n                       speedo (fmu :speedometer)]\n                   (pp/cl-format nil \"The speed is now ~a mph over the speed limit.\"\n                     (- (mget speedo :mph) (mget zone :speed-limit)))))}\n      (mget me :text))\n    (span {:class :digi-readout}\n      {:name      :speedometer\n       :mph       60\n       :too-fast? (cF (> (mget me :mph)\n                        (mget (fasc :speed-zone me) :speed-limit)))}\n      (str (mget me :mph) \" mph\"\n        (when (mget me :too-fast?) \"Slow down\"))))"
@@ -262,6 +268,7 @@
   {:menu     "Random State<br>Mutation"
    :title    "Random state DAG change"
    :ns       "tiltontec.example.quick-start.lesson/handler-mutation"
+   :route :dag-mutation
    :builder  handler-mutation
    :preamble ["A widget event handler can mutate any property of any widget. Give it a try."]
    :code     "(defn speed-plus [onclick]\n  (svg {:width   64 :height 64 :cursor :pointer\n        :onclick onclick}\n    (circle {:cx     \"50%\" :cy \"50%\" :r \"40%\"\n             :stroke \"orange\" :stroke-width 5\n             :fill   :transparent})\n    (text {:class       :heavychar :x \"50%\" :y \"70%\"\n           :text-anchor :middle} \"+\")))\n\n(defn handler-mutation []\n  (div {:class :intro}\n    (h2 \"The speed limit is 55 mph. Your speed is now...\")\n    (span {:class :digi-readout\n           :style (cF {:color (if (> (mget me :mph) 55)\n                                \"red\" \"cyan\")})}\n      {:name    :speedometer\n       ;; <b>If we intend to mutate a property, we must wrap the value in `cI`, short for \"cell input\"</b>\n       :mph     (cI 42)\n       :display (cF (str (mget me :mph) \" mph\"))}\n      (mget me :display))\n    (speed-plus (fn [evt]\n                  ;; <b>`evt-md` (event model) determines the MX proxy/model associated with a handler event.</b>\n                  ;; <b>'mswap!' performs a Clojure 'swap!' on the ':mph' property of the model.</b>\n                  (mswap! (fmu :speedometer (evt-md evt)) :mph inc)))))"
@@ -291,6 +298,7 @@
 (def ex-watches
   {:menu     "State Watch<br>Functions"
    :title    "\"On-change\" watch functions"
+   :route :watches
    :builder  watches
    :preamble "Any property can use an on-change \"watch\" function for side-effects."
    :code     "(div {:class :intro}\n    (h2 \"The speed is now...\")\n    (span {:class   :digi-readout\n           :onclick #(mswap! (evt-md %) :mph inc)}\n      {:name    :speedometer\n       :mph     (cI 42 :watch (fn [slot me new-val prior-val cell]\n                                ;; <b>`cI`, cell input, takes a :watch function</b>\n                                (prn :watch-sees-change slot new-val)))\n       :display (cF (str (mget me :mph) \" mph\"))}\n      (mget me :display))\n    (speed-plus (fn [evt]\n                  (mswap! (fmu :speedometer (evt-md evt)) :mph inc))))"
@@ -324,6 +332,7 @@
 (def ex-watch-cc
   {:menu     "Watch State<br>Mutation"
    :title    "Exception: how watches can mutate state"
+   :route :watch-cc
    :builder  watch-cc
    :preamble "Watch functions must operate outside Matrix state flow, but <i>can</i> enqueue alterations
     of Matrix state for subsequent execution."
@@ -340,6 +349,7 @@
    :preamble ["Matrix silently maintains an internal DAG at run time by noting when one property formula reads
     another property. When a property is modified, Matrix uses the derived DAG to ensure
      the \"data integrity\" invariants listed below."]
+   :route :data-integrity
    :builder  watch-cc
    :code     "(div {:class :intro}\n    (h2 \"The speed is now...\")\n    (span {:class   :digi-readout\n           :onclick #(mswap! (evt-md %) :mph inc)}\n      {:mph     (cI 42 :watch (fn [slot me new-val prior-val cell]\n                                (when (> new-val 55)\n                                  (with-cc :speed-governor\n                                    (mset! me :mph 45)))))\n       :display (cF (str (mget me :mph) \" mph\"))}\n      (mget me :display))\n    (p \"Click display to increment.\"))"
    :comment  ["<h3>The Data Integrity Contract</h3> When application code assigns a value to some input cell X, the Matrix engine guarantees:
@@ -390,6 +400,7 @@
 (def ex-async-cat
   {:menu     "Async"
    :title    "Async event processing"
+   :route :cat-chat
    :builder  async-cat
    :preamble "Async processing can be a challenge, but in Matrix an async response is just another \"input\" property mutation."
    :code     "(div {:class \"intro\"}\n    (span {:class :push-button}\n      \"Cat Chat\")\n    (speed-plus #(mset! (fmu :cat-fact (evt-md %)) :get-new-fact? true))\n    (div {:class :cat-chat}\n      {:name          :cat-fact\n       :get-new-fact? (cI false\n\n                        ;; <b>The \"plus\" widget will set this property repeatedly\n                        ;; to the same value, 'true'. Declaring it \"ephemeral?\" means\n                        ;; it will fire each time that same value is set.</b>\n                        :ephemeral? true)\n       :cat-request   (cF+\n                        ;; <b>`cF+`, or \"cF plus\", accepts cell options</b>\n                        [:watch (fn [_ me response-chan _ _]\n                                  (when response-chan\n                                    (go (let [response (&lt;! response-chan)]\n\n                                          ;; <b>whenever the XHR responds,</b>\n                                          ;; <b>we just `mset!` the \"waiting\" input cell</b>\n                                          (with-cc :set-cat\n                                            (mset! me :cat-response response))))))]\n                        (when (mget me :get-new-fact?)\n                          (client/get cat-fact-uri {:with-credentials? false})))\n       :cat-response  (cI nil)}\n\n      (if-let [response (mget me :cat-response)]\n        (if (:success response)\n          (span (get-in response [:body :fact]))\n          (str \"Error>  \" (:error-code response)\n            \": \" (:error-text response)))\n        \"Click (+) to see a chat fact.\")))"
@@ -426,7 +437,9 @@
     (speed-plus #(mswap! (fmu :speedometer (evt-md %)) :mph inc))))
 
 (def ex-in-review
-  {:title    "Review"
+  {:menu "Review"
+   :title    "Review"
+   :route :in-review
    :builder  in-review
    :preamble "Our closing example reprises all the key Web/MX features."
    :code     "(div {:class :intro}\n    (h2 (let [excess (- (mget (fmu :speedometer) :mph) 55)]\n          (pp/cl-format nil \"The speed is ~8,1f mph ~:[over~;under~] the speed limit.\"\n            (Math/abs excess)  (neg? excess) )))\n    (span {:class   :digi-readout\n           :style   (cF {:color (if (> (mget me :mph) 55)\n                                  \"red\" \"cyan\")})}\n      {:name :speedometer\n       :mph     (cI 42)\n       :air-drag (cF (js/setInterval\n                       #(mswap! me :mph * 0.98) 1000))}\n      (pp/cl-format nil  \"~8,1f mph\" (mget me :mph)))\n    (speed-plus #(mswap! (fmu :speedometer (evt-md %)) :mph inc)))"
@@ -442,7 +455,8 @@
 
 (def ex-tl-dr
   (merge ex-in-review
-    {:menu "Intro"
+    {:menu     "Intro"
+     :route    :intro
      :title    "Web/MX: Simplicity. Power. Fun."
      :builder  in-review
      :preamble ["With <a target=_blank href='https://github.com/kennytilton/web-mx'>Web/MX</a>, we build sophisticated interfaces around a few ideas:<br>

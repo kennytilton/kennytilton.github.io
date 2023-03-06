@@ -25,14 +25,17 @@
              (a {:href     (str "#/" (name route))
                  :selector menu
                  :style (cF (let [curr-route (mget (fasc :quick-start me) :route)]
-                              {:min-width    "144px"
-                               :text-decoration :none
-                               :border-color (if (= route curr-route)
-                                               "orange" "white")
-                               :font-weight  (if (= route curr-route)
-                                               "bold" "normal")}))
-                 :class    :pushbutton #_ (cF (when (= (:selector @me) (mx-route me))
-                                                "selected"))}
+                              (merge
+                                {:min-width    "144px"
+                                 :text-decoration :none
+                                 :border-width "2px"
+                                 :border-style :solid
+                                 :border-color "white"
+                                 :font-weight  "normal"}
+                                (when (= route curr-route)
+                                  {:border-color "orange"
+                                   :font-weight  "bold"}))))
+                 :class    :pushbutton}
                (or menu title))))))
 
 (defn quick-start [lesson-title lessons]
@@ -41,7 +44,7 @@
      :route (cI :intro)
      :router-starter (fn []
                        (r/start! (r/router
-                                   (into [] (concat [["/" :info]]
+                                   (into [] (concat [["/" :intro]]
                                                 (map (fn [{:keys [route]}]
                                                        [(str "/" (name route)) route])
                                                   lessons))))
@@ -50,18 +53,13 @@
                                          (when-let [mtx @md/matrix]
                                            (mset! mtx :route route)))}))
      :selected-lesson  (cF (let [route (mget me :route)]
-                           (prn :route!!! route)
-                           (if-let [d (some (fn [lesson]
+                           (some (fn [lesson]
                                    (when (= route (:route lesson))
-                                     lesson)) lessons)]
-                             (do ;; (prn :dddd d)
-                                 d)
-                             (nth lessons 0))))
-     #_#_:keydowner (cF+ [:watch (fn [_ me new _ _]
+                                     lesson)) lessons)))
+     :keydowner (cF+ [:watch (fn [_ me new _ _]
                                    (.addEventListener js/document "keydown" new))]
                       (fn [evt]
-                        (.stopPropagation evt)
-                        (let [lessons (mget me :quick-start)
+                        (let [lessons (mget me :lessons)
                               lesson (mget me :selected-lesson)
                               curr-x (.indexOf lessons lesson)]
                           (when-let [new-x (case (.-key evt)
@@ -71,7 +69,9 @@
                                              ("ArrowLeft" "ArrowUp" "PageUp") (dec curr-x)
                                              nil)]
                             (when (<= 0 new-x (dec (count lessons)))
-                              (mset! me :selected-lesson (nth lessons new-x)))))))
+                              (.stopPropagation evt)
+                              (.preventDefault evt)
+                              (mset! me :route (:route (nth lessons new-x))))))))
      :lessons          lessons
      :show-glossary? (cI false)}
 
@@ -93,7 +93,8 @@
         (quick-start-toolbar))
 
       (when-let [lesson (mget (fasc :quick-start me) :selected-lesson)]
-        (div {:style {:display        :flex
+        (div {:class :fade-in
+              :style {:display        :flex
                       :flex-direction :column
                       :padding        "6px"}}
           (h1 (:title lesson))
