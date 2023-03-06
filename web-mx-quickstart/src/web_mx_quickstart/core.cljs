@@ -20,27 +20,40 @@
                 :align-items     :start
                 :justify-content :start
                 }}
-    (doall (for [{:keys [menu title] :as demo} (mget (fasc :demos me) :demos)]
-             (button {:class   :pushbutton
-                      :cursor  :finger
-                      :style   (cF (let [curr-demo (mget (fasc :demos me) :selected-demo)]
-                                     {:min-width    "144px"
-                                      :border-color (if (= demo curr-demo)
-                                                      "orange" "white")
-                                      :font-weight  (if (= demo curr-demo)
-                                                      "bold" "normal")}))
-                      :onclick (cF (fn [] (mset! (fmu :demos) :selected-demo demo)))}
-               (or menu title))))))
+    (doall (for [{:keys [menu route] :as demo} (mget (fasc :demos me) :demos)]
+             #_(for [[label route] [["All", "#/"]
+                                    ["Active", "#/active"]
+                                    ["Completed", "#/completed"]]]
+                 (li {} (a {:href     route
+                            :selector label
+                            :class    (cF (when (= (:selector @me) (mx-route me))
+                                            "selected"))}
+                          label)))
+             (do
+               (prn :toolbar-sees menu route (keys demo))
+               (a {:href     route
+                   :selector menu
+                   :class    nil #_(cF (when (= (:selector @me) (mx-route me))
+                                         "selected"))}
+                 menu))
+             #_(button {:class   :pushbutton
+                        :cursor  :finger
+                        :style   (cF (let [curr-demo (mget (fasc :demos me) :selected-demo)]
+                                       {:min-width    "144px"
+                                        :border-color (if (= demo curr-demo)
+                                                        "orange" "white")
+                                        :font-weight  (if (= demo curr-demo)
+                                                        "bold" "normal")}))
+                        :onclick (cF (fn [] (mset! (fmu :demos) :selected-demo demo)))}
+                 (or menu title))))))
 
-(defn quick-start [demo-title start-demo-ix & demos]
+(defn quick-start [demo-title start-demo-ix demos]
   (div {}
     {:name           :demos
-     :selected-demo  (cFn (nth (mget me :demos)
-                            (cond
-                              (neg? start-demo-ix) 0
-                              (>= start-demo-ix (count demos)) (dec (count demos))
-                              :else start-demo-ix)))
-     :keydowner      (cF+ [:watch (fn [_ me new _ _]
+     :selected-demo  (cF (let [app (fmu :app)]
+                           (prn :got-app!!! app)
+                           (nth demos 2)))
+     #_#_ :keydowner      (cF+ [:watch (fn [_ me new _ _]
                                     (.addEventListener js/document "keydown" new))]
                        (fn [evt]
                          (.stopPropagation evt)
@@ -55,7 +68,7 @@
                                               nil)]
                              (when (<= 0 new-x (dec (count demos)))
                                (mset! me :selected-demo (nth demos new-x)))))))
-     :demos          demos
+     :demos          (take 3 demos)
      :show-glossary? (cI false)}
 
     (div {:style {:display :flex
@@ -121,37 +134,41 @@
         app-matrix (mx-builder)
         app-dom (tag-dom-create
                   (mget app-matrix :mx-dom))]
+    (reset! md/matrix app-matrix)
     (set! (.-innerHTML root) nil)
     (gdom/appendChild root app-dom)
 
     (when-let [route-starter (md/mget app-matrix :router-starter)]
       (route-starter))))
 
+(def lessons [lesson/ex-tl-dr
+              lesson/ex-just-html
+              lesson/ex-and-cljs
+              lesson/ex-html-composition
+              lesson/ex-custom-state
+              lesson/ex-derived-state
+              lesson/ex-navigation
+              lesson/ex-handler-mutation
+              lesson/ex-watches
+              lesson/ex-watch-cc
+              lesson/ex-async-cat
+              lesson/ex-data-integrity
+              lesson/ex-in-review])
+
 (main #(md/make ::intro
+         :name :app
          :route (cI "tl-dr")
-         :router-starter (r/start! (r/router [["/" :tl-dr]
-                                              ["/tl-dr" :tl-dr]
-                                              ["/just-html" :just-html]
-                                              ["/and-cljs" :and-cljs]])
+         :router-starter (r/start! (r/router (into [] (concat [["/" :tl-dr]]
+                                               (mapv (fn [{:keys [route]}]
+                                                       [(str "/" (name route)) route])
+                                                 (take 3 lessons)))))
                            {:default     :ignore
                             :on-navigate (fn [route params query]
                                            (prn :on-navigate-sees route params query)
                                            (when-let [mtx @md/matrix]
+                                             (prn :on-navigate-seTs!!! route params query)
                                              (mset! mtx :route (name route))))})
-         :mx-dom (quick-start "Web/MX&trade;<br>Quick Start" 0
-                   lesson/ex-tl-dr
-                   lesson/ex-just-html
-                   lesson/ex-and-cljs
-                   lesson/ex-html-composition
-                   lesson/ex-custom-state
-                   lesson/ex-derived-state
-                   lesson/ex-navigation
-                   lesson/ex-handler-mutation
-                   lesson/ex-watches
-                   lesson/ex-watch-cc
-                   lesson/ex-async-cat
-                   lesson/ex-data-integrity
-                   lesson/ex-in-review)))
+         :mx-dom (quick-start "Web/MX&trade;<br>Quick Start" 0 lessons)))
 
 ;
 ;;; specify reload hook with ^:after-load metadata
