@@ -50,10 +50,31 @@
 (defn quick-start [demo-title start-demo-ix demos]
   (div {}
     {:name           :demos
-     :selected-demo  (cF (let [app @md/matrix]
-                           (prn :got-app!!! app)
-                           (prn :got-app!!!-route (mget app :route))
-                           (nth demos 2)))
+     :route (cI :intro)
+     :router-starter (fn []
+                       (r/start! (r/router #_ [["/" :intro]
+                                            ["/just-html" :just-html]
+                                            ["/and-cljs" :and-cljs]
+                                            ["/intro" :intro]]
+                                   (into [] (concat [["/" :info]]
+                                                (map (fn [{:keys [route]}]
+                                                       (prn :routing [(str "/" (name route)) route])
+                                                       [(str "/" (name route)) route])
+                                                  (take 3 lessons)))))
+                         {:default     :ignore
+                          :on-navigate (fn [route params query]
+                                         (prn :on-navigate-sees route params query)
+                                         (when-let [mtx @md/matrix]
+                                           (prn :on-navigate-seTs!!! route params query)
+                                           (mset! mtx :route route)))}))
+     :selected-demo  (cF (let [route (mget me :route)]
+                           (prn :route!!! route)
+                           (if-let [d (some (fn [demo]
+                                   (when (= route (:route demo))
+                                     demo)) demos)]
+                             (do (prn :dddd d)
+                                 d)
+                             (nth demos 0))))
      #_#_:keydowner (cF+ [:watch (fn [_ me new _ _]
                                    (.addEventListener js/document "keydown" new))]
                       (fn [evt]
@@ -133,8 +154,7 @@
   (let [root (gdom/getElement "app")
         ;; ^^^ "app" must be ID of DIV defined in index.html
         app-matrix (mx-builder)
-        app-dom (tag-dom-create
-                  (mget app-matrix :mx-dom))]
+        app-dom (tag-dom-create app-matrix)]
     (reset! md/matrix app-matrix)
     (set! (.-innerHTML root) nil)
     (gdom/appendChild root app-dom)
@@ -156,26 +176,7 @@
               lesson/ex-data-integrity
               lesson/ex-in-review])
 
-(main #(md/make ::intro
-         :name :app
-         :route (cI "tl-dr")
-         :router-starter (fn []
-                           (r/start! (r/router [["/" :tl-dr]
-                                                ["/just-html" :just-html]
-                                                ["/and-cljs" :and-cljs]
-                                                ["/intro" :tl-dr]]
-                                       #_(into [] (concat [["/" :tl-dr]]
-                                                    (map (fn [{:keys [route]}]
-                                                           (prn :routing [(str "/" (name route)) route])
-                                                           [(str "/" (name route)) route])
-                                                      (take 3 lessons)))))
-                             {:default     :ignore
-                              :on-navigate (fn [route params query]
-                                             (prn :on-navigate-sees route params query)
-                                             (when-let [mtx @md/matrix]
-                                               (prn :on-navigate-seTs!!! route params query)
-                                               (mset! mtx :route (name route))))}))
-         :mx-dom (quick-start "Web/MX&trade;<br>Quick Start" 0 lessons)))
+(main #(quick-start "Web/MX&trade;<br>Quick Start" 0 lessons))
 
 ;
 ;;; specify reload hook with ^:after-load metadata
