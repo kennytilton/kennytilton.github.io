@@ -20,77 +20,59 @@
                 :align-items     :start
                 :justify-content :start
                 }}
-    (doall (for [{:keys [menu route] :as demo} (mget (fasc :demos me) :demos)]
-             #_(for [[label route] [["All", "#/"]
-                                    ["Active", "#/active"]
-                                    ["Completed", "#/completed"]]]
-                 (li {} (a {:href     route
-                            :selector label
-                            :class    (cF (when (= (:selector @me) (mx-route me))
-                                            "selected"))}
-                          label)))
-             (do
-               (prn :toolbar-sees menu route (keys demo))
-               (a {:href     (str "#/" (name route))
-                   :selector menu
-                   :class    :pushbutton #_ (cF (when (= (:selector @me) (mx-route me))
-                                         "selected"))}
-                 menu))
-             #_(button {:class   :pushbutton
-                        :cursor  :finger
-                        :style   (cF (let [curr-demo (mget (fasc :demos me) :selected-demo)]
-                                       {:min-width    "144px"
-                                        :border-color (if (= demo curr-demo)
-                                                        "orange" "white")
-                                        :font-weight  (if (= demo curr-demo)
-                                                        "bold" "normal")}))
-                        :onclick (cF (fn [] (mset! (fmu :demos) :selected-demo demo)))}
-                 (or menu title))))))
+    (into []
+      (for [{:keys [menu title route] :as lesson} (mget (fasc :quick-start me) :lessons)]
+             (a {:href     (str "#/" (name route))
+                 :selector menu
+                 :style (cF (let [curr-route (mget (fasc :quick-start me) :route)]
+                              {:min-width    "144px"
+                               :text-decoration :none
+                               :border-color (if (= route curr-route)
+                                               "orange" "white")
+                               :font-weight  (if (= route curr-route)
+                                               "bold" "normal")}))
+                 :class    :pushbutton #_ (cF (when (= (:selector @me) (mx-route me))
+                                                "selected"))}
+               (or menu title))))))
 
-(defn quick-start [demo-title start-demo-ix demos]
+(defn quick-start [lesson-title lessons]
   (div {}
-    {:name           :demos
+    {:name           :quick-start
      :route (cI :intro)
      :router-starter (fn []
-                       (r/start! (r/router #_ [["/" :intro]
-                                            ["/just-html" :just-html]
-                                            ["/and-cljs" :and-cljs]
-                                            ["/intro" :intro]]
+                       (r/start! (r/router
                                    (into [] (concat [["/" :info]]
                                                 (map (fn [{:keys [route]}]
-                                                       (prn :routing [(str "/" (name route)) route])
                                                        [(str "/" (name route)) route])
-                                                  (take 3 lessons)))))
+                                                  lessons))))
                          {:default     :ignore
                           :on-navigate (fn [route params query]
-                                         (prn :on-navigate-sees route params query)
                                          (when-let [mtx @md/matrix]
-                                           (prn :on-navigate-seTs!!! route params query)
                                            (mset! mtx :route route)))}))
-     :selected-demo  (cF (let [route (mget me :route)]
+     :selected-lesson  (cF (let [route (mget me :route)]
                            (prn :route!!! route)
-                           (if-let [d (some (fn [demo]
-                                   (when (= route (:route demo))
-                                     demo)) demos)]
-                             (do (prn :dddd d)
+                           (if-let [d (some (fn [lesson]
+                                   (when (= route (:route lesson))
+                                     lesson)) lessons)]
+                             (do ;; (prn :dddd d)
                                  d)
-                             (nth demos 0))))
+                             (nth lessons 0))))
      #_#_:keydowner (cF+ [:watch (fn [_ me new _ _]
                                    (.addEventListener js/document "keydown" new))]
                       (fn [evt]
                         (.stopPropagation evt)
-                        (let [demos (mget me :demos)
-                              demo (mget me :selected-demo)
-                              curr-x (.indexOf demos demo)]
+                        (let [lessons (mget me :quick-start)
+                              lesson (mget me :selected-lesson)
+                              curr-x (.indexOf lessons lesson)]
                           (when-let [new-x (case (.-key evt)
                                              "Home" 0
-                                             "End" (dec (count demos))
+                                             "End" (dec (count lessons))
                                              ("ArrowRight" "ArrowDown" "PageDown") (inc curr-x)
                                              ("ArrowLeft" "ArrowUp" "PageUp") (dec curr-x)
                                              nil)]
-                            (when (<= 0 new-x (dec (count demos)))
-                              (mset! me :selected-demo (nth demos new-x)))))))
-     :demos          (take 3 demos)
+                            (when (<= 0 new-x (dec (count lessons)))
+                              (mset! me :selected-lesson (nth lessons new-x)))))))
+     :lessons          lessons
      :show-glossary? (cI false)}
 
     (div {:style {:display :flex
@@ -105,45 +87,45 @@
                        :margin-bottom  "1em"
                        :padding-bottom "1em"
                        :text-align     :center}}
-          demo-title)
+          lesson-title)
         (span "use <- or -> keys<br>&nbsp;")
 
         (quick-start-toolbar))
 
-      (when-let [demo (mget (fasc :demos me) :selected-demo)]
+      (when-let [lesson (mget (fasc :quick-start me) :selected-lesson)]
         (div {:style {:display        :flex
                       :flex-direction :column
                       :padding        "6px"}}
-          (h1 (:title demo))
-          (when-let [preamble (:preamble demo)]
+          (h1 (:title lesson))
+          (when-let [preamble (:preamble lesson)]
             (if (string? preamble)
               (p {:class :preamble} preamble)
               (doall (for [elt preamble]
                        (p {:class :preamble} elt)))))
-          (div {:class :demo}
-            ((:builder demo)))
+          (div {:class :lesson}
+            ((:builder lesson)))
 
           (pre {:class :lesson-code}
             (code {:style {:font-size "14px"}}
-              (:code demo)))
+              (:code lesson)))
 
           (div {:class :glossary}
             {:name :glossary}
             (span {:class   :pushbutton
-                   :onclick #(mswap! (fasc :demos (evt-md %)) :show-glossary? not)}
+                   :onclick #(mswap! (fasc :quick-start (evt-md %)) :show-glossary? not)}
               "Glossary")
-            (div {:style (cF (str "display:" (if (mget (fasc :demos me) :show-glossary?)
+            (div {:style (cF (str "display:" (if (mget (fasc :quick-start me) :show-glossary?)
                                                "block" "none")))}
               (extra/glossary)))
 
-          (when-let [c (:comment demo)]
+          (when-let [c (:comment lesson)]
             (if (string? c)
               (p {:class :preamble} c)
               (doall (for [cx c]
                        (p {:class :preamble} cx)))))
-          #_(when-let [ex (:exercise demo)]
+          #_(when-let [ex (:exercise lesson)]
               (blockquote {:class :exercise}
-                (p (str "Give it a try. Modify <i>" (:ns demo "the code") "</i>."))
+                (p (str "Give it a try. Modify <i>" (:ns lesson "the code") "</i>."))
                 (if (string? ex)
                   (p ex)
                   (doall (for [elt ex]
@@ -176,7 +158,7 @@
               lesson/ex-data-integrity
               lesson/ex-in-review])
 
-(main #(quick-start "Web/MX&trade;<br>Quick Start" 0 lessons))
+(main #(quick-start "Web/MX&trade;<br>Quick Start" lessons))
 
 ;
 ;;; specify reload hook with ^:after-load metadata
