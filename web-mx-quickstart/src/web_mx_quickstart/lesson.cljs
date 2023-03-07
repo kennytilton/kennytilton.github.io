@@ -156,7 +156,7 @@
    :comment  ["Tag macros take an optional second map of ad hoc, custom properties. The map for custom state is identified
    positionally, so an empty first map must be coded even if no HTML attributes are needed."
               "Here, a generic <code>span</code> embodying a speedometer thinks it might usefully have a <code>{:mph 42}</code> property.
-   We will put that to use next."
+   We will put that to use soon."
               "<code>mget</code> can be used anywhere. Inside a formula, it transparently subscribes to the property being read."
               "Big picture: Matrix follows the <a href=https://en.wikipedia.org/wiki/Prototype-based_programming target=\"_blank\">prototype model</a>,\n
                      so generic tags can be re-used without subclassing."]})
