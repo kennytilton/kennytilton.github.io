@@ -227,8 +227,8 @@
               "We retrieve values from named other widgets, using navigation
      utilities such as <code>fasc</code> and <code>fmu</code> to avoid hard-coding paths."
               "About navigation: MX models are like the DOM; every element but the root has one parent and knows that parent as a fixed property,
-               and everyone has zero or more children. So should any convoluted organization need to be navigated, a dev can write their own
-                bespoke navigation code."
+               and everyone has zero or more children. Simple enough that, should a convoluted DOM organization arise,
+               a dev could easily write their own navigation code."
               "Second, the provided fm-navig utility takes a \"test\" function as its first parameter, which by default
               tests the :name of every node for a match with the sought name. Here again a dev can write a test function
               of arbitrary complexity if needed."
@@ -404,13 +404,13 @@
    :title    "Async event processing as normal mutation"
    :route :cat-chat
    :builder  async-cat
-   :preamble "Async processing can be a challenge, but in Matrix an async response is just another \"input\" property mutation."
+   :preamble "An async response is just another \"input\" property mutation."
    :code     "(div {:class \"intro\"}\n    (span {:class :push-button}\n      \"Cat Chat\")\n    (speed-plus #(mset! (fmu :cat-fact (evt-md %)) :get-new-fact? true))\n    (div {:class :cat-chat}\n      {:name          :cat-fact\n       :get-new-fact? (cI false\n\n                        ;; <b>The \"plus\" widget will set this property repeatedly\n                        ;; to the same value, 'true'. Declaring it \"ephemeral?\" means\n                        ;; it will fire each time that same value is set.</b>\n                        :ephemeral? true)\n       :cat-request   (cF+\n                        ;; <b>`cF+`, or \"cF plus\", accepts cell options</b>\n                        [:watch (fn [_ me response-chan _ _]\n                                  (when response-chan\n                                    (go (let [response (&lt;! response-chan)]\n\n                                          ;; <b>whenever the XHR responds,</b>\n                                          ;; <b>we just `mset!` the \"waiting\" input cell</b>\n                                          (with-cc :set-cat\n                                            (mset! me :cat-response response))))))]\n                        (when (mget me :get-new-fact?)\n                          (client/get cat-fact-uri {:with-credentials? false})))\n       :cat-response  (cI nil)}\n\n      (if-let [response (mget me :cat-response)]\n        (if (:success response)\n          (span (get-in response [:body :fact]))\n          (str \"Error>  \" (:error-code response)\n            \": \" (:error-text response)))\n        \"Click (+) to see a chat fact.\")))"
    :comment  ["The <code>cat-request</code> property creates and dispatches an XHR via <code>client/get</code>, producing a core.async channel
    to receive the response. Its watch function awaits the async response and feeds it into a conventional input property."
               "We handle async events by directing them to input Cells purpose-created to receive their output, where
               Matrix handles them like any other input. With a different XHR library not using core.async, we
-              us the same approach in response handlers."
+              would use a similar approach with response handlers."
               "We used a special <code>:ephemeral?</code> qualifier for <code>:get-new-fact?</code> because
               it works like an event, something that happens and is over.
               Ephemeral properties revert to nil after propagating, without propagating that change."]})
