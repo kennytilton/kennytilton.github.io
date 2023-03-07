@@ -61,7 +61,7 @@
              :text-anchor :middle} "+"))))
 
 (def ex-just-html
-  {:menu     "Just HTML"
+  {:menu     "It's Just HTML"
    :route    :just-html
    :title    "It is just HTML"
    :ns       "tiltontec.example.quick-start.lesson/just-html"
@@ -151,9 +151,9 @@
    :route    :custom-state
    :title    "Ad hoc widget properties"
    :builder  custom-state
-   :preamble "Widgets define whatever state they need."
+   :preamble "Widgets define ad hoc properties as needed."
    :code     "(div {:class :intro}\n    (h2 \"The speed is now...\")\n    (span {:class :digi-readout}\n      ;; <b>An optional second map is for custom state.</b>\n      {:mph  42}\n\n      ;; <b>below: mget, short for \"model-get\", is the MX \"getter\" for model (object) properties</b>\n      ;; <b>n.b. Tag children, even plain strings, always start out in an auto-genned formula.</b>\n      (str (mget me :mph) \" mph\")))"
-   :comment  ["Tag macros take an optional second map of custom widget state. The map for custom state is identified
+   :comment  ["Tag macros take an optional second map of ad hoc, custom properties. The map for custom state is identified
    positionally, so an empty first map must be coded even if no HTML attributes are needed."
               "Here, a generic <code>span</code> embodying a speedometer thinks it might usefully have a <code>{:mph 42}</code> property.
    We will put that to use next."
@@ -186,11 +186,13 @@
    :preamble "A property can be expressed as a function, or \"formula\", of other properties."
    :comment  ["The <code>too-fast?</code> property is fed by the reactive formula <code>(cF (> (mget me :mph) 55))</code>.
     When <code>mph</code> changes, <code>too-fast?</code> will be recomputed, then <code>speedo-text</code>."
-              "Formula dependencies are automatically captured, and adjusted on each evaluation.
-               Together they form the same coherent, one-way DAG found in Flux derivatives,
-               but without us doing anything; Matrix internals identify the DAG for us."
-              "Note that different instances can have different formulas for the same property,
-              extending the \"prototype\" reusability win.</li>"]})
+              "Formula dependencies are automatically recorded, and adjusted anew on each evaluation.
+               Together these trees of property-dependencies form the same coherent, one-way DAG found in Flux derivatives,
+               but without us doing more than coding one property at a time."
+              "The difference is that the Web/MX DAG extends all the way out to individual widget
+              attributes, and even individual style properties. Flux reactivity stops at the view function."
+              "n.b. Different instances can have different formulas for the same property,
+              extending further the \"prototype\" reusability win.</li>"]})
 
 ;;; --- Navigation ------------------------------
 
@@ -265,7 +267,7 @@
                   (mswap! (fmu :speedometer (evt-md evt)) :mph inc)))))
 
 (def ex-handler-mutation
-  {:menu     "Random State<br>Mutation"
+  {:menu     "Random Property<br>Mutation"
    :title    "Random state DAG change"
    :ns       "tiltontec.example.quick-start.lesson/handler-mutation"
    :route :dag-mutation
@@ -296,8 +298,8 @@
                   (mswap! (fmu :speedometer (evt-md evt)) :mph inc)))))
 
 (def ex-watches
-  {:menu     "State Watch<br>Functions"
-   :title    "\"On-change\" watch functions"
+  {:menu     "Property Watch<br>Functions"
+   :title    "Ad hoc, on-change \"watch\" functions per property"
    :route :watches
    :builder  watches
    :preamble "Any property can use an on-change \"watch\" function for side-effects."
@@ -330,8 +332,8 @@
                   (mswap! (fmu :speedometer (evt-md evt)) :mph inc)))))
 
 (def ex-watch-cc
-  {:menu     "Watch State<br>Mutation"
-   :title    "Exception: how watches can mutate state"
+  {:menu     "Property Watch<br>Function Mutation"
+   :title    "Exception: how watches can mutate a Matrix property"
    :route :watch-cc
    :builder  watch-cc
    :preamble "Watch functions must operate outside Matrix state flow, but <i>can</i> enqueue alterations
@@ -355,7 +357,7 @@
    :comment  ["<h3>The Data Integrity Contract</h3> When application code assigns a value to some input cell X, the Matrix engine guarantees:
               <br><br>&nbsp;&bull; recomputation exactly once of all and only state affected by the change to X, directly or indirectly through some intermediate datapoint. Note that if A depends on B, and B depends on X, when B gets recalculated it may come up with the same value as before. In this case A is not considered to have been affected by the change to X and will not be recomputed;
               <br><br>&nbsp;&bull; recomputations, when they read other datapoints, will see only values current with the new value of X. Example: if A depends on B and X, and B depends on X, when X changes and A reads B and X to compute a new value, B must return a value recomputed from the new value of X;
-              <br><br>&nbsp;&bull; similarly, client observer callbacks will see only values current with the new value of X;
+              <br><br>&nbsp;&bull; similarly, client observer (watch) callbacks will see only values current with the new value of X;
               <br><br>&nbsp;&bull; a corollary: should a client observer MSET! a datapoint Y, all the above will happen with values current with not just X, but also with the value of Y prior to the change to Y; and
               <br><br>&nbsp;&bull; deferred “client” code will see only values current with X and not any values current with some subsequent change to Y enqueued by an observer."]})
 
@@ -398,8 +400,8 @@
         "Click (+) to see a chat fact."))))
 
 (def ex-async-cat
-  {:menu     "Async"
-   :title    "Async event processing"
+  {:menu     "Async Events"
+   :title    "Async event processing as normal mutation"
    :route :cat-chat
    :builder  async-cat
    :preamble "Async processing can be a challenge, but in Matrix an async response is just another \"input\" property mutation."
@@ -407,7 +409,8 @@
    :comment  ["The <code>cat-request</code> property creates and dispatches an XHR via <code>client/get</code>, producing a core.async channel
    to receive the response. Its watch function awaits the async response and feeds it into a conventional input property."
               "We handle async events by directing them to input Cells purpose-created to receive their output, where
-              Matrix handles them like any other input."
+              Matrix handles them like any other input. With a different XHR library not using core.async, we
+              us the same approach in response handlers."
               "We used a special <code>:ephemeral?</code> qualifier for <code>:get-new-fact?</code> because
               it works like an event, something that happens and is over.
               Ephemeral properties revert to nil after propagating, without propagating that change."]})
@@ -471,14 +474,16 @@
                 <li>because this is so much fun, create reactive wrappers for routing, XHR, localStorage&mdash;as much
                 as we like.</li>
                  </ul>
-                 No VDOM, no pre-processor, no compiler, no special view functions, no setState, no subscribe/notify, no hooks,
-                 no refs, and no separate store.
-                 <br><br>Just transparent, fine-grained reactivity and standard HTML."
+                 No VDOM, pre-processor, compiler, special view functions, setState, subscribe/notify, hooks,
+                 refs, or separate store.
+                 <br><br>Just transparent, fine-grained reactivity and standard HTML, slowing only to wire up
+                 existing, non-reactive libraries."
                 "Minimalist, but it scales:
                 <li>a simulated <a target=_blank href=\"http://tiltonsalgebra.com/#\">private Algebra tutor</a>;</li>
                 <li>a browser for the monthly <a target=_blank
                 href=\"https://kennytilton.github.io/whoishiring/\">AskHN: Who's Hiring?</a> question; and</li>
                 <li>to a lesser degree, this <a target=_blank href=\"https://github.com/kennytilton/kennytilton.github.io/tree/master/web-mx-quickstart\">Quick Start</a>
                 and the classic <a target=_blank and href='https://kennytilton.github.io/TodoFRP/'>TodoMVC.</li>"
-                "In the remaining panels, we expand on each idea above, each of which is exemplified below.<br>&nbsp;"]
+                "In the remaining panels, we will expand on each idea listed above, all of which are manifested in the live
+                 demo below.<br>&nbsp;"]
      :comment  nil}))

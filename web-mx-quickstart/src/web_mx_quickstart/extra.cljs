@@ -38,7 +38,7 @@
             (tr
               (td usage)
               (td description)))
-      [
+      [["no cell involved<br>e.g. <code>:answer 42</code>" "mset!/mswap! throw exceptions at run time."]
        ["(cI value & option-values)"
         "Marks the associated property as an MX input. eg, `:answer (cI 42)`"]
        ["(cF & body)"

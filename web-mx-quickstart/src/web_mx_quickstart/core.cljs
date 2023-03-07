@@ -73,7 +73,7 @@
                               (.preventDefault evt)
                               (mset! me :route (:route (nth lessons new-x))))))))
      :lessons          lessons
-     :show-glossary? (cI true)}
+     :show-glossary? (cI false)}
 
     (div {:style {:display :flex
                   :gap     "2em"}}
@@ -97,7 +97,7 @@
               :style {:display        :flex
                       :flex-direction :column
                       :padding        "6px"}}
-          (h1 (:title lesson))
+          (h2 (:title lesson))
           (when-let [preamble (:preamble lesson)]
             (if (string? preamble)
               (p {:class :preamble} preamble)

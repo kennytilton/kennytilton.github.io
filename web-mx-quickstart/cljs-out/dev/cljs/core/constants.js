@@ -40,7 +40,6 @@ cljs.core.cst$kw$cat_DASH_response = new cljs.core.Keyword(null,"cat-response","
 cljs.core.cst$sym$logical_DASH_block_DASH_callback = new cljs.core.Symbol(null,"logical-block-callback","logical-block-callback",-1041744575,null);
 cljs.core.cst$sym$defrecord_STAR_ = new cljs.core.Symbol(null,"defrecord*","defrecord*",-1936366207,null);
 cljs.core.cst$sym$base = new cljs.core.Symbol(null,"base","base",1825810849,null);
-cljs.core.cst$sym$h1 = new cljs.core.Symbol(null,"h1","h1",-256355935,null);
 cljs.core.cst$sym$obj = new cljs.core.Symbol(null,"obj","obj",-1672671807,null);
 cljs.core.cst$kw$eko_BANG__BANG__BANG_ = new cljs.core.Keyword(null,"eko!!!","eko!!!",807507425);
 cljs.core.cst$kw$html5history = new cljs.core.Keyword(null,"html5history","html5history",-1921478143);

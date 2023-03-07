@@ -1,6 +1,6 @@
 div, h1, input {
     font-family: HelveticaNeue, Helvetica;
-    color: #777;
+    color: #444;
 }
 /* the top page DIV */
 .intro {
@@ -61,8 +61,9 @@ li {
   padding: 4px;
 }
 .preamble {
+  /*font-family: 'Times Roman', serif;*/
   font-family: 'Roboto', sans-serif;
-  font-size: 20px;
+  /*font-size: 16px;*/
   max-width: 35em;
 }
 
