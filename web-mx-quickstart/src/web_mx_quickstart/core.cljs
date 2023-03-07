@@ -73,7 +73,7 @@
                               (.preventDefault evt)
                               (mset! me :route (:route (nth lessons new-x))))))))
      :lessons          lessons
-     :show-glossary? (cI false)}
+     :show-glossary? (cI true)}
 
     (div {:style {:display :flex
                   :gap     "2em"}}

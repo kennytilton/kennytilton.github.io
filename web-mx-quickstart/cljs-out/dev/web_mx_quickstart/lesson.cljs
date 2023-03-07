@@ -63,7 +63,7 @@
 (def ex-just-html
   {:menu     "Just HTML"
    :route    :just-html
-   :title    "It's Just HTML"
+   :title    "It is just HTML"
    :ns       "tiltontec.example.quick-start.lesson/just-html"
    :builder  just-html
    :preamble "We just write HTML, SVG, and CSS, using CLJS workalikes."
@@ -127,11 +127,11 @@
 (def ex-html-composition
   {:menu     "Composable<br>Widgets"
    :route    :html-composition
-   :title    "Functional GUI Composition"
+   :title    "Functional GUI composition"
    :builder  html-composition
    :preamble "Because it is all CLJS, we can move sub-structure into functions."
    :code     "(defn opcode-button [label onclick]\n  (button {:class   :push-button\n           :onclick onclick}\n    label))\n\n(defn math-keypad [& opcodes]\n  (div {:style {:display :flex\n                :gap     \"1em\"}}\n    (mapv (fn [opcode]\n            (opcode-button opcode\n              #(js/alert \"Feature Not Yet Implemented\")))\n      opcodes)))\n\n(defn html-composition []\n  (div {:class :intro}\n    (h2 \"The count is now....\")\n    (span {:class :digi-readout} \"42\")\n    (math-keypad \"-\" \"=\" \"+\")))"
-   :comment  ["HTML composition becomes function composition. Always nice."]})
+   :comment  ["Hiccup syntactically distinguishes HTML from app; Web/MX blends them."]})
 
 ;;; --- custom-state ---------------------------------
 
@@ -147,9 +147,9 @@
       (str (mget me :mph) " mph"))))
 
 (def ex-custom-state
-  {:menu     "In-place<br>State"
+  {:menu     "Ad Hoc Properties"
    :route    :custom-state
-   :title    "\"In-place\" widget state, property by property"
+   :title    "Ad hoc widget properties"
    :builder  custom-state
    :preamble "Widgets define whatever state they need."
    :code     "(div {:class :intro}\n    (h2 \"The speed is now...\")\n    (span {:class :digi-readout}\n      ;; <b>An optional second map is for custom state.</b>\n      {:mph  42}\n\n      ;; <b>below: mget, short for \"model-get\", is the MX \"getter\" for model (object) properties</b>\n      ;; <b>n.b. Tag children, even plain strings, always start out in an auto-genned formula.</b>\n      (str (mget me :mph) \" mph\")))"
@@ -214,11 +214,11 @@
         (when (mget me :too-fast?) "<br>Slow down")))))
 
 (def ex-navigation
-  {:menu     "Random State<br>Access"
-   :title    "Random state access"
+  {:menu     "Random Property<br>Access"
+   :title    "Random property access"
    :route :navigation
    :builder  navigation
-   :preamble "A widget property can retrieve state as needed from any other component."
+   :preamble "A widget property formula can find and use any other app property."
    :code     "(div {:class :intro}\n    {:name        :speed-zone\n     :speed-limit 55}\n    (h2 {}\n      ;; <b>`fasc` searches up the parent chain only</b>\n      {:text (cF (let [zone (fasc :speed-zone me)\n                       speedo (fmu :speedometer)]\n                   (pp/cl-format nil \"The speed is now ~a mph over the speed limit.\"\n                     (- (mget speedo :mph) (mget zone :speed-limit)))))}\n      (mget me :text))\n    (span {:class :digi-readout}\n      {:name      :speedometer\n       :mph       60\n       :too-fast? (cF (> (mget me :mph)\n                        (mget (fasc :speed-zone me) :speed-limit)))}\n      (str (mget me :mph) \" mph\"\n        (when (mget me :too-fast?) \"Slow down\"))))"
    :comment  ["The headline needs the speed limit and current speed for its text. The speedometer readout needs
      the speed limit, to decide its text color."
@@ -462,23 +462,23 @@
      :preamble ["With <a target=_blank href='https://github.com/kennytilton/web-mx'>Web/MX</a>, we build sophisticated interfaces around a few ideas:<br>
                 <ul type=circle>
                 <li>stick to <a target=_blank href='https://developer.mozilla.org/en-US/docs/Web/HTML'>standard</a> HTML, SVG, and CSS&hellip;</li>
-                <li>...but extend standard elements with ad hoc state;</li>
-                <li>bring it all alive with reactive formulas;</li>
-                <li>let formulas use any other app state;</li>
-                <li>let async handlers change any app state;</li>
-                <li>support \"watch\" functions for side effects;</li>
+                <li>&hellip;but attach ad hoc properties to those standard DOM elements;</li>
+                <li>bring all DOM and ad hoc properties alive with reactive formulas;</li>
+                <li>let formulas <i>derive from</i> arbitrary other app properties;</li>
+                <li>let async handlers <i>change</i> any app properties;</li>
+                <li>support <i>watch</i> functions on properties, for side effects;</li>
                 <li>make it all declarative and transparent; and</li>
                 <li>because this is so much fun, create reactive wrappers for routing, XHR, localStorage&mdash;as much
                 as we like.</li>
                  </ul>
                  No VDOM, no pre-processor, no compiler, no special view functions, no setState, no subscribe/notify, no hooks,
                  no refs, and no separate store.
-                 <br><br>Just transparent, fine-grained reactivity."
+                 <br><br>Just transparent, fine-grained reactivity and standard HTML."
                 "Minimalist, but it scales:
                 <li>a simulated <a target=_blank href=\"http://tiltonsalgebra.com/#\">private Algebra tutor</a>;</li>
                 <li>a browser for the monthly <a target=_blank
                 href=\"https://kennytilton.github.io/whoishiring/\">AskHN: Who's Hiring?</a> question; and</li>
                 <li>to a lesser degree, this <a target=_blank href=\"https://github.com/kennytilton/kennytilton.github.io/tree/master/web-mx-quickstart\">Quick Start</a>
                 and the classic <a target=_blank and href='https://kennytilton.github.io/TodoFRP/'>TodoMVC.</li>"
-                "In the remaining panels, we expand on each idea above, exemplified below.<br>&nbsp;"]
+                "In the remaining panels, we expand on each idea above, each of which is exemplified below.<br>&nbsp;"]
      :comment  nil}))

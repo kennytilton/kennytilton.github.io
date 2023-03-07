@@ -6,6 +6,19 @@
 
 (defn glossary []
   (table
+    (tr (th {:colspan 2} "Navigation"))
+    (mapv (fn [[usage description]]
+            (tr
+              (td usage)
+              (td description)))
+      [
+       ["(fm-navig seeking starting-at & options)"
+        "Search MX nodes for node matching `seeking`."]
+       ["(fmu seeking & starting)"
+        "Search `up and around` from starting node, which defaults to lexical `me`."]
+       ["(fasc seeking starting)"
+        "Search ascending parent chain from starting."]
+       ])
     (tr (th {:colspan 2} "Accessors"))
     (mapv (fn [[usage description]]
             (tr
@@ -37,16 +50,20 @@
         \"constructor initialization\"."]
        ["(cFonce & body)"
         "Start as formula for initial computation, then behave as immutable property. Alias `cF1`."]])
-    (tr (th {:colspan 2} "Navigation"))
+    (tr (th {:colspan 2} "Cell Options"))
     (mapv (fn [[usage description]]
             (tr
               (td usage)
               (td description)))
       [
-       ["(fm-navig seeking starting-at & options)"
-        "Search MX nodes for node matching `seeking`."]
-       ["(fmu seeking & starting)"
-        "Search `up and around` from starting node, which defaults to lexical `me`."]
-       ["(fasc seeking starting)"
-        "Search ascending parent chain from starting."]
-       ])))
+       [":input?" "Can imperative code mutate this property? Macro <code>cI</code>: <code>(cI 42)</code>"]
+       [":watch"
+        "Expects an 'on-change' function:<br><center><code>(fn [property me new prior cell])</code></center><br> Alias <code>:obs</code>
+        for <i>observer</i>."]
+       [":ephemeral?"
+        "Ephemeral properties, when they take on a new value, propagate as usual but then revert silently
+        to nil, without propagating in any way."]
+       [":lazy"
+        "Several varieties of laziness: :always, :once-asked, :until-asked."]
+       ])
+    ))

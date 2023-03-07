@@ -73,7 +73,7 @@
                               (.preventDefault evt)
                               (mset! me :route (:route (nth lessons new-x))))))))
      :lessons          lessons
-     :show-glossary? (cI false)}
+     :show-glossary? (cI true)}
 
     (div {:style {:display :flex
                   :gap     "2em"}}
@@ -114,7 +114,8 @@
             {:name :glossary}
             (span {:class   :pushbutton
                    :onclick #(mswap! (fasc :quick-start (evt-md %)) :show-glossary? not)}
-              "Glossary")
+              (if (mget (fasc :quick-start me) :show-glossary?)
+                "Hide Glossary" "Show Glossary"))
             (div {:style (cF (str "display:" (if (mget (fasc :quick-start me) :show-glossary?)
                                                "block" "none")))}
               (extra/glossary)))
