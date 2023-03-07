@@ -298,7 +298,7 @@
                   (mswap! (fmu :speedometer (evt-md evt)) :mph inc)))))
 
 (def ex-watches
-  {:menu     "Property Watch<br>Functions"
+  {:menu     "Watch Functions"
    :title    "Ad hoc, on-change \"watch\" functions per property"
    :route :watches
    :builder  watches
@@ -306,9 +306,10 @@
    :code     "(div {:class :intro}\n    (h2 \"The speed is now...\")\n    (span {:class   :digi-readout\n           :onclick #(mswap! (evt-md %) :mph inc)}\n      {:name    :speedometer\n       :mph     (cI 42 :watch (fn [slot me new-val prior-val cell]\n                                ;; <b>`cI`, cell input, takes a :watch function</b>\n                                (prn :watch-sees-change slot new-val)))\n       :display (cF (str (mget me :mph) \" mph\"))}\n      (mget me :display))\n    (speed-plus (fn [evt]\n                  (mswap! (fmu :speedometer (evt-md evt)) :mph inc))))"
    :comment  ["A watch function fires when a cell value is initialized, and if the value changes. Watches are used to
    dispatch actions outside the Matrix, if only for logging/debugging, as here. (See the browser console.)"
-              "The watch function in this example simply logs the new value. Other watches could write to
-              localStorage or dispatch XHR requests, etc."
-              "Web/MX, for an extreme example, does all its dynamic DOM maintenance in watch functions on HTML attributes."]})
+   "Watches could also write to localStorage, or dispatch XHR requests. Web/MX itself, as an extreme example,
+   does all its dynamic DOM maintenance in a watch functions on HTML attributes."
+              "Watch functions are dispatched non-deterministically, whenever state propagation happens to reach a property.
+              Where controlled coordination of watch actions is required, a custom action handler can be specified."]})
 
 ;;; --- throttling watch -------------------
 
@@ -332,7 +333,7 @@
                   (mswap! (fmu :speedometer (evt-md evt)) :mph inc)))))
 
 (def ex-watch-cc
-  {:menu     "Property Watch<br>Function Mutation"
+  {:menu     "Watch Function<br>Mutation"
    :title    "Exception: how watches can mutate a Matrix property"
    :route :watch-cc
    :builder  watch-cc
@@ -401,7 +402,7 @@
 
 (def ex-async-cat
   {:menu     "Async Events"
-   :title    "Async event processing as normal mutation"
+   :title    "Async processing = normal mutation"
    :route :cat-chat
    :builder  async-cat
    :preamble "An async response is just another \"input\" property mutation."
