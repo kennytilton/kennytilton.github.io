@@ -480,5 +480,5 @@
                 href=\"https://kennytilton.github.io/whoishiring/\">AskHN: Who's Hiring?</a> question; and</li>
                 <li>to a lesser degree, this <a target=_blank href=\"https://github.com/kennytilton/kennytilton.github.io/tree/master/web-mx-quickstart\">Quick Start</a>
                 and the classic <a target=_blank and href='https://kennytilton.github.io/TodoFRP/'>TodoMVC.</li>"
-                "In the remaining panels, we expand on each idea above, exemplified below.<br>&nbsp;"]
+                "In the remaining panels, we expand on each idea above, each of which is exemplified below.<br>&nbsp;"]
      :comment  nil}))
