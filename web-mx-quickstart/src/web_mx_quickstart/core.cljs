@@ -4,8 +4,9 @@
     [goog.object :as gobj]
     [bide.core :as r]
     [tiltontec.cell.core :refer [cF cF+ cFn cFonce cI cf-freeze]]
-    [tiltontec.model.core
-     :refer [mx-par mpar mget mset! mswap! mset! mxi-find mxu-find-name fasc fmu fm!] :as md]
+    [tiltontec.model.core :as md]
+    [tiltontec.matrix.api
+     :refer [mpar mget mset! mswap! mset! fasc fmu ] :as mx]
     [tiltontec.web-mx.gen :refer [evt-md target-value]]
     [tiltontec.web-mx.gen-macro
      :refer [title img section h1 h2 h3 input footer p a b h4 u table th tr td
@@ -51,6 +52,7 @@
                          {:default     :ignore
                           :on-navigate (fn [route params query]
                                          (when-let [mtx @md/matrix]
+                                           ;; todo mset! me
                                            (mset! mtx :route route)))}))
      :selected-lesson  (cF (let [route (mget me :route)]
                            (some (fn [lesson]

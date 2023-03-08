@@ -7,7 +7,7 @@
     [tiltontec.cell.core :refer [cF cF+ cFonce cI cf-freeze]]
     [tiltontec.cell.integrity :refer [with-cc]]
     [tiltontec.model.core
-     :refer [mx-par mget mset! mswap! mset! mxi-find mxu-find-name mdv! fasc fmu fm! fm-navig] :as md]
+     :refer [ mget mset! mswap! mset!    fasc fmu fm-navig] :as md]
     [tiltontec.web-mx.gen :refer [evt-md target-value]]
     [tiltontec.web-mx.gen-macro
      :refer [img section h1 h2 h3 input footer p a
@@ -485,6 +485,5 @@
                 href=\"https://kennytilton.github.io/whoishiring/\">AskHN: Who's Hiring?</a> question; and</li>
                 <li>to a lesser degree, this <a target=_blank href=\"https://github.com/kennytilton/kennytilton.github.io/tree/master/web-mx-quickstart\">Quick Start</a>
                 and the classic <a target=_blank and href='https://kennytilton.github.io/TodoFRP/'>TodoMVC.</li>"
-                "In the remaining panels, we will expand on each idea listed above, all of which are manifested in the live
-                 demo below.<br>&nbsp;"]
+                "In the remaining panels, we will expand on each idea above, most of which are manifested below.<br>&nbsp;"]
      :comment  nil}))
