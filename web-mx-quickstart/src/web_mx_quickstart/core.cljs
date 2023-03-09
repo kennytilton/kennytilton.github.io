@@ -3,9 +3,9 @@
     [goog.dom :as gdom]
     [goog.object :as gobj]
     [bide.core :as r]
-    [tiltontec.model.core :as md]
+    ;[tiltontec.model.core :as md]
     [tiltontec.matrix.api
-     :refer [mpar mget mset! mswap! mset! fasc fmu
+     :refer [matrix mpar mget mset! mswap! mset! fasc fmu
              cF cF+ cFn cFonce cI cf-freeze]]
     [tiltontec.web-mx.gen :refer [evt-md target-value]]
     [tiltontec.web-mx.gen-macro
@@ -58,7 +58,7 @@
                                                  lessons))))
                           {:default     :ignore
                            :on-navigate (fn [route params query]
-                                          (when-let [mtx @md/matrix]
+                                          (when-let [mtx @matrix]
                                             ;; todo mset! me
                                             (mset! mtx :route route)))}))
      :selected-lesson (cF (let [route (mget me :route)]
@@ -105,47 +105,48 @@
       (quick-start-toolbar))
 
     (when-let [lesson (mget me #_(fasc :quick-start me) :selected-lesson)]
-      (div {:class :fade-in                               ;; hhack
-              :style {:display        :flex
-                      :overflow-y     :auto
-                      :flex-direction :column
-                      :padding        "4em"
-                      :height         "100%"}}
-          (h2 (:title lesson))
-          (when-let [preamble (:preamble lesson)]
-            (if (string? preamble)
-              (p {:class :preamble} preamble)
-              (doall (for [elt preamble]
-                       (p {:class :preamble} elt)))))
-          (div {:class :lesson}
-            ((:builder lesson)))
+      (div {:class :fade-in                                 ;; hhack
+            :style {:display        :flex
+                    :overflow-y     :auto
+                    :flex-direction :column
+                    :padding        "4em"
+                    :height         "100%"}}
+        (h2 (:title lesson))
+        (when-let [preamble (:preamble lesson)]
+          (if (string? preamble)
+            (p {:class :preamble} preamble)
+            (doall (for [elt preamble]
+                     (p {:class :preamble} elt)))))
+        (div {:class :lesson}
+          ((:builder lesson)))
 
-          (pre {:class :lesson-code}
-            (code {:style {:font-size "14px"}}
-              (:code lesson)))
+        (p {:class :preamble} "Here is all the code:")
+        (pre {:class :lesson-code}
+          (code {:style {:font-size "14px"}}
+            (:code lesson)))
 
-          (div {:class :glossary}
-            {:name :glossary}
-            (span {:class   :pushbutton
-                   :onclick #(mswap! (fasc :quick-start (evt-md %)) :show-glossary? not)}
-              (if (mget (fasc :quick-start me) :show-glossary?)
-                "Hide Glossary" "Show Glossary"))
-            (div {:style (cF (str "display:" (if (mget (fasc :quick-start me) :show-glossary?)
-                                               "block" "none")))}
-              (extra/glossary)))
+        (div {:class :glossary}
+          {:name :glossary}
+          (span {:class   :pushbutton
+                 :onclick #(mswap! (fasc :quick-start (evt-md %)) :show-glossary? not)}
+            (if (mget (fasc :quick-start me) :show-glossary?)
+              "Hide Glossary" "Show Glossary"))
+          (div {:style (cF (str "display:" (if (mget (fasc :quick-start me) :show-glossary?)
+                                             "block" "none")))}
+            (extra/glossary)))
 
-          (when-let [c (:comment lesson)]
-            (if (string? c)
-              (p {:class :preamble} c)
-              (doall (for [cx c]
-                       (p {:class :preamble} cx)))))
-          #_(when-let [ex (:exercise lesson)]
-              (blockquote {:class :exercise}
-                (p (str "Give it a try. Modify <i>" (:ns lesson "the code") "</i>."))
-                (if (string? ex)
-                  (p ex)
-                  (doall (for [elt ex]
-                           (p elt))))))))))
+        (when-let [c (:comment lesson)]
+          (if (string? c)
+            (p {:class :preamble} c)
+            (doall (for [cx c]
+                     (p {:class :preamble} cx)))))
+        #_(when-let [ex (:exercise lesson)]
+            (blockquote {:class :exercise}
+              (p (str "Give it a try. Modify <i>" (:ns lesson "the code") "</i>."))
+              (if (string? ex)
+                (p ex)
+                (doall (for [elt ex]
+                         (p elt))))))))))
 
 (defn main [mx-builder]
   (println "[main]: loading")
@@ -153,7 +154,7 @@
         ;; ^^^ "app" must be ID of DIV defined in index.html
         app-matrix (mx-builder)
         app-dom (tag-dom-create app-matrix)]
-    (reset! md/matrix app-matrix)
+    (reset! matrix app-matrix)
     (set! (.-innerHTML root) nil)
     (gdom/appendChild root app-dom)
 

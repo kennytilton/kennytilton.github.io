@@ -4,10 +4,11 @@
     [clojure.pprint :as pp]
     [cljs.core.async :refer [go <!]]
     [cljs-http.client :as client]
-    [tiltontec.cell.core :refer [cF cF+ cFonce cI cf-freeze]]
-    [tiltontec.cell.integrity :refer [with-cc]]
-    [tiltontec.model.core
-     :refer [ mget mset! mswap! mset!    fasc fmu fm-navig] :as md]
+    ;[tiltontec.cell.core :refer [cF cF+ cFonce cI cf-freeze]]
+    ;[tiltontec.cell.integrity :refer [with-cc]]
+    [tiltontec.matrix.api
+     :refer [with-cc cF cF+ cFonce cI cf-freeze
+             mget mset! mswap! mset!    fasc fmu fm-navig]]
     [tiltontec.web-mx.gen :refer [evt-md target-value]]
     [tiltontec.web-mx.gen-macro
      :refer [img section h1 h2 h3 input footer p a
@@ -463,10 +464,13 @@
      :route    :intro
      :title    "Web/MX: Simplicity. Power. Fun."
      :builder  in-review
-     :preamble ["<blockquote>Standard HTML + transparent reactivity, all the way down.
+     :preamble ["<blockquote>Standard HTML + transparent reactivity, all the way down.<br><br>
+     No VDOM, pre-processor, compiler, special view functions, setState, subscribe/notify, hooks,
+                 refs, or separate store.<br><br>Just paint your app.
                   </blockquote>
 
-                  With <a target=_blank href='https://github.com/kennytilton/web-mx'>Web/MX</a>, we build sophisticated interfaces from just a few ingredients:<br>
+                  With <a target=_blank href='https://github.com/kennytilton/web-mx'>Web/MX</a>,
+                  we build sophisticated interfaces from just a few ingredients:<br>
                 <ul type=circle>
                 <li>stick to <a target=_blank href='https://developer.mozilla.org/en-US/docs/Web/HTML'>standard</a> HTML, SVG, and CSS elements&hellip;</li>
                 <li>&hellip;but allow them ad hoc properties;</li>
@@ -477,16 +481,13 @@
                 <li>make it all declarative and transparent; and</li>
                 <li>because this is so much fun, create reactive wrappers for routing, XHR, localStorage&mdash;as much
                 as we like.</li>
-                 </ul>
-                 No VDOM, pre-processor, compiler, special view functions, setState, subscribe/notify, hooks,
-                 refs, or separate store.
-                 <br><br>Just transparent, fine-grained reactivity and standard HTML, slowing only to wire up
-                 existing, non-reactive libraries."
+                 </ul>"
                 "Minimalist, but it scales:
                 <li>a simulated <a target=_blank href=\"http://tiltonsalgebra.com/#\">private Algebra tutor</a>;</li>
                 <li>a browser for the monthly <a target=_blank
                 href=\"https://kennytilton.github.io/whoishiring/\">AskHN: Who's Hiring?</a> question; and</li>
                 <li>to a lesser degree, this <a target=_blank href=\"https://github.com/kennytilton/kennytilton.github.io/tree/master/web-mx-quickstart\">Quick Start</a>
                 and the classic <a target=_blank and href='https://kennytilton.github.io/TodoFRP/'>TodoMVC.</li>"
-                "In the remaining panels, we will expand on each idea above, most of which are manifested below.<br>&nbsp;"]
+                "In the remaining panels, we will expand on each idea above, most of which are manifested below.
+                Hit (+) to fight the wind drag.<br>&nbsp;"]
      :comment  nil}))
