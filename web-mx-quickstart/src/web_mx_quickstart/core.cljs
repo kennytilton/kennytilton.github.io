@@ -16,16 +16,11 @@
     [web-mx-quickstart.lesson :as lesson]))
 
 (defn quick-start-toolbar []
-  (div {:style {;:padding "3px"
-                :margin 0
-                ;:height "80%"
-                ;:max-height "80%"
-                :background :LightYellow
-                :overflow-y :scroll
-                :padding-right "-17px"
-                :box-sizing :content-box
-                :gap "9px"
-                :display :flex
+  (div {:style {:margin          0
+                ;:background :LightYellow
+                :overflow-y      :scroll
+                :gap             "9px"
+                :display         :flex
                 :flex-direction  :column
                 :align-items     :start
                 :justify-content :start}}
@@ -48,8 +43,8 @@
           (or menu title))))))
 
 (defn quick-start [lesson-title lessons]
-  (div {:style {:height "100vh" :margin 0 :padding 0 :background :lightgray
-                :display :flex
+  (div {:style {:height         "100vh" :margin 0 :padding 0 ;:background :lightgray
+                :display        :flex
                 :flex-direction :horizontal
                 ;:gap "1em"
                 }}
@@ -91,71 +86,66 @@
 
     (div {:style {:display         :flex
                   :flex-direction  :column
-                  :height "100%"
-                  :margin 0
-                  ;:max-height "100%"
+                  :height          "100%"
+                  :margin          0
+                  :padding         0
+                  ;; OKish :overflow-y :auto
                   :min-width       "180px"
                   :align-items     :center
                   :justify-content :start
-                  :gap             "2em"
-                  :background      :pink
+                  :gap             "1em"
                   :border-right    "4mm ridge orange"       ;; "rgba(211, 220, 50, .6)"
                   }}
-      (span {:style {:font-size     "24px"
-                     ;:margin-bottom "1em"
-                     ;:padding-bottom "1em"
-                     :text-align    :center}}
+      (span {:style {:font-size  "24px"
+                     :padding    "18px"
+                     :text-align :center}}
         lesson-title)
       (span "use <- or -> keys<br>&nbsp;")
 
       (quick-start-toolbar))
 
-    #_ (when-let [lesson (mget me #_(fasc :quick-start me) :selected-lesson)]
-      (span "hi mom")
-      #_
-      (div {:class :fade-in                                 ;; hhack
-            :style {:display        :flex
-                    :overflow-y     :auto
-                    :flex-direction :column
-                    ;; hhack :padding        "6px"
-                    :height         "100%"
-                    :padding        0 :margin 0
-                    }}
-        (h2 (:title lesson))
-        (when-let [preamble (:preamble lesson)]
-          (if (string? preamble)
-            (p {:class :preamble} preamble)
-            (doall (for [elt preamble]
-                     (p {:class :preamble} elt)))))
-        (div {:class :lesson}
-          ((:builder lesson)))
+    (when-let [lesson (mget me #_(fasc :quick-start me) :selected-lesson)]
+      (div {:class :fade-in                               ;; hhack
+              :style {:display        :flex
+                      :overflow-y     :auto
+                      :flex-direction :column
+                      :padding        "4em"
+                      :height         "100%"}}
+          (h2 (:title lesson))
+          (when-let [preamble (:preamble lesson)]
+            (if (string? preamble)
+              (p {:class :preamble} preamble)
+              (doall (for [elt preamble]
+                       (p {:class :preamble} elt)))))
+          (div {:class :lesson}
+            ((:builder lesson)))
 
-        (pre {:class :lesson-code}
-          (code {:style {:font-size "14px"}}
-            (:code lesson)))
+          (pre {:class :lesson-code}
+            (code {:style {:font-size "14px"}}
+              (:code lesson)))
 
-        (div {:class :glossary}
-          {:name :glossary}
-          (span {:class   :pushbutton
-                 :onclick #(mswap! (fasc :quick-start (evt-md %)) :show-glossary? not)}
-            (if (mget (fasc :quick-start me) :show-glossary?)
-              "Hide Glossary" "Show Glossary"))
-          (div {:style (cF (str "display:" (if (mget (fasc :quick-start me) :show-glossary?)
-                                             "block" "none")))}
-            (extra/glossary)))
+          (div {:class :glossary}
+            {:name :glossary}
+            (span {:class   :pushbutton
+                   :onclick #(mswap! (fasc :quick-start (evt-md %)) :show-glossary? not)}
+              (if (mget (fasc :quick-start me) :show-glossary?)
+                "Hide Glossary" "Show Glossary"))
+            (div {:style (cF (str "display:" (if (mget (fasc :quick-start me) :show-glossary?)
+                                               "block" "none")))}
+              (extra/glossary)))
 
-        (when-let [c (:comment lesson)]
-          (if (string? c)
-            (p {:class :preamble} c)
-            (doall (for [cx c]
-                     (p {:class :preamble} cx)))))
-        #_(when-let [ex (:exercise lesson)]
-            (blockquote {:class :exercise}
-              (p (str "Give it a try. Modify <i>" (:ns lesson "the code") "</i>."))
-              (if (string? ex)
-                (p ex)
-                (doall (for [elt ex]
-                         (p elt))))))))))
+          (when-let [c (:comment lesson)]
+            (if (string? c)
+              (p {:class :preamble} c)
+              (doall (for [cx c]
+                       (p {:class :preamble} cx)))))
+          #_(when-let [ex (:exercise lesson)]
+              (blockquote {:class :exercise}
+                (p (str "Give it a try. Modify <i>" (:ns lesson "the code") "</i>."))
+                (if (string? ex)
+                  (p ex)
+                  (doall (for [elt ex]
+                           (p elt))))))))))
 
 (defn main [mx-builder]
   (println "[main]: loading")

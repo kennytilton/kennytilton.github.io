@@ -4,8 +4,9 @@
     [goog.object :as gobj]
     [bide.core :as r]
     [tiltontec.cell.core :refer [cF cF+ cFn cFonce cI cf-freeze]]
-    [tiltontec.model.core
-     :refer [mx-par mpar mget mset! mswap! mset! mxi-find mxu-find-name fasc fmu fm!] :as md]
+    [tiltontec.model.core :as md]
+    [tiltontec.matrix.api
+     :refer [mpar mget mset! mswap! mset! fasc fmu] :as mx]
     [tiltontec.web-mx.gen :refer [evt-md target-value]]
     [tiltontec.web-mx.gen-macro
      :refer [title img section h1 h2 h3 input footer p a b h4 u table th tr td
@@ -15,88 +16,101 @@
     [web-mx-quickstart.lesson :as lesson]))
 
 (defn quick-start-toolbar []
-  (div {:class :toolbar
-        :style {:flex-direction  :column
+  (div {:style {:margin          0
+                ;:background :LightYellow
+                :overflow-y      :scroll
+                :gap             "9px"
+                :display         :flex
+                :flex-direction  :column
                 :align-items     :start
-                :justify-content :start
-                }}
+                :justify-content :start}}
     (into []
       (for [{:keys [menu title route] :as lesson} (mget (fasc :quick-start me) :lessons)]
-             (a {:href     (str "#/" (name route))
-                 :selector menu
-                 :style (cF (let [curr-route (mget (fasc :quick-start me) :route)]
-                              (merge
-                                {:min-width    "144px"
-                                 :text-decoration :none
-                                 :border-width "2px"
-                                 :border-style :solid
-                                 :border-color "white"
-                                 :font-weight  "normal"}
-                                (when (= route curr-route)
-                                  {:border-color "orange"
-                                   :font-weight  "bold"}))))
-                 :class    :pushbutton}
-               (or menu title))))))
+        (a {:href     (str "#/" (name route))
+            :selector menu
+            :style    (cF (let [curr-route (mget (fasc :quick-start me) :route)]
+                            (merge
+                              {:min-width       "128px"
+                               :text-decoration :none
+                               :border-width    "2px"
+                               :border-style    :solid
+                               :border-color    "white"
+                               :font-weight     "normal"}
+                              (when (= route curr-route)
+                                {:border-color "orange"
+                                 :font-weight  "bold"}))))
+            :class    :pushbutton}
+          (or menu title))))))
 
 (defn quick-start [lesson-title lessons]
-  (div {}
-    {:name           :quick-start
-     :route (cI :intro)
-     :router-starter (fn []
-                       (r/start! (r/router
-                                   (into [] (concat [["/" :intro]]
-                                                (map (fn [{:keys [route]}]
-                                                       [(str "/" (name route)) route])
-                                                  lessons))))
-                         {:default     :ignore
-                          :on-navigate (fn [route params query]
-                                         (when-let [mtx @md/matrix]
-                                           (mset! mtx :route route)))}))
-     :selected-lesson  (cF (let [route (mget me :route)]
-                           (some (fn [lesson]
-                                   (when (= route (:route lesson))
-                                     lesson)) lessons)))
-     :keydowner (cF+ [:watch (fn [_ me new _ _]
-                                   (.addEventListener js/document "keydown" new))]
-                      (fn [evt]
-                        (let [lessons (mget me :lessons)
-                              lesson (mget me :selected-lesson)
-                              curr-x (.indexOf lessons lesson)]
-                          (when-let [new-x (case (.-key evt)
-                                             "Home" 0
-                                             "End" (dec (count lessons))
-                                             ("ArrowRight" "ArrowDown" "PageDown") (inc curr-x)
-                                             ("ArrowLeft" "ArrowUp" "PageUp") (dec curr-x)
-                                             nil)]
-                            (when (<= 0 new-x (dec (count lessons)))
-                              (.stopPropagation evt)
-                              (.preventDefault evt)
-                              (mset! me :route (:route (nth lessons new-x))))))))
-     :lessons          lessons
-     :show-glossary? (cI false)}
+  (div {:style {:height         "100vh" :margin 0 :padding 0 ;:background :lightgray
+                :display        :flex
+                :flex-direction :horizontal
+                ;:gap "1em"
+                }}
+    {:name            :quick-start
+     :route           (cI :intro)
+     :router-starter  (fn []
+                        (r/start! (r/router
+                                    (into [] (concat [["/" :intro]]
+                                               (map (fn [{:keys [route]}]
+                                                      [(str "/" (name route)) route])
+                                                 lessons))))
+                          {:default     :ignore
+                           :on-navigate (fn [route params query]
+                                          (when-let [mtx @md/matrix]
+                                            ;; todo mset! me
+                                            (mset! mtx :route route)))}))
+     :selected-lesson (cF (let [route (mget me :route)]
+                            (some (fn [lesson]
+                                    (when (= route (:route lesson))
+                                      lesson)) lessons)))
+     :keydowner       (cF+ [:watch (fn [_ me new _ _]
+                                     (.addEventListener js/document "keydown" new))]
+                        (fn [evt]
+                          (let [lessons (mget me :lessons)
+                                lesson (mget me :selected-lesson)
+                                curr-x (.indexOf lessons lesson)]
+                            (when-let [new-x (case (.-key evt)
+                                               "Home" 0
+                                               "End" (dec (count lessons))
+                                               ("ArrowRight" "ArrowDown" "PageDown") (inc curr-x)
+                                               ("ArrowLeft" "ArrowUp" "PageUp") (dec curr-x)
+                                               nil)]
+                              (when (<= 0 new-x (dec (count lessons)))
+                                (.stopPropagation evt)
+                                (.preventDefault evt)
+                                (mset! me :route (:route (nth lessons new-x))))))))
+     :lessons         lessons
+     :show-glossary?  (cI false)}
 
-    (div {:style {:display :flex
-                  :gap     "2em"}}
-      (div {:style {:display         :flex
-                    :flex-direction  :column
-                    :align-items     :center
-                    :justify-content :start
-                    :border-right    "4mm ridge orange"     ;; "rgba(211, 220, 50, .6)"
-                    }}
-        (span {:style {:font-size      "24px"
-                       :margin-bottom  "1em"
-                       :padding-bottom "1em"
-                       :text-align     :center}}
-          lesson-title)
-        (span "use <- or -> keys<br>&nbsp;")
+    (div {:style {:display         :flex
+                  :flex-direction  :column
+                  :height          "100%"
+                  :margin          0
+                  :padding         0
+                  ;; OKish :overflow-y :auto
+                  :min-width       "180px"
+                  :align-items     :center
+                  :justify-content :start
+                  :gap             "1em"
+                  :border-right    "4mm ridge orange"       ;; "rgba(211, 220, 50, .6)"
+                  }}
+      (span {:style {:font-size  "24px"
+                     :padding    "18px"
+                     :text-align :center}}
+        lesson-title)
+      (span "use <- or -> keys<br>&nbsp;")
 
-        (quick-start-toolbar))
+      (quick-start-toolbar))
 
-      (when-let [lesson (mget (fasc :quick-start me) :selected-lesson)]
-        (div {:class :fade-in
+    (when-let [lesson (mget me #_(fasc :quick-start me) :selected-lesson)]
+      (div {:class :fade-in                               ;; hhack
               :style {:display        :flex
+                      :overflow-y     :auto
                       :flex-direction :column
-                      :padding        "6px"}}
+                      :padding        "4em"
+                      :height         "100%"}}
           (h2 (:title lesson))
           (when-let [preamble (:preamble lesson)]
             (if (string? preamble)
@@ -131,7 +145,7 @@
                 (if (string? ex)
                   (p ex)
                   (doall (for [elt ex]
-                           (p elt)))))))))))
+                           (p elt))))))))))
 
 (defn main [mx-builder]
   (println "[main]: loading")

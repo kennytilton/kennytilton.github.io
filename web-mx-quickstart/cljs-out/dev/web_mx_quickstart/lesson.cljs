@@ -7,7 +7,7 @@
     [tiltontec.cell.core :refer [cF cF+ cFonce cI cf-freeze]]
     [tiltontec.cell.integrity :refer [with-cc]]
     [tiltontec.model.core
-     :refer [mx-par mget mset! mswap! mset! mxi-find mxu-find-name mdv! fasc fmu fm! fm-navig] :as md]
+     :refer [ mget mset! mswap! mset!    fasc fmu fm-navig] :as md]
     [tiltontec.web-mx.gen :refer [evt-md target-value]]
     [tiltontec.web-mx.gen-macro
      :refer [img section h1 h2 h3 input footer p a
@@ -156,7 +156,7 @@
    :comment  ["Tag macros take an optional second map of ad hoc, custom properties. The map for custom state is identified
    positionally, so an empty first map must be coded even if no HTML attributes are needed."
               "Here, a generic <code>span</code> embodying a speedometer thinks it might usefully have a <code>{:mph 42}</code> property.
-   We will put that to use next."
+   We will put that to use soon."
               "<code>mget</code> can be used anywhere. Inside a formula, it transparently subscribes to the property being read."
               "Big picture: Matrix follows the <a href=https://en.wikipedia.org/wiki/Prototype-based_programming target=\"_blank\">prototype model</a>,\n
                      so generic tags can be re-used without subclassing."]})
@@ -298,7 +298,7 @@
                   (mswap! (fmu :speedometer (evt-md evt)) :mph inc)))))
 
 (def ex-watches
-  {:menu     "Property Watch<br>Functions"
+  {:menu     "Watch Functions"
    :title    "Ad hoc, on-change \"watch\" functions per property"
    :route :watches
    :builder  watches
@@ -306,9 +306,10 @@
    :code     "(div {:class :intro}\n    (h2 \"The speed is now...\")\n    (span {:class   :digi-readout\n           :onclick #(mswap! (evt-md %) :mph inc)}\n      {:name    :speedometer\n       :mph     (cI 42 :watch (fn [slot me new-val prior-val cell]\n                                ;; <b>`cI`, cell input, takes a :watch function</b>\n                                (prn :watch-sees-change slot new-val)))\n       :display (cF (str (mget me :mph) \" mph\"))}\n      (mget me :display))\n    (speed-plus (fn [evt]\n                  (mswap! (fmu :speedometer (evt-md evt)) :mph inc))))"
    :comment  ["A watch function fires when a cell value is initialized, and if the value changes. Watches are used to
    dispatch actions outside the Matrix, if only for logging/debugging, as here. (See the browser console.)"
-              "The watch function in this example simply logs the new value. Other watches could write to
-              localStorage or dispatch XHR requests, etc."
-              "Web/MX, for an extreme example, does all its dynamic DOM maintenance in watch functions on HTML attributes."]})
+   "Watches could also write to localStorage, or dispatch XHR requests. Web/MX itself, as an extreme example,
+   does all its dynamic DOM maintenance in a watch functions on HTML attributes."
+              "Watch functions are dispatched non-deterministically, whenever state propagation happens to reach a property.
+              Where controlled coordination of watch actions is required, a custom action handler can be specified."]})
 
 ;;; --- throttling watch -------------------
 
@@ -332,7 +333,7 @@
                   (mswap! (fmu :speedometer (evt-md evt)) :mph inc)))))
 
 (def ex-watch-cc
-  {:menu     "Property Watch<br>Function Mutation"
+  {:menu     "Watch Function<br>Mutation"
    :title    "Exception: how watches can mutate a Matrix property"
    :route :watch-cc
    :builder  watch-cc
@@ -397,11 +398,11 @@
           (span (get-in response [:body :fact]))
           (str "Error>  " (:error-code response)
             ": " (:error-text response)))
-        "Click (+) to see a chat fact."))))
+        "Click (+) to see a cat fact."))))
 
 (def ex-async-cat
   {:menu     "Async Events"
-   :title    "Async event processing as normal mutation"
+   :title    "Async processing = normal mutation"
    :route :cat-chat
    :builder  async-cat
    :preamble "An async response is just another \"input\" property mutation."
@@ -462,13 +463,16 @@
      :route    :intro
      :title    "Web/MX: Simplicity. Power. Fun."
      :builder  in-review
-     :preamble ["With <a target=_blank href='https://github.com/kennytilton/web-mx'>Web/MX</a>, we build sophisticated interfaces around a few ideas:<br>
+     :preamble ["<blockquote>Standard HTML + transparent reactivity, all the way down.
+                  </blockquote>
+
+                  With <a target=_blank href='https://github.com/kennytilton/web-mx'>Web/MX</a>, we build sophisticated interfaces from just a few ingredients:<br>
                 <ul type=circle>
-                <li>stick to <a target=_blank href='https://developer.mozilla.org/en-US/docs/Web/HTML'>standard</a> HTML, SVG, and CSS&hellip;</li>
-                <li>&hellip;but attach ad hoc properties to those standard DOM elements;</li>
-                <li>bring all DOM and ad hoc properties alive with reactive formulas;</li>
-                <li>let formulas <i>derive from</i> arbitrary other app properties;</li>
-                <li>let async handlers <i>change</i> any app properties;</li>
+                <li>stick to <a target=_blank href='https://developer.mozilla.org/en-US/docs/Web/HTML'>standard</a> HTML, SVG, and CSS elements&hellip;</li>
+                <li>&hellip;but allow them ad hoc properties;</li>
+                <li>bring properties alive with reactive formulas;</li>
+                <li>let formulas <i>read</i> arbitrary other properties;</li>
+                <li>let async handlers <i>change</i> any properties;</li>
                 <li>support <i>watch</i> functions on properties, for side effects;</li>
                 <li>make it all declarative and transparent; and</li>
                 <li>because this is so much fun, create reactive wrappers for routing, XHR, localStorage&mdash;as much
@@ -484,6 +488,5 @@
                 href=\"https://kennytilton.github.io/whoishiring/\">AskHN: Who's Hiring?</a> question; and</li>
                 <li>to a lesser degree, this <a target=_blank href=\"https://github.com/kennytilton/kennytilton.github.io/tree/master/web-mx-quickstart\">Quick Start</a>
                 and the classic <a target=_blank and href='https://kennytilton.github.io/TodoFRP/'>TodoMVC.</li>"
-                "In the remaining panels, we will expand on each idea listed above, all of which are manifested in the live
-                 demo below.<br>&nbsp;"]
+                "In the remaining panels, we will expand on each idea above, most of which are manifested below.<br>&nbsp;"]
      :comment  nil}))

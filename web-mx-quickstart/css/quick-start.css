@@ -1,7 +1,20 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
 div, h1, input {
     font-family: HelveticaNeue, Helvetica;
     color: #444;
 }
+::-webkit-scrollbar {
+  display: none;
+}
+body {
+  overflow: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
 /* the top page DIV */
 .intro {
     display:         flex;
@@ -63,7 +76,7 @@ li {
 .preamble {
   /*font-family: 'Times Roman', serif;*/
   font-family: 'Roboto', sans-serif;
-  /*font-size: 16px;*/
+  font-size: 18px;
   max-width: 35em;
 }
 
@@ -119,4 +132,24 @@ li {
         -ms-animation: fadein 1.5s ease-out; /* Internet Explorer */
          -o-animation: fadein 1.5s ease-out; /* Opera < 12.1 */
             animation: fadein 1.5s ease-out;
+}
+
+blockquote {
+  background: #f9f9f9;
+  border-left: 10px solid #ccc;
+  font-size: 20px;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  quotes: "\201C""\201D""\2018""\2019";
+}
+/* blockquote:before {
+  color: #ccc;
+  content: open-quote;
+  font-size: 4em;
+  line-height: 0.1em;
+  margin-right: 0.25em;
+  vertical-align: -0.4em;
+}*/
+blockquote p {
+  display: inline;
 }

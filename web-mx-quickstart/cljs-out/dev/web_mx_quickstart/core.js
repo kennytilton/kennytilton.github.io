@@ -7,13 +7,14 @@ goog.require('goog.object');
 goog.require('bide.core');
 goog.require('tiltontec.cell.core');
 goog.require('tiltontec.model.core');
+goog.require('tiltontec.matrix.api');
 goog.require('tiltontec.web_mx.gen');
 goog.require('tiltontec.web_mx.gen_macro');
 goog.require('tiltontec.web_mx.html');
 goog.require('web_mx_quickstart.extra');
 goog.require('web_mx_quickstart.lesson');
 web_mx_quickstart.core.quick_start_toolbar = (function web_mx_quickstart$core$quick_start_toolbar(){
-return tiltontec.web_mx.gen.make_tag("div",new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$class,cljs.core.cst$kw$toolbar,cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$flex_DASH_direction,cljs.core.cst$kw$column,cljs.core.cst$kw$align_DASH_items,cljs.core.cst$kw$start,cljs.core.cst$kw$justify_DASH_content,cljs.core.cst$kw$start], null)], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.list(cljs.core.cst$sym$into,cljs.core.PersistentVector.EMPTY,cljs.core.list(cljs.core.cst$sym$for,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$keys,new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$menu,cljs.core.cst$sym$title,cljs.core.cst$sym$route], null),cljs.core.cst$kw$as,cljs.core.cst$sym$lesson], null),cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$lessons)], null),cljs.core.list(cljs.core.cst$sym$a,new cljs.core.PersistentArrayMap(null, 4, [cljs.core.cst$kw$href,cljs.core.list(cljs.core.cst$sym$str,"#/",cljs.core.list(cljs.core.cst$sym$name,cljs.core.cst$sym$route)),cljs.core.cst$kw$selector,cljs.core.cst$sym$menu,cljs.core.cst$kw$style,cljs.core.list(cljs.core.cst$sym$cF,cljs.core.list(cljs.core.cst$sym$let,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$curr_DASH_route,cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$route)], null),cljs.core.list(cljs.core.cst$sym$merge,new cljs.core.PersistentArrayMap(null, 6, [cljs.core.cst$kw$min_DASH_width,"144px",cljs.core.cst$kw$text_DASH_decoration,cljs.core.cst$kw$none,cljs.core.cst$kw$border_DASH_width,"2px",cljs.core.cst$kw$border_DASH_style,cljs.core.cst$kw$solid,cljs.core.cst$kw$border_DASH_color,"white",cljs.core.cst$kw$font_DASH_weight,"normal"], null),cljs.core.list(cljs.core.cst$sym$when,cljs.core.list(cljs.core.cst$sym$_EQ_,cljs.core.cst$sym$route,cljs.core.cst$sym$curr_DASH_route),new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$border_DASH_color,"orange",cljs.core.cst$kw$font_DASH_weight,"bold"], null))))),cljs.core.cst$kw$class,cljs.core.cst$kw$pushbutton], null),cljs.core.list(cljs.core.cst$sym$or,cljs.core.cst$sym$menu,cljs.core.cst$sym$title)))))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP_){
+return tiltontec.web_mx.gen.make_tag("div",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 7, [cljs.core.cst$kw$margin,(0),cljs.core.cst$kw$overflow_DASH_y,cljs.core.cst$kw$scroll,cljs.core.cst$kw$gap,"9px",cljs.core.cst$kw$display,cljs.core.cst$kw$flex,cljs.core.cst$kw$flex_DASH_direction,cljs.core.cst$kw$column,cljs.core.cst$kw$align_DASH_items,cljs.core.cst$kw$start,cljs.core.cst$kw$justify_DASH_content,cljs.core.cst$kw$start], null)], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.list(cljs.core.cst$sym$into,cljs.core.PersistentVector.EMPTY,cljs.core.list(cljs.core.cst$sym$for,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$keys,new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$menu,cljs.core.cst$sym$title,cljs.core.cst$sym$route], null),cljs.core.cst$kw$as,cljs.core.cst$sym$lesson], null),cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$lessons)], null),cljs.core.list(cljs.core.cst$sym$a,new cljs.core.PersistentArrayMap(null, 4, [cljs.core.cst$kw$href,cljs.core.list(cljs.core.cst$sym$str,"#/",cljs.core.list(cljs.core.cst$sym$name,cljs.core.cst$sym$route)),cljs.core.cst$kw$selector,cljs.core.cst$sym$menu,cljs.core.cst$kw$style,cljs.core.list(cljs.core.cst$sym$cF,cljs.core.list(cljs.core.cst$sym$let,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$curr_DASH_route,cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$route)], null),cljs.core.list(cljs.core.cst$sym$merge,new cljs.core.PersistentArrayMap(null, 6, [cljs.core.cst$kw$min_DASH_width,"128px",cljs.core.cst$kw$text_DASH_decoration,cljs.core.cst$kw$none,cljs.core.cst$kw$border_DASH_width,"2px",cljs.core.cst$kw$border_DASH_style,cljs.core.cst$kw$solid,cljs.core.cst$kw$border_DASH_color,"white",cljs.core.cst$kw$font_DASH_weight,"normal"], null),cljs.core.list(cljs.core.cst$sym$when,cljs.core.list(cljs.core.cst$sym$_EQ_,cljs.core.cst$sym$route,cljs.core.cst$sym$curr_DASH_route),new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$border_DASH_color,"orange",cljs.core.cst$kw$font_DASH_weight,"bold"], null))))),cljs.core.cst$kw$class,cljs.core.cst$kw$pushbutton], null),cljs.core.list(cljs.core.cst$sym$or,cljs.core.cst$sym$menu,cljs.core.cst$sym$title)))))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP_){
 var me = tiltontec.cell.base.c_model(slot_c_SHARP_);
 var _cell = slot_c_SHARP_;
 var _slot_name = tiltontec.cell.base.c_slot(slot_c_SHARP_);
@@ -23,45 +24,45 @@ if(cljs.core.truth_(me)){
 throw (new Error(["Assert failed: ","no me for cFkids","\n","me"].join('')));
 }
 
-var _STAR_parent_STAR__orig_val__28797 = tiltontec.model.core._STAR_parent_STAR_;
-var _STAR_parent_STAR__temp_val__28798 = me;
-(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28798);
+var _STAR_parent_STAR__orig_val__28962 = tiltontec.model.core._STAR_parent_STAR_;
+var _STAR_parent_STAR__temp_val__28963 = me;
+(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28963);
 
 try{if(cljs.core.truth_(tiltontec.model.core._STAR_parent_STAR_)){
 } else {
 throw (new Error("Assert failed: tiltontec.model.core/*parent*"));
 }
 
-return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,cljs.core.into.cljs$core$IFn$_invoke$arity$2(cljs.core.PersistentVector.EMPTY,(function (){var iter__4529__auto__ = (function web_mx_quickstart$core$quick_start_toolbar_$_iter__28799(s__28800){
+return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,cljs.core.into.cljs$core$IFn$_invoke$arity$2(cljs.core.PersistentVector.EMPTY,(function (){var iter__4529__auto__ = (function web_mx_quickstart$core$quick_start_toolbar_$_iter__28964(s__28965){
 return (new cljs.core.LazySeq(null,(function (){
-var s__28800__$1 = s__28800;
+var s__28965__$1 = s__28965;
 while(true){
-var temp__5804__auto__ = cljs.core.seq(s__28800__$1);
+var temp__5804__auto__ = cljs.core.seq(s__28965__$1);
 if(temp__5804__auto__){
-var s__28800__$2 = temp__5804__auto__;
-if(cljs.core.chunked_seq_QMARK_(s__28800__$2)){
-var c__4527__auto__ = cljs.core.chunk_first(s__28800__$2);
+var s__28965__$2 = temp__5804__auto__;
+if(cljs.core.chunked_seq_QMARK_(s__28965__$2)){
+var c__4527__auto__ = cljs.core.chunk_first(s__28965__$2);
 var size__4528__auto__ = cljs.core.count(c__4527__auto__);
-var b__28802 = cljs.core.chunk_buffer(size__4528__auto__);
-if((function (){var i__28801 = (0);
+var b__28967 = cljs.core.chunk_buffer(size__4528__auto__);
+if((function (){var i__28966 = (0);
 while(true){
-if((i__28801 < size__4528__auto__)){
-var map__28803 = cljs.core._nth.cljs$core$IFn$_invoke$arity$2(c__4527__auto__,i__28801);
-var map__28803__$1 = (((((!((map__28803 == null))))?(((((map__28803.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__28803.cljs$core$ISeq$))))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__28803):map__28803);
-var lesson = map__28803__$1;
-var menu = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__28803__$1,cljs.core.cst$kw$menu);
-var title = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__28803__$1,cljs.core.cst$kw$title);
-var route = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__28803__$1,cljs.core.cst$kw$route);
-cljs.core.chunk_append(b__28802,tiltontec.web_mx.gen.make_tag("a",new cljs.core.PersistentArrayMap(null, 4, [cljs.core.cst$kw$href,["#/",cljs.core.name(route)].join(''),cljs.core.cst$kw$selector,menu,cljs.core.cst$kw$style,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$let,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$curr_DASH_route,cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$route)], null),cljs.core.list(cljs.core.cst$sym$merge,new cljs.core.PersistentArrayMap(null, 6, [cljs.core.cst$kw$min_DASH_width,"144px",cljs.core.cst$kw$text_DASH_decoration,cljs.core.cst$kw$none,cljs.core.cst$kw$border_DASH_width,"2px",cljs.core.cst$kw$border_DASH_style,cljs.core.cst$kw$solid,cljs.core.cst$kw$border_DASH_color,"white",cljs.core.cst$kw$font_DASH_weight,"normal"], null),cljs.core.list(cljs.core.cst$sym$when,cljs.core.list(cljs.core.cst$sym$_EQ_,cljs.core.cst$sym$route,cljs.core.cst$sym$curr_DASH_route),new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$border_DASH_color,"orange",cljs.core.cst$kw$font_DASH_weight,"bold"], null))))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,((function (i__28801,map__28803,map__28803__$1,lesson,menu,title,route,c__4527__auto__,size__4528__auto__,b__28802,s__28800__$2,temp__5804__auto__,_STAR_parent_STAR__orig_val__28797,_STAR_parent_STAR__temp_val__28798,me,_cell,_slot_name,_cache){
+if((i__28966 < size__4528__auto__)){
+var map__28968 = cljs.core._nth.cljs$core$IFn$_invoke$arity$2(c__4527__auto__,i__28966);
+var map__28968__$1 = (((((!((map__28968 == null))))?(((((map__28968.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__28968.cljs$core$ISeq$))))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__28968):map__28968);
+var lesson = map__28968__$1;
+var menu = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__28968__$1,cljs.core.cst$kw$menu);
+var title = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__28968__$1,cljs.core.cst$kw$title);
+var route = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__28968__$1,cljs.core.cst$kw$route);
+cljs.core.chunk_append(b__28967,tiltontec.web_mx.gen.make_tag("a",new cljs.core.PersistentArrayMap(null, 4, [cljs.core.cst$kw$href,["#/",cljs.core.name(route)].join(''),cljs.core.cst$kw$selector,menu,cljs.core.cst$kw$style,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$let,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$curr_DASH_route,cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$route)], null),cljs.core.list(cljs.core.cst$sym$merge,new cljs.core.PersistentArrayMap(null, 6, [cljs.core.cst$kw$min_DASH_width,"128px",cljs.core.cst$kw$text_DASH_decoration,cljs.core.cst$kw$none,cljs.core.cst$kw$border_DASH_width,"2px",cljs.core.cst$kw$border_DASH_style,cljs.core.cst$kw$solid,cljs.core.cst$kw$border_DASH_color,"white",cljs.core.cst$kw$font_DASH_weight,"normal"], null),cljs.core.list(cljs.core.cst$sym$when,cljs.core.list(cljs.core.cst$sym$_EQ_,cljs.core.cst$sym$route,cljs.core.cst$sym$curr_DASH_route),new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$border_DASH_color,"orange",cljs.core.cst$kw$font_DASH_weight,"bold"], null))))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,((function (i__28966,map__28968,map__28968__$1,lesson,menu,title,route,c__4527__auto__,size__4528__auto__,b__28967,s__28965__$2,temp__5804__auto__,_STAR_parent_STAR__orig_val__28962,_STAR_parent_STAR__temp_val__28963,me,_cell,_slot_name,_cache){
 return (function (slot_c_SHARP___$1){
 var me__$1 = tiltontec.cell.base.c_model(slot_c_SHARP___$1);
 var _cell__$1 = slot_c_SHARP___$1;
 var _slot_name__$1 = tiltontec.cell.base.c_slot(slot_c_SHARP___$1);
 var _cache__$1 = tiltontec.cell.base.c_value(slot_c_SHARP___$1);
-var curr_route = tiltontec.model.core.mget(tiltontec.model.core.fasc(cljs.core.cst$kw$quick_DASH_start,me__$1),cljs.core.cst$kw$route);
-return cljs.core.merge.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([new cljs.core.PersistentArrayMap(null, 6, [cljs.core.cst$kw$min_DASH_width,"144px",cljs.core.cst$kw$text_DASH_decoration,cljs.core.cst$kw$none,cljs.core.cst$kw$border_DASH_width,"2px",cljs.core.cst$kw$border_DASH_style,cljs.core.cst$kw$solid,cljs.core.cst$kw$border_DASH_color,"white",cljs.core.cst$kw$font_DASH_weight,"normal"], null),((cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(route,curr_route))?new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$border_DASH_color,"orange",cljs.core.cst$kw$font_DASH_weight,"bold"], null):null)], 0));
-});})(i__28801,map__28803,map__28803__$1,lesson,menu,title,route,c__4527__auto__,size__4528__auto__,b__28802,s__28800__$2,temp__5804__auto__,_STAR_parent_STAR__orig_val__28797,_STAR_parent_STAR__temp_val__28798,me,_cell,_slot_name,_cache))
-], 0)),cljs.core.cst$kw$class,cljs.core.cst$kw$pushbutton], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.list(cljs.core.cst$sym$or,cljs.core.cst$sym$menu,cljs.core.cst$sym$title))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,((function (i__28801,map__28803,map__28803__$1,lesson,menu,title,route,c__4527__auto__,size__4528__auto__,b__28802,s__28800__$2,temp__5804__auto__,_STAR_parent_STAR__orig_val__28797,_STAR_parent_STAR__temp_val__28798,me,_cell,_slot_name,_cache){
+var curr_route = tiltontec.matrix.api.mget(tiltontec.matrix.api.fasc(cljs.core.cst$kw$quick_DASH_start,me__$1),cljs.core.cst$kw$route);
+return cljs.core.merge.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([new cljs.core.PersistentArrayMap(null, 6, [cljs.core.cst$kw$min_DASH_width,"128px",cljs.core.cst$kw$text_DASH_decoration,cljs.core.cst$kw$none,cljs.core.cst$kw$border_DASH_width,"2px",cljs.core.cst$kw$border_DASH_style,cljs.core.cst$kw$solid,cljs.core.cst$kw$border_DASH_color,"white",cljs.core.cst$kw$font_DASH_weight,"normal"], null),((cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(route,curr_route))?new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$border_DASH_color,"orange",cljs.core.cst$kw$font_DASH_weight,"bold"], null):null)], 0));
+});})(i__28966,map__28968,map__28968__$1,lesson,menu,title,route,c__4527__auto__,size__4528__auto__,b__28967,s__28965__$2,temp__5804__auto__,_STAR_parent_STAR__orig_val__28962,_STAR_parent_STAR__temp_val__28963,me,_cell,_slot_name,_cache))
+], 0)),cljs.core.cst$kw$class,cljs.core.cst$kw$pushbutton], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.list(cljs.core.cst$sym$or,cljs.core.cst$sym$menu,cljs.core.cst$sym$title))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,((function (i__28966,map__28968,map__28968__$1,lesson,menu,title,route,c__4527__auto__,size__4528__auto__,b__28967,s__28965__$2,temp__5804__auto__,_STAR_parent_STAR__orig_val__28962,_STAR_parent_STAR__temp_val__28963,me,_cell,_slot_name,_cache){
 return (function (slot_c_SHARP___$1){
 var me__$1 = tiltontec.cell.base.c_model(slot_c_SHARP___$1);
 var _cell__$1 = slot_c_SHARP___$1;
@@ -72,9 +73,9 @@ if(cljs.core.truth_(me__$1)){
 throw (new Error(["Assert failed: ","no me for cFkids","\n","me"].join('')));
 }
 
-var _STAR_parent_STAR__orig_val__28805 = tiltontec.model.core._STAR_parent_STAR_;
-var _STAR_parent_STAR__temp_val__28806 = me__$1;
-(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28806);
+var _STAR_parent_STAR__orig_val__28970 = tiltontec.model.core._STAR_parent_STAR_;
+var _STAR_parent_STAR__temp_val__28971 = me__$1;
+(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28971);
 
 try{if(cljs.core.truth_(tiltontec.model.core._STAR_parent_STAR_)){
 } else {
@@ -88,12 +89,12 @@ return or__4126__auto__;
 return title;
 }
 })(),null,(1),null)))));
-}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28805);
-}});})(i__28801,map__28803,map__28803__$1,lesson,menu,title,route,c__4527__auto__,size__4528__auto__,b__28802,s__28800__$2,temp__5804__auto__,_STAR_parent_STAR__orig_val__28797,_STAR_parent_STAR__temp_val__28798,me,_cell,_slot_name,_cache))
+}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28970);
+}});})(i__28966,map__28968,map__28968__$1,lesson,menu,title,route,c__4527__auto__,size__4528__auto__,b__28967,s__28965__$2,temp__5804__auto__,_STAR_parent_STAR__orig_val__28962,_STAR_parent_STAR__temp_val__28963,me,_cell,_slot_name,_cache))
 ], 0))));
 
-var G__28811 = (i__28801 + (1));
-i__28801 = G__28811;
+var G__28976 = (i__28966 + (1));
+i__28966 = G__28976;
 continue;
 } else {
 return true;
@@ -101,27 +102,27 @@ return true;
 break;
 }
 })()){
-return cljs.core.chunk_cons(cljs.core.chunk(b__28802),web_mx_quickstart$core$quick_start_toolbar_$_iter__28799(cljs.core.chunk_rest(s__28800__$2)));
+return cljs.core.chunk_cons(cljs.core.chunk(b__28967),web_mx_quickstart$core$quick_start_toolbar_$_iter__28964(cljs.core.chunk_rest(s__28965__$2)));
 } else {
-return cljs.core.chunk_cons(cljs.core.chunk(b__28802),null);
+return cljs.core.chunk_cons(cljs.core.chunk(b__28967),null);
 }
 } else {
-var map__28807 = cljs.core.first(s__28800__$2);
-var map__28807__$1 = (((((!((map__28807 == null))))?(((((map__28807.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__28807.cljs$core$ISeq$))))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__28807):map__28807);
-var lesson = map__28807__$1;
-var menu = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__28807__$1,cljs.core.cst$kw$menu);
-var title = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__28807__$1,cljs.core.cst$kw$title);
-var route = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__28807__$1,cljs.core.cst$kw$route);
-return cljs.core.cons(tiltontec.web_mx.gen.make_tag("a",new cljs.core.PersistentArrayMap(null, 4, [cljs.core.cst$kw$href,["#/",cljs.core.name(route)].join(''),cljs.core.cst$kw$selector,menu,cljs.core.cst$kw$style,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$let,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$curr_DASH_route,cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$route)], null),cljs.core.list(cljs.core.cst$sym$merge,new cljs.core.PersistentArrayMap(null, 6, [cljs.core.cst$kw$min_DASH_width,"144px",cljs.core.cst$kw$text_DASH_decoration,cljs.core.cst$kw$none,cljs.core.cst$kw$border_DASH_width,"2px",cljs.core.cst$kw$border_DASH_style,cljs.core.cst$kw$solid,cljs.core.cst$kw$border_DASH_color,"white",cljs.core.cst$kw$font_DASH_weight,"normal"], null),cljs.core.list(cljs.core.cst$sym$when,cljs.core.list(cljs.core.cst$sym$_EQ_,cljs.core.cst$sym$route,cljs.core.cst$sym$curr_DASH_route),new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$border_DASH_color,"orange",cljs.core.cst$kw$font_DASH_weight,"bold"], null))))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,((function (map__28807,map__28807__$1,lesson,menu,title,route,s__28800__$2,temp__5804__auto__,_STAR_parent_STAR__orig_val__28797,_STAR_parent_STAR__temp_val__28798,me,_cell,_slot_name,_cache){
+var map__28972 = cljs.core.first(s__28965__$2);
+var map__28972__$1 = (((((!((map__28972 == null))))?(((((map__28972.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__28972.cljs$core$ISeq$))))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__28972):map__28972);
+var lesson = map__28972__$1;
+var menu = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__28972__$1,cljs.core.cst$kw$menu);
+var title = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__28972__$1,cljs.core.cst$kw$title);
+var route = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__28972__$1,cljs.core.cst$kw$route);
+return cljs.core.cons(tiltontec.web_mx.gen.make_tag("a",new cljs.core.PersistentArrayMap(null, 4, [cljs.core.cst$kw$href,["#/",cljs.core.name(route)].join(''),cljs.core.cst$kw$selector,menu,cljs.core.cst$kw$style,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$let,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$curr_DASH_route,cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$route)], null),cljs.core.list(cljs.core.cst$sym$merge,new cljs.core.PersistentArrayMap(null, 6, [cljs.core.cst$kw$min_DASH_width,"128px",cljs.core.cst$kw$text_DASH_decoration,cljs.core.cst$kw$none,cljs.core.cst$kw$border_DASH_width,"2px",cljs.core.cst$kw$border_DASH_style,cljs.core.cst$kw$solid,cljs.core.cst$kw$border_DASH_color,"white",cljs.core.cst$kw$font_DASH_weight,"normal"], null),cljs.core.list(cljs.core.cst$sym$when,cljs.core.list(cljs.core.cst$sym$_EQ_,cljs.core.cst$sym$route,cljs.core.cst$sym$curr_DASH_route),new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$border_DASH_color,"orange",cljs.core.cst$kw$font_DASH_weight,"bold"], null))))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,((function (map__28972,map__28972__$1,lesson,menu,title,route,s__28965__$2,temp__5804__auto__,_STAR_parent_STAR__orig_val__28962,_STAR_parent_STAR__temp_val__28963,me,_cell,_slot_name,_cache){
 return (function (slot_c_SHARP___$1){
 var me__$1 = tiltontec.cell.base.c_model(slot_c_SHARP___$1);
 var _cell__$1 = slot_c_SHARP___$1;
 var _slot_name__$1 = tiltontec.cell.base.c_slot(slot_c_SHARP___$1);
 var _cache__$1 = tiltontec.cell.base.c_value(slot_c_SHARP___$1);
-var curr_route = tiltontec.model.core.mget(tiltontec.model.core.fasc(cljs.core.cst$kw$quick_DASH_start,me__$1),cljs.core.cst$kw$route);
-return cljs.core.merge.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([new cljs.core.PersistentArrayMap(null, 6, [cljs.core.cst$kw$min_DASH_width,"144px",cljs.core.cst$kw$text_DASH_decoration,cljs.core.cst$kw$none,cljs.core.cst$kw$border_DASH_width,"2px",cljs.core.cst$kw$border_DASH_style,cljs.core.cst$kw$solid,cljs.core.cst$kw$border_DASH_color,"white",cljs.core.cst$kw$font_DASH_weight,"normal"], null),((cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(route,curr_route))?new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$border_DASH_color,"orange",cljs.core.cst$kw$font_DASH_weight,"bold"], null):null)], 0));
-});})(map__28807,map__28807__$1,lesson,menu,title,route,s__28800__$2,temp__5804__auto__,_STAR_parent_STAR__orig_val__28797,_STAR_parent_STAR__temp_val__28798,me,_cell,_slot_name,_cache))
-], 0)),cljs.core.cst$kw$class,cljs.core.cst$kw$pushbutton], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.list(cljs.core.cst$sym$or,cljs.core.cst$sym$menu,cljs.core.cst$sym$title))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,((function (map__28807,map__28807__$1,lesson,menu,title,route,s__28800__$2,temp__5804__auto__,_STAR_parent_STAR__orig_val__28797,_STAR_parent_STAR__temp_val__28798,me,_cell,_slot_name,_cache){
+var curr_route = tiltontec.matrix.api.mget(tiltontec.matrix.api.fasc(cljs.core.cst$kw$quick_DASH_start,me__$1),cljs.core.cst$kw$route);
+return cljs.core.merge.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([new cljs.core.PersistentArrayMap(null, 6, [cljs.core.cst$kw$min_DASH_width,"128px",cljs.core.cst$kw$text_DASH_decoration,cljs.core.cst$kw$none,cljs.core.cst$kw$border_DASH_width,"2px",cljs.core.cst$kw$border_DASH_style,cljs.core.cst$kw$solid,cljs.core.cst$kw$border_DASH_color,"white",cljs.core.cst$kw$font_DASH_weight,"normal"], null),((cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(route,curr_route))?new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$border_DASH_color,"orange",cljs.core.cst$kw$font_DASH_weight,"bold"], null):null)], 0));
+});})(map__28972,map__28972__$1,lesson,menu,title,route,s__28965__$2,temp__5804__auto__,_STAR_parent_STAR__orig_val__28962,_STAR_parent_STAR__temp_val__28963,me,_cell,_slot_name,_cache))
+], 0)),cljs.core.cst$kw$class,cljs.core.cst$kw$pushbutton], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.list(cljs.core.cst$sym$or,cljs.core.cst$sym$menu,cljs.core.cst$sym$title))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,((function (map__28972,map__28972__$1,lesson,menu,title,route,s__28965__$2,temp__5804__auto__,_STAR_parent_STAR__orig_val__28962,_STAR_parent_STAR__temp_val__28963,me,_cell,_slot_name,_cache){
 return (function (slot_c_SHARP___$1){
 var me__$1 = tiltontec.cell.base.c_model(slot_c_SHARP___$1);
 var _cell__$1 = slot_c_SHARP___$1;
@@ -132,9 +133,9 @@ if(cljs.core.truth_(me__$1)){
 throw (new Error(["Assert failed: ","no me for cFkids","\n","me"].join('')));
 }
 
-var _STAR_parent_STAR__orig_val__28809 = tiltontec.model.core._STAR_parent_STAR_;
-var _STAR_parent_STAR__temp_val__28810 = me__$1;
-(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28810);
+var _STAR_parent_STAR__orig_val__28974 = tiltontec.model.core._STAR_parent_STAR_;
+var _STAR_parent_STAR__temp_val__28975 = me__$1;
+(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28975);
 
 try{if(cljs.core.truth_(tiltontec.model.core._STAR_parent_STAR_)){
 } else {
@@ -148,9 +149,9 @@ return or__4126__auto__;
 return title;
 }
 })(),null,(1),null)))));
-}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28809);
-}});})(map__28807,map__28807__$1,lesson,menu,title,route,s__28800__$2,temp__5804__auto__,_STAR_parent_STAR__orig_val__28797,_STAR_parent_STAR__temp_val__28798,me,_cell,_slot_name,_cache))
-], 0))),web_mx_quickstart$core$quick_start_toolbar_$_iter__28799(cljs.core.rest(s__28800__$2)));
+}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28974);
+}});})(map__28972,map__28972__$1,lesson,menu,title,route,s__28965__$2,temp__5804__auto__,_STAR_parent_STAR__orig_val__28962,_STAR_parent_STAR__temp_val__28963,me,_cell,_slot_name,_cache))
+], 0))),web_mx_quickstart$core$quick_start_toolbar_$_iter__28964(cljs.core.rest(s__28965__$2)));
 }
 } else {
 return null;
@@ -159,23 +160,23 @@ break;
 }
 }),null,null));
 });
-return iter__4529__auto__(tiltontec.model.core.mget(tiltontec.model.core.fasc(cljs.core.cst$kw$quick_DASH_start,me),cljs.core.cst$kw$lessons));
+return iter__4529__auto__(tiltontec.matrix.api.mget(tiltontec.matrix.api.fasc(cljs.core.cst$kw$quick_DASH_start,me),cljs.core.cst$kw$lessons));
 })()),null,(1),null)))));
-}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28797);
+}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28962);
 }})], 0)));
 });
 web_mx_quickstart.core.quick_start = (function web_mx_quickstart$core$quick_start(lesson_title,lessons){
-return tiltontec.web_mx.gen.make_tag("div",cljs.core.PersistentArrayMap.EMPTY,new cljs.core.PersistentArrayMap(null, 7, [cljs.core.cst$kw$name,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$kw$route,tiltontec.cell.core.cI(cljs.core.cst$kw$intro),cljs.core.cst$kw$router_DASH_starter,(function (){
-return bide.core.start_BANG_(bide.core.router(cljs.core.into.cljs$core$IFn$_invoke$arity$2(cljs.core.PersistentVector.EMPTY,cljs.core.concat.cljs$core$IFn$_invoke$arity$2(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, ["/",cljs.core.cst$kw$intro], null)], null),cljs.core.map.cljs$core$IFn$_invoke$arity$2((function (p__28813){
-var map__28814 = p__28813;
-var map__28814__$1 = (((((!((map__28814 == null))))?(((((map__28814.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__28814.cljs$core$ISeq$))))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__28814):map__28814);
-var route = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__28814__$1,cljs.core.cst$kw$route);
+return tiltontec.web_mx.gen.make_tag("div",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 5, [cljs.core.cst$kw$height,"100vh",cljs.core.cst$kw$margin,(0),cljs.core.cst$kw$padding,(0),cljs.core.cst$kw$display,cljs.core.cst$kw$flex,cljs.core.cst$kw$flex_DASH_direction,cljs.core.cst$kw$horizontal], null)], null),new cljs.core.PersistentArrayMap(null, 7, [cljs.core.cst$kw$name,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$kw$route,tiltontec.cell.core.cI(cljs.core.cst$kw$intro),cljs.core.cst$kw$router_DASH_starter,(function (){
+return bide.core.start_BANG_(bide.core.router(cljs.core.into.cljs$core$IFn$_invoke$arity$2(cljs.core.PersistentVector.EMPTY,cljs.core.concat.cljs$core$IFn$_invoke$arity$2(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, ["/",cljs.core.cst$kw$intro], null)], null),cljs.core.map.cljs$core$IFn$_invoke$arity$2((function (p__28978){
+var map__28979 = p__28978;
+var map__28979__$1 = (((((!((map__28979 == null))))?(((((map__28979.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__28979.cljs$core$ISeq$))))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__28979):map__28979);
+var route = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__28979__$1,cljs.core.cst$kw$route);
 return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [["/",cljs.core.name(route)].join(''),route], null);
 }),lessons)))),new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$default,cljs.core.cst$kw$ignore,cljs.core.cst$kw$on_DASH_navigate,(function (route,params,query){
 var temp__5804__auto__ = cljs.core.deref(tiltontec.model.core.matrix);
 if(cljs.core.truth_(temp__5804__auto__)){
 var mtx = temp__5804__auto__;
-return tiltontec.model.core.mset_BANG_(mtx,cljs.core.cst$kw$route,route);
+return tiltontec.matrix.api.mset_BANG_(mtx,cljs.core.cst$kw$route,route);
 } else {
 return null;
 }
@@ -185,7 +186,7 @@ var me = tiltontec.cell.base.c_model(slot_c_SHARP_);
 var _cell = slot_c_SHARP_;
 var _slot_name = tiltontec.cell.base.c_slot(slot_c_SHARP_);
 var _cache = tiltontec.cell.base.c_value(slot_c_SHARP_);
-var route = tiltontec.model.core.mget(me,cljs.core.cst$kw$route);
+var route = tiltontec.matrix.api.mget(me,cljs.core.cst$kw$route);
 return cljs.core.some((function (lesson){
 if(cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(route,cljs.core.cst$kw$route.cljs$core$IFn$_invoke$arity$1(lesson))){
 return lesson;
@@ -201,11 +202,11 @@ var _cell = slot_c_SHARP_;
 var _slot_name = tiltontec.cell.base.c_slot(slot_c_SHARP_);
 var _cache = tiltontec.cell.base.c_value(slot_c_SHARP_);
 return (function (evt){
-var lessons__$1 = tiltontec.model.core.mget(me,cljs.core.cst$kw$lessons);
-var lesson = tiltontec.model.core.mget(me,cljs.core.cst$kw$selected_DASH_lesson);
+var lessons__$1 = tiltontec.matrix.api.mget(me,cljs.core.cst$kw$lessons);
+var lesson = tiltontec.matrix.api.mget(me,cljs.core.cst$kw$selected_DASH_lesson);
 var curr_x = lessons__$1.indexOf(lesson);
-var temp__5804__auto__ = (function (){var G__28816 = evt.key;
-switch (G__28816) {
+var temp__5804__auto__ = (function (){var G__28981 = evt.key;
+switch (G__28981) {
 case "Home":
 return (0);
 
@@ -238,7 +239,7 @@ evt.stopPropagation();
 
 evt.preventDefault();
 
-return tiltontec.model.core.mset_BANG_(me,cljs.core.cst$kw$route,cljs.core.cst$kw$route.cljs$core$IFn$_invoke$arity$1(cljs.core.nth.cljs$core$IFn$_invoke$arity$2(lessons__$1,new_x)));
+return tiltontec.matrix.api.mset_BANG_(me,cljs.core.cst$kw$route,cljs.core.cst$kw$route.cljs$core$IFn$_invoke$arity$1(cljs.core.nth.cljs$core$IFn$_invoke$arity$2(lessons__$1,new_x)));
 } else {
 return null;
 }
@@ -246,7 +247,7 @@ return null;
 return null;
 }
 });
-})], 0)),cljs.core.cst$kw$lessons,lessons,cljs.core.cst$kw$show_DASH_glossary_QMARK_,tiltontec.cell.core.cI(false)], null),tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.list(cljs.core.cst$sym$div,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$display,cljs.core.cst$kw$flex,cljs.core.cst$kw$gap,"2em"], null)], null),cljs.core.list(cljs.core.cst$sym$div,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 5, [cljs.core.cst$kw$display,cljs.core.cst$kw$flex,cljs.core.cst$kw$flex_DASH_direction,cljs.core.cst$kw$column,cljs.core.cst$kw$align_DASH_items,cljs.core.cst$kw$center,cljs.core.cst$kw$justify_DASH_content,cljs.core.cst$kw$start,cljs.core.cst$kw$border_DASH_right,"4mm ridge orange"], null)], null),cljs.core.list(cljs.core.cst$sym$span,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 4, [cljs.core.cst$kw$font_DASH_size,"24px",cljs.core.cst$kw$margin_DASH_bottom,"1em",cljs.core.cst$kw$padding_DASH_bottom,"1em",cljs.core.cst$kw$text_DASH_align,cljs.core.cst$kw$center], null)], null),cljs.core.cst$sym$lesson_DASH_title),cljs.core.list(cljs.core.cst$sym$span,"use <- or -> keys<br>&nbsp;"),cljs.core.list(cljs.core.cst$sym$quick_DASH_start_DASH_toolbar)),cljs.core.list(cljs.core.cst$sym$when_DASH_let,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$lesson,cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$selected_DASH_lesson)], null),cljs.core.list(cljs.core.cst$sym$div,new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$class,cljs.core.cst$kw$fade_DASH_in,cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$display,cljs.core.cst$kw$flex,cljs.core.cst$kw$flex_DASH_direction,cljs.core.cst$kw$column,cljs.core.cst$kw$padding,"6px"], null)], null),cljs.core.list(cljs.core.cst$sym$h2,cljs.core.list(cljs.core.cst$kw$title,cljs.core.cst$sym$lesson)),cljs.core.list(cljs.core.cst$sym$when_DASH_let,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$preamble,cljs.core.list(cljs.core.cst$kw$preamble,cljs.core.cst$sym$lesson)], null),cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$string_QMARK_,cljs.core.cst$sym$preamble),cljs.core.list(cljs.core.cst$sym$p,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.cst$sym$preamble),cljs.core.list(cljs.core.cst$sym$doall,cljs.core.list(cljs.core.cst$sym$for,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$elt,cljs.core.cst$sym$preamble], null),cljs.core.list(cljs.core.cst$sym$p,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.cst$sym$elt))))),cljs.core.list(cljs.core.cst$sym$div,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$lesson], null),cljs.core.list(cljs.core.list(cljs.core.cst$kw$builder,cljs.core.cst$sym$lesson))),cljs.core.list(cljs.core.cst$sym$pre,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$lesson_DASH_code], null),cljs.core.list(cljs.core.cst$sym$code,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$font_DASH_size,"14px"], null)], null),cljs.core.list(cljs.core.cst$kw$code,cljs.core.cst$sym$lesson))),cljs.core.list(cljs.core.cst$sym$div,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$glossary], null),new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$name,cljs.core.cst$kw$glossary], null),cljs.core.list(cljs.core.cst$sym$span,new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$class,cljs.core.cst$kw$pushbutton,cljs.core.cst$kw$onclick,cljs.core.list(cljs.core.cst$sym$fn_STAR_,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$p1__28812_SHARP_], null),cljs.core.list(cljs.core.cst$sym$mswap_BANG_,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.list(cljs.core.cst$sym$evt_DASH_md,cljs.core.cst$sym$p1__28812_SHARP_)),cljs.core.cst$kw$show_DASH_glossary_QMARK_,cljs.core.cst$sym$not))], null),cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$show_DASH_glossary_QMARK_),"Hide Glossary","Show Glossary")),cljs.core.list(cljs.core.cst$sym$div,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,cljs.core.list(cljs.core.cst$sym$cF,cljs.core.list(cljs.core.cst$sym$str,"display:",cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$show_DASH_glossary_QMARK_),"block","none")))], null),cljs.core.list(cljs.core.cst$sym$extra_SLASH_glossary))),cljs.core.list(cljs.core.cst$sym$when_DASH_let,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$c,cljs.core.list(cljs.core.cst$kw$comment,cljs.core.cst$sym$lesson)], null),cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$string_QMARK_,cljs.core.cst$sym$c),cljs.core.list(cljs.core.cst$sym$p,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.cst$sym$c),cljs.core.list(cljs.core.cst$sym$doall,cljs.core.list(cljs.core.cst$sym$for,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$cx,cljs.core.cst$sym$c], null),cljs.core.list(cljs.core.cst$sym$p,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.cst$sym$cx)))))))))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP_){
+})], 0)),cljs.core.cst$kw$lessons,lessons,cljs.core.cst$kw$show_DASH_glossary_QMARK_,tiltontec.cell.core.cI(false)], null),tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.list(cljs.core.cst$sym$div,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,cljs.core.PersistentHashMap.fromArrays([cljs.core.cst$kw$min_DASH_width,cljs.core.cst$kw$align_DASH_items,cljs.core.cst$kw$border_DASH_right,cljs.core.cst$kw$padding,cljs.core.cst$kw$justify_DASH_content,cljs.core.cst$kw$gap,cljs.core.cst$kw$display,cljs.core.cst$kw$flex_DASH_direction,cljs.core.cst$kw$height,cljs.core.cst$kw$margin],["180px",cljs.core.cst$kw$center,"4mm ridge orange",(0),cljs.core.cst$kw$start,"1em",cljs.core.cst$kw$flex,cljs.core.cst$kw$column,"100%",(0)])], null),cljs.core.list(cljs.core.cst$sym$span,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$font_DASH_size,"24px",cljs.core.cst$kw$padding,"18px",cljs.core.cst$kw$text_DASH_align,cljs.core.cst$kw$center], null)], null),cljs.core.cst$sym$lesson_DASH_title),cljs.core.list(cljs.core.cst$sym$span,"use <- or -> keys<br>&nbsp;"),cljs.core.list(cljs.core.cst$sym$quick_DASH_start_DASH_toolbar)),cljs.core.list(cljs.core.cst$sym$when_DASH_let,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$lesson,cljs.core.list(cljs.core.cst$sym$mget,cljs.core.cst$sym$me,cljs.core.cst$kw$selected_DASH_lesson)], null),cljs.core.list(cljs.core.cst$sym$div,new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$class,cljs.core.cst$kw$fade_DASH_in,cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 5, [cljs.core.cst$kw$display,cljs.core.cst$kw$flex,cljs.core.cst$kw$overflow_DASH_y,cljs.core.cst$kw$auto,cljs.core.cst$kw$flex_DASH_direction,cljs.core.cst$kw$column,cljs.core.cst$kw$padding,"4em",cljs.core.cst$kw$height,"100%"], null)], null),cljs.core.list(cljs.core.cst$sym$h2,cljs.core.list(cljs.core.cst$kw$title,cljs.core.cst$sym$lesson)),cljs.core.list(cljs.core.cst$sym$when_DASH_let,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$preamble,cljs.core.list(cljs.core.cst$kw$preamble,cljs.core.cst$sym$lesson)], null),cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$string_QMARK_,cljs.core.cst$sym$preamble),cljs.core.list(cljs.core.cst$sym$p,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.cst$sym$preamble),cljs.core.list(cljs.core.cst$sym$doall,cljs.core.list(cljs.core.cst$sym$for,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$elt,cljs.core.cst$sym$preamble], null),cljs.core.list(cljs.core.cst$sym$p,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.cst$sym$elt))))),cljs.core.list(cljs.core.cst$sym$div,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$lesson], null),cljs.core.list(cljs.core.list(cljs.core.cst$kw$builder,cljs.core.cst$sym$lesson))),cljs.core.list(cljs.core.cst$sym$pre,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$lesson_DASH_code], null),cljs.core.list(cljs.core.cst$sym$code,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$font_DASH_size,"14px"], null)], null),cljs.core.list(cljs.core.cst$kw$code,cljs.core.cst$sym$lesson))),cljs.core.list(cljs.core.cst$sym$div,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$glossary], null),new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$name,cljs.core.cst$kw$glossary], null),cljs.core.list(cljs.core.cst$sym$span,new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$class,cljs.core.cst$kw$pushbutton,cljs.core.cst$kw$onclick,cljs.core.list(cljs.core.cst$sym$fn_STAR_,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$p1__28977_SHARP_], null),cljs.core.list(cljs.core.cst$sym$mswap_BANG_,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.list(cljs.core.cst$sym$evt_DASH_md,cljs.core.cst$sym$p1__28977_SHARP_)),cljs.core.cst$kw$show_DASH_glossary_QMARK_,cljs.core.cst$sym$not))], null),cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$show_DASH_glossary_QMARK_),"Hide Glossary","Show Glossary")),cljs.core.list(cljs.core.cst$sym$div,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,cljs.core.list(cljs.core.cst$sym$cF,cljs.core.list(cljs.core.cst$sym$str,"display:",cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$show_DASH_glossary_QMARK_),"block","none")))], null),cljs.core.list(cljs.core.cst$sym$extra_SLASH_glossary))),cljs.core.list(cljs.core.cst$sym$when_DASH_let,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$c,cljs.core.list(cljs.core.cst$kw$comment,cljs.core.cst$sym$lesson)], null),cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$string_QMARK_,cljs.core.cst$sym$c),cljs.core.list(cljs.core.cst$sym$p,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.cst$sym$c),cljs.core.list(cljs.core.cst$sym$doall,cljs.core.list(cljs.core.cst$sym$for,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$cx,cljs.core.cst$sym$c], null),cljs.core.list(cljs.core.cst$sym$p,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.cst$sym$cx))))))))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP_){
 var me = tiltontec.cell.base.c_model(slot_c_SHARP_);
 var _cell = slot_c_SHARP_;
 var _slot_name = tiltontec.cell.base.c_slot(slot_c_SHARP_);
@@ -256,16 +257,16 @@ if(cljs.core.truth_(me)){
 throw (new Error(["Assert failed: ","no me for cFkids","\n","me"].join('')));
 }
 
-var _STAR_parent_STAR__orig_val__28817 = tiltontec.model.core._STAR_parent_STAR_;
-var _STAR_parent_STAR__temp_val__28818 = me;
-(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28818);
+var _STAR_parent_STAR__orig_val__28982 = tiltontec.model.core._STAR_parent_STAR_;
+var _STAR_parent_STAR__temp_val__28983 = me;
+(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28983);
 
 try{if(cljs.core.truth_(tiltontec.model.core._STAR_parent_STAR_)){
 } else {
 throw (new Error("Assert failed: tiltontec.model.core/*parent*"));
 }
 
-return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,tiltontec.web_mx.gen.make_tag("div",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$display,cljs.core.cst$kw$flex,cljs.core.cst$kw$gap,"2em"], null)], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.list(cljs.core.cst$sym$div,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 5, [cljs.core.cst$kw$display,cljs.core.cst$kw$flex,cljs.core.cst$kw$flex_DASH_direction,cljs.core.cst$kw$column,cljs.core.cst$kw$align_DASH_items,cljs.core.cst$kw$center,cljs.core.cst$kw$justify_DASH_content,cljs.core.cst$kw$start,cljs.core.cst$kw$border_DASH_right,"4mm ridge orange"], null)], null),cljs.core.list(cljs.core.cst$sym$span,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 4, [cljs.core.cst$kw$font_DASH_size,"24px",cljs.core.cst$kw$margin_DASH_bottom,"1em",cljs.core.cst$kw$padding_DASH_bottom,"1em",cljs.core.cst$kw$text_DASH_align,cljs.core.cst$kw$center], null)], null),cljs.core.cst$sym$lesson_DASH_title),cljs.core.list(cljs.core.cst$sym$span,"use <- or -> keys<br>&nbsp;"),cljs.core.list(cljs.core.cst$sym$quick_DASH_start_DASH_toolbar)),cljs.core.list(cljs.core.cst$sym$when_DASH_let,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$lesson,cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$selected_DASH_lesson)], null),cljs.core.list(cljs.core.cst$sym$div,new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$class,cljs.core.cst$kw$fade_DASH_in,cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$display,cljs.core.cst$kw$flex,cljs.core.cst$kw$flex_DASH_direction,cljs.core.cst$kw$column,cljs.core.cst$kw$padding,"6px"], null)], null),cljs.core.list(cljs.core.cst$sym$h2,cljs.core.list(cljs.core.cst$kw$title,cljs.core.cst$sym$lesson)),cljs.core.list(cljs.core.cst$sym$when_DASH_let,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$preamble,cljs.core.list(cljs.core.cst$kw$preamble,cljs.core.cst$sym$lesson)], null),cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$string_QMARK_,cljs.core.cst$sym$preamble),cljs.core.list(cljs.core.cst$sym$p,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.cst$sym$preamble),cljs.core.list(cljs.core.cst$sym$doall,cljs.core.list(cljs.core.cst$sym$for,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$elt,cljs.core.cst$sym$preamble], null),cljs.core.list(cljs.core.cst$sym$p,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.cst$sym$elt))))),cljs.core.list(cljs.core.cst$sym$div,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$lesson], null),cljs.core.list(cljs.core.list(cljs.core.cst$kw$builder,cljs.core.cst$sym$lesson))),cljs.core.list(cljs.core.cst$sym$pre,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$lesson_DASH_code], null),cljs.core.list(cljs.core.cst$sym$code,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$font_DASH_size,"14px"], null)], null),cljs.core.list(cljs.core.cst$kw$code,cljs.core.cst$sym$lesson))),cljs.core.list(cljs.core.cst$sym$div,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$glossary], null),new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$name,cljs.core.cst$kw$glossary], null),cljs.core.list(cljs.core.cst$sym$span,new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$class,cljs.core.cst$kw$pushbutton,cljs.core.cst$kw$onclick,cljs.core.list(cljs.core.cst$sym$fn_STAR_,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$p1__28812_SHARP_], null),cljs.core.list(cljs.core.cst$sym$mswap_BANG_,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.list(cljs.core.cst$sym$evt_DASH_md,cljs.core.cst$sym$p1__28812_SHARP_)),cljs.core.cst$kw$show_DASH_glossary_QMARK_,cljs.core.cst$sym$not))], null),cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$show_DASH_glossary_QMARK_),"Hide Glossary","Show Glossary")),cljs.core.list(cljs.core.cst$sym$div,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,cljs.core.list(cljs.core.cst$sym$cF,cljs.core.list(cljs.core.cst$sym$str,"display:",cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$show_DASH_glossary_QMARK_),"block","none")))], null),cljs.core.list(cljs.core.cst$sym$extra_SLASH_glossary))),cljs.core.list(cljs.core.cst$sym$when_DASH_let,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$c,cljs.core.list(cljs.core.cst$kw$comment,cljs.core.cst$sym$lesson)], null),cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$string_QMARK_,cljs.core.cst$sym$c),cljs.core.list(cljs.core.cst$sym$p,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.cst$sym$c),cljs.core.list(cljs.core.cst$sym$doall,cljs.core.list(cljs.core.cst$sym$for,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$cx,cljs.core.cst$sym$c], null),cljs.core.list(cljs.core.cst$sym$p,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.cst$sym$cx))))))))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$1){
+return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,tiltontec.web_mx.gen.make_tag("div",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,cljs.core.PersistentHashMap.fromArrays([cljs.core.cst$kw$min_DASH_width,cljs.core.cst$kw$align_DASH_items,cljs.core.cst$kw$border_DASH_right,cljs.core.cst$kw$padding,cljs.core.cst$kw$justify_DASH_content,cljs.core.cst$kw$gap,cljs.core.cst$kw$display,cljs.core.cst$kw$flex_DASH_direction,cljs.core.cst$kw$height,cljs.core.cst$kw$margin],["180px",cljs.core.cst$kw$center,"4mm ridge orange",(0),cljs.core.cst$kw$start,"1em",cljs.core.cst$kw$flex,cljs.core.cst$kw$column,"100%",(0)])], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.list(cljs.core.cst$sym$span,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$font_DASH_size,"24px",cljs.core.cst$kw$padding,"18px",cljs.core.cst$kw$text_DASH_align,cljs.core.cst$kw$center], null)], null),cljs.core.cst$sym$lesson_DASH_title),cljs.core.list(cljs.core.cst$sym$span,"use <- or -> keys<br>&nbsp;"),cljs.core.list(cljs.core.cst$sym$quick_DASH_start_DASH_toolbar))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$1){
 var me__$1 = tiltontec.cell.base.c_model(slot_c_SHARP___$1);
 var _cell__$1 = slot_c_SHARP___$1;
 var _slot_name__$1 = tiltontec.cell.base.c_slot(slot_c_SHARP___$1);
@@ -275,16 +276,16 @@ if(cljs.core.truth_(me__$1)){
 throw (new Error(["Assert failed: ","no me for cFkids","\n","me"].join('')));
 }
 
-var _STAR_parent_STAR__orig_val__28819 = tiltontec.model.core._STAR_parent_STAR_;
-var _STAR_parent_STAR__temp_val__28820 = me__$1;
-(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28820);
+var _STAR_parent_STAR__orig_val__28984 = tiltontec.model.core._STAR_parent_STAR_;
+var _STAR_parent_STAR__temp_val__28985 = me__$1;
+(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28985);
 
 try{if(cljs.core.truth_(tiltontec.model.core._STAR_parent_STAR_)){
 } else {
 throw (new Error("Assert failed: tiltontec.model.core/*parent*"));
 }
 
-return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,tiltontec.web_mx.gen.make_tag("div",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 5, [cljs.core.cst$kw$display,cljs.core.cst$kw$flex,cljs.core.cst$kw$flex_DASH_direction,cljs.core.cst$kw$column,cljs.core.cst$kw$align_DASH_items,cljs.core.cst$kw$center,cljs.core.cst$kw$justify_DASH_content,cljs.core.cst$kw$start,cljs.core.cst$kw$border_DASH_right,"4mm ridge orange"], null)], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.list(cljs.core.cst$sym$span,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 4, [cljs.core.cst$kw$font_DASH_size,"24px",cljs.core.cst$kw$margin_DASH_bottom,"1em",cljs.core.cst$kw$padding_DASH_bottom,"1em",cljs.core.cst$kw$text_DASH_align,cljs.core.cst$kw$center], null)], null),cljs.core.cst$sym$lesson_DASH_title),cljs.core.list(cljs.core.cst$sym$span,"use <- or -> keys<br>&nbsp;"),cljs.core.list(cljs.core.cst$sym$quick_DASH_start_DASH_toolbar))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$2){
+return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,tiltontec.web_mx.gen.make_tag("span",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$font_DASH_size,"24px",cljs.core.cst$kw$padding,"18px",cljs.core.cst$kw$text_DASH_align,cljs.core.cst$kw$center], null)], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.cst$sym$lesson_DASH_title)),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$2){
 var me__$2 = tiltontec.cell.base.c_model(slot_c_SHARP___$2);
 var _cell__$2 = slot_c_SHARP___$2;
 var _slot_name__$2 = tiltontec.cell.base.c_slot(slot_c_SHARP___$2);
@@ -294,28 +295,9 @@ if(cljs.core.truth_(me__$2)){
 throw (new Error(["Assert failed: ","no me for cFkids","\n","me"].join('')));
 }
 
-var _STAR_parent_STAR__orig_val__28821 = tiltontec.model.core._STAR_parent_STAR_;
-var _STAR_parent_STAR__temp_val__28822 = me__$2;
-(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28822);
-
-try{if(cljs.core.truth_(tiltontec.model.core._STAR_parent_STAR_)){
-} else {
-throw (new Error("Assert failed: tiltontec.model.core/*parent*"));
-}
-
-return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,tiltontec.web_mx.gen.make_tag("span",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 4, [cljs.core.cst$kw$font_DASH_size,"24px",cljs.core.cst$kw$margin_DASH_bottom,"1em",cljs.core.cst$kw$padding_DASH_bottom,"1em",cljs.core.cst$kw$text_DASH_align,cljs.core.cst$kw$center], null)], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.cst$sym$lesson_DASH_title)),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$3){
-var me__$3 = tiltontec.cell.base.c_model(slot_c_SHARP___$3);
-var _cell__$3 = slot_c_SHARP___$3;
-var _slot_name__$3 = tiltontec.cell.base.c_slot(slot_c_SHARP___$3);
-var _cache__$3 = tiltontec.cell.base.c_value(slot_c_SHARP___$3);
-if(cljs.core.truth_(me__$3)){
-} else {
-throw (new Error(["Assert failed: ","no me for cFkids","\n","me"].join('')));
-}
-
-var _STAR_parent_STAR__orig_val__28823 = tiltontec.model.core._STAR_parent_STAR_;
-var _STAR_parent_STAR__temp_val__28824 = me__$3;
-(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28824);
+var _STAR_parent_STAR__orig_val__28986 = tiltontec.model.core._STAR_parent_STAR_;
+var _STAR_parent_STAR__temp_val__28987 = me__$2;
+(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28987);
 
 try{if(cljs.core.truth_(tiltontec.model.core._STAR_parent_STAR_)){
 } else {
@@ -323,34 +305,8 @@ throw (new Error("Assert failed: tiltontec.model.core/*parent*"));
 }
 
 return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,lesson_title,null,(1),null)))));
-}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28823);
-}})], 0))),(new cljs.core.List(null,tiltontec.web_mx.gen.make_tag("span",cljs.core.PersistentArrayMap.EMPTY,cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,"use <- or -> keys<br>&nbsp;")),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$3){
-var me__$3 = tiltontec.cell.base.c_model(slot_c_SHARP___$3);
-var _cell__$3 = slot_c_SHARP___$3;
-var _slot_name__$3 = tiltontec.cell.base.c_slot(slot_c_SHARP___$3);
-var _cache__$3 = tiltontec.cell.base.c_value(slot_c_SHARP___$3);
-if(cljs.core.truth_(me__$3)){
-} else {
-throw (new Error(["Assert failed: ","no me for cFkids","\n","me"].join('')));
-}
-
-var _STAR_parent_STAR__orig_val__28825 = tiltontec.model.core._STAR_parent_STAR_;
-var _STAR_parent_STAR__temp_val__28826 = me__$3;
-(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28826);
-
-try{if(cljs.core.truth_(tiltontec.model.core._STAR_parent_STAR_)){
-} else {
-throw (new Error("Assert failed: tiltontec.model.core/*parent*"));
-}
-
-return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,"use <- or -> keys<br>&nbsp;",null,(1),null)))));
-}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28825);
-}})], 0))),(new cljs.core.List(null,web_mx_quickstart.core.quick_start_toolbar(),null,(1),null)),(2),null)),(3),null)))));
-}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28821);
-}})], 0))),(new cljs.core.List(null,(function (){var temp__5804__auto__ = tiltontec.model.core.mget(tiltontec.model.core.fasc(cljs.core.cst$kw$quick_DASH_start,me__$1),cljs.core.cst$kw$selected_DASH_lesson);
-if(cljs.core.truth_(temp__5804__auto__)){
-var lesson = temp__5804__auto__;
-return tiltontec.web_mx.gen.make_tag("div",new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$class,cljs.core.cst$kw$fade_DASH_in,cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$display,cljs.core.cst$kw$flex,cljs.core.cst$kw$flex_DASH_direction,cljs.core.cst$kw$column,cljs.core.cst$kw$padding,"6px"], null)], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.list(cljs.core.cst$sym$h2,cljs.core.list(cljs.core.cst$kw$title,cljs.core.cst$sym$lesson)),cljs.core.list(cljs.core.cst$sym$when_DASH_let,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$preamble,cljs.core.list(cljs.core.cst$kw$preamble,cljs.core.cst$sym$lesson)], null),cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$string_QMARK_,cljs.core.cst$sym$preamble),cljs.core.list(cljs.core.cst$sym$p,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.cst$sym$preamble),cljs.core.list(cljs.core.cst$sym$doall,cljs.core.list(cljs.core.cst$sym$for,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$elt,cljs.core.cst$sym$preamble], null),cljs.core.list(cljs.core.cst$sym$p,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.cst$sym$elt))))),cljs.core.list(cljs.core.cst$sym$div,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$lesson], null),cljs.core.list(cljs.core.list(cljs.core.cst$kw$builder,cljs.core.cst$sym$lesson))),cljs.core.list(cljs.core.cst$sym$pre,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$lesson_DASH_code], null),cljs.core.list(cljs.core.cst$sym$code,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$font_DASH_size,"14px"], null)], null),cljs.core.list(cljs.core.cst$kw$code,cljs.core.cst$sym$lesson))),cljs.core.list(cljs.core.cst$sym$div,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$glossary], null),new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$name,cljs.core.cst$kw$glossary], null),cljs.core.list(cljs.core.cst$sym$span,new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$class,cljs.core.cst$kw$pushbutton,cljs.core.cst$kw$onclick,cljs.core.list(cljs.core.cst$sym$fn_STAR_,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$p1__28812_SHARP_], null),cljs.core.list(cljs.core.cst$sym$mswap_BANG_,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.list(cljs.core.cst$sym$evt_DASH_md,cljs.core.cst$sym$p1__28812_SHARP_)),cljs.core.cst$kw$show_DASH_glossary_QMARK_,cljs.core.cst$sym$not))], null),cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$show_DASH_glossary_QMARK_),"Hide Glossary","Show Glossary")),cljs.core.list(cljs.core.cst$sym$div,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,cljs.core.list(cljs.core.cst$sym$cF,cljs.core.list(cljs.core.cst$sym$str,"display:",cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$show_DASH_glossary_QMARK_),"block","none")))], null),cljs.core.list(cljs.core.cst$sym$extra_SLASH_glossary))),cljs.core.list(cljs.core.cst$sym$when_DASH_let,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$c,cljs.core.list(cljs.core.cst$kw$comment,cljs.core.cst$sym$lesson)], null),cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$string_QMARK_,cljs.core.cst$sym$c),cljs.core.list(cljs.core.cst$sym$p,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.cst$sym$c),cljs.core.list(cljs.core.cst$sym$doall,cljs.core.list(cljs.core.cst$sym$for,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$cx,cljs.core.cst$sym$c], null),cljs.core.list(cljs.core.cst$sym$p,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.cst$sym$cx))))))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$2){
+}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28986);
+}})], 0))),(new cljs.core.List(null,tiltontec.web_mx.gen.make_tag("span",cljs.core.PersistentArrayMap.EMPTY,cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,"use <- or -> keys<br>&nbsp;")),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$2){
 var me__$2 = tiltontec.cell.base.c_model(slot_c_SHARP___$2);
 var _cell__$2 = slot_c_SHARP___$2;
 var _slot_name__$2 = tiltontec.cell.base.c_slot(slot_c_SHARP___$2);
@@ -360,28 +316,54 @@ if(cljs.core.truth_(me__$2)){
 throw (new Error(["Assert failed: ","no me for cFkids","\n","me"].join('')));
 }
 
-var _STAR_parent_STAR__orig_val__28827 = tiltontec.model.core._STAR_parent_STAR_;
-var _STAR_parent_STAR__temp_val__28828 = me__$2;
-(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28828);
+var _STAR_parent_STAR__orig_val__28988 = tiltontec.model.core._STAR_parent_STAR_;
+var _STAR_parent_STAR__temp_val__28989 = me__$2;
+(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28989);
 
 try{if(cljs.core.truth_(tiltontec.model.core._STAR_parent_STAR_)){
 } else {
 throw (new Error("Assert failed: tiltontec.model.core/*parent*"));
 }
 
-return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,tiltontec.web_mx.gen.make_tag("h2",cljs.core.PersistentArrayMap.EMPTY,cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.list(cljs.core.cst$kw$title,cljs.core.cst$sym$lesson))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$3){
-var me__$3 = tiltontec.cell.base.c_model(slot_c_SHARP___$3);
-var _cell__$3 = slot_c_SHARP___$3;
-var _slot_name__$3 = tiltontec.cell.base.c_slot(slot_c_SHARP___$3);
-var _cache__$3 = tiltontec.cell.base.c_value(slot_c_SHARP___$3);
-if(cljs.core.truth_(me__$3)){
+return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,"use <- or -> keys<br>&nbsp;",null,(1),null)))));
+}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28988);
+}})], 0))),(new cljs.core.List(null,web_mx_quickstart.core.quick_start_toolbar(),null,(1),null)),(2),null)),(3),null)))));
+}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28984);
+}})], 0))),(new cljs.core.List(null,(function (){var temp__5804__auto__ = tiltontec.matrix.api.mget(me,cljs.core.cst$kw$selected_DASH_lesson);
+if(cljs.core.truth_(temp__5804__auto__)){
+var lesson = temp__5804__auto__;
+return tiltontec.web_mx.gen.make_tag("div",new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$class,cljs.core.cst$kw$fade_DASH_in,cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 5, [cljs.core.cst$kw$display,cljs.core.cst$kw$flex,cljs.core.cst$kw$overflow_DASH_y,cljs.core.cst$kw$auto,cljs.core.cst$kw$flex_DASH_direction,cljs.core.cst$kw$column,cljs.core.cst$kw$padding,"4em",cljs.core.cst$kw$height,"100%"], null)], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.list(cljs.core.cst$sym$h2,cljs.core.list(cljs.core.cst$kw$title,cljs.core.cst$sym$lesson)),cljs.core.list(cljs.core.cst$sym$when_DASH_let,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$preamble,cljs.core.list(cljs.core.cst$kw$preamble,cljs.core.cst$sym$lesson)], null),cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$string_QMARK_,cljs.core.cst$sym$preamble),cljs.core.list(cljs.core.cst$sym$p,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.cst$sym$preamble),cljs.core.list(cljs.core.cst$sym$doall,cljs.core.list(cljs.core.cst$sym$for,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$elt,cljs.core.cst$sym$preamble], null),cljs.core.list(cljs.core.cst$sym$p,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.cst$sym$elt))))),cljs.core.list(cljs.core.cst$sym$div,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$lesson], null),cljs.core.list(cljs.core.list(cljs.core.cst$kw$builder,cljs.core.cst$sym$lesson))),cljs.core.list(cljs.core.cst$sym$pre,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$lesson_DASH_code], null),cljs.core.list(cljs.core.cst$sym$code,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$font_DASH_size,"14px"], null)], null),cljs.core.list(cljs.core.cst$kw$code,cljs.core.cst$sym$lesson))),cljs.core.list(cljs.core.cst$sym$div,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$glossary], null),new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$name,cljs.core.cst$kw$glossary], null),cljs.core.list(cljs.core.cst$sym$span,new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$class,cljs.core.cst$kw$pushbutton,cljs.core.cst$kw$onclick,cljs.core.list(cljs.core.cst$sym$fn_STAR_,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$p1__28977_SHARP_], null),cljs.core.list(cljs.core.cst$sym$mswap_BANG_,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.list(cljs.core.cst$sym$evt_DASH_md,cljs.core.cst$sym$p1__28977_SHARP_)),cljs.core.cst$kw$show_DASH_glossary_QMARK_,cljs.core.cst$sym$not))], null),cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$show_DASH_glossary_QMARK_),"Hide Glossary","Show Glossary")),cljs.core.list(cljs.core.cst$sym$div,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,cljs.core.list(cljs.core.cst$sym$cF,cljs.core.list(cljs.core.cst$sym$str,"display:",cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$show_DASH_glossary_QMARK_),"block","none")))], null),cljs.core.list(cljs.core.cst$sym$extra_SLASH_glossary))),cljs.core.list(cljs.core.cst$sym$when_DASH_let,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$c,cljs.core.list(cljs.core.cst$kw$comment,cljs.core.cst$sym$lesson)], null),cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$string_QMARK_,cljs.core.cst$sym$c),cljs.core.list(cljs.core.cst$sym$p,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.cst$sym$c),cljs.core.list(cljs.core.cst$sym$doall,cljs.core.list(cljs.core.cst$sym$for,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$cx,cljs.core.cst$sym$c], null),cljs.core.list(cljs.core.cst$sym$p,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.cst$sym$cx))))))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$1){
+var me__$1 = tiltontec.cell.base.c_model(slot_c_SHARP___$1);
+var _cell__$1 = slot_c_SHARP___$1;
+var _slot_name__$1 = tiltontec.cell.base.c_slot(slot_c_SHARP___$1);
+var _cache__$1 = tiltontec.cell.base.c_value(slot_c_SHARP___$1);
+if(cljs.core.truth_(me__$1)){
 } else {
 throw (new Error(["Assert failed: ","no me for cFkids","\n","me"].join('')));
 }
 
-var _STAR_parent_STAR__orig_val__28829 = tiltontec.model.core._STAR_parent_STAR_;
-var _STAR_parent_STAR__temp_val__28830 = me__$3;
-(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28830);
+var _STAR_parent_STAR__orig_val__28990 = tiltontec.model.core._STAR_parent_STAR_;
+var _STAR_parent_STAR__temp_val__28991 = me__$1;
+(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28991);
+
+try{if(cljs.core.truth_(tiltontec.model.core._STAR_parent_STAR_)){
+} else {
+throw (new Error("Assert failed: tiltontec.model.core/*parent*"));
+}
+
+return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,tiltontec.web_mx.gen.make_tag("h2",cljs.core.PersistentArrayMap.EMPTY,cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.list(cljs.core.cst$kw$title,cljs.core.cst$sym$lesson))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$2){
+var me__$2 = tiltontec.cell.base.c_model(slot_c_SHARP___$2);
+var _cell__$2 = slot_c_SHARP___$2;
+var _slot_name__$2 = tiltontec.cell.base.c_slot(slot_c_SHARP___$2);
+var _cache__$2 = tiltontec.cell.base.c_value(slot_c_SHARP___$2);
+if(cljs.core.truth_(me__$2)){
+} else {
+throw (new Error(["Assert failed: ","no me for cFkids","\n","me"].join('')));
+}
+
+var _STAR_parent_STAR__orig_val__28992 = tiltontec.model.core._STAR_parent_STAR_;
+var _STAR_parent_STAR__temp_val__28993 = me__$2;
+(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28993);
 
 try{if(cljs.core.truth_(tiltontec.model.core._STAR_parent_STAR_)){
 } else {
@@ -389,24 +371,24 @@ throw (new Error("Assert failed: tiltontec.model.core/*parent*"));
 }
 
 return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,cljs.core.cst$kw$title.cljs$core$IFn$_invoke$arity$1(lesson),null,(1),null)))));
-}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28829);
+}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28992);
 }})], 0))),(new cljs.core.List(null,(function (){var temp__5804__auto____$1 = cljs.core.cst$kw$preamble.cljs$core$IFn$_invoke$arity$1(lesson);
 if(cljs.core.truth_(temp__5804__auto____$1)){
 var preamble = temp__5804__auto____$1;
 if(typeof preamble === 'string'){
-return tiltontec.web_mx.gen.make_tag("p",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.cst$sym$preamble)),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$3){
-var me__$3 = tiltontec.cell.base.c_model(slot_c_SHARP___$3);
-var _cell__$3 = slot_c_SHARP___$3;
-var _slot_name__$3 = tiltontec.cell.base.c_slot(slot_c_SHARP___$3);
-var _cache__$3 = tiltontec.cell.base.c_value(slot_c_SHARP___$3);
-if(cljs.core.truth_(me__$3)){
+return tiltontec.web_mx.gen.make_tag("p",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.cst$sym$preamble)),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$2){
+var me__$2 = tiltontec.cell.base.c_model(slot_c_SHARP___$2);
+var _cell__$2 = slot_c_SHARP___$2;
+var _slot_name__$2 = tiltontec.cell.base.c_slot(slot_c_SHARP___$2);
+var _cache__$2 = tiltontec.cell.base.c_value(slot_c_SHARP___$2);
+if(cljs.core.truth_(me__$2)){
 } else {
 throw (new Error(["Assert failed: ","no me for cFkids","\n","me"].join('')));
 }
 
-var _STAR_parent_STAR__orig_val__28831 = tiltontec.model.core._STAR_parent_STAR_;
-var _STAR_parent_STAR__temp_val__28832 = me__$3;
-(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28832);
+var _STAR_parent_STAR__orig_val__28994 = tiltontec.model.core._STAR_parent_STAR_;
+var _STAR_parent_STAR__temp_val__28995 = me__$2;
+(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28995);
 
 try{if(cljs.core.truth_(tiltontec.model.core._STAR_parent_STAR_)){
 } else {
@@ -414,38 +396,38 @@ throw (new Error("Assert failed: tiltontec.model.core/*parent*"));
 }
 
 return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,preamble,null,(1),null)))));
-}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28831);
+}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28994);
 }})], 0)));
 } else {
-return cljs.core.doall.cljs$core$IFn$_invoke$arity$1((function (){var iter__4529__auto__ = (function web_mx_quickstart$core$quick_start_$_iter__28833(s__28834){
+return cljs.core.doall.cljs$core$IFn$_invoke$arity$1((function (){var iter__4529__auto__ = (function web_mx_quickstart$core$quick_start_$_iter__28996(s__28997){
 return (new cljs.core.LazySeq(null,(function (){
-var s__28834__$1 = s__28834;
+var s__28997__$1 = s__28997;
 while(true){
-var temp__5804__auto____$2 = cljs.core.seq(s__28834__$1);
+var temp__5804__auto____$2 = cljs.core.seq(s__28997__$1);
 if(temp__5804__auto____$2){
-var s__28834__$2 = temp__5804__auto____$2;
-if(cljs.core.chunked_seq_QMARK_(s__28834__$2)){
-var c__4527__auto__ = cljs.core.chunk_first(s__28834__$2);
+var s__28997__$2 = temp__5804__auto____$2;
+if(cljs.core.chunked_seq_QMARK_(s__28997__$2)){
+var c__4527__auto__ = cljs.core.chunk_first(s__28997__$2);
 var size__4528__auto__ = cljs.core.count(c__4527__auto__);
-var b__28836 = cljs.core.chunk_buffer(size__4528__auto__);
-if((function (){var i__28835 = (0);
+var b__28999 = cljs.core.chunk_buffer(size__4528__auto__);
+if((function (){var i__28998 = (0);
 while(true){
-if((i__28835 < size__4528__auto__)){
-var elt = cljs.core._nth.cljs$core$IFn$_invoke$arity$2(c__4527__auto__,i__28835);
-cljs.core.chunk_append(b__28836,tiltontec.web_mx.gen.make_tag("p",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.cst$sym$elt)),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,((function (i__28835,elt,c__4527__auto__,size__4528__auto__,b__28836,s__28834__$2,temp__5804__auto____$2,preamble,temp__5804__auto____$1,_STAR_parent_STAR__orig_val__28827,_STAR_parent_STAR__temp_val__28828,me__$2,_cell__$2,_slot_name__$2,_cache__$2,lesson,temp__5804__auto__,_STAR_parent_STAR__orig_val__28819,_STAR_parent_STAR__temp_val__28820,me__$1,_cell__$1,_slot_name__$1,_cache__$1,_STAR_parent_STAR__orig_val__28817,_STAR_parent_STAR__temp_val__28818,me,_cell,_slot_name,_cache){
-return (function (slot_c_SHARP___$3){
-var me__$3 = tiltontec.cell.base.c_model(slot_c_SHARP___$3);
-var _cell__$3 = slot_c_SHARP___$3;
-var _slot_name__$3 = tiltontec.cell.base.c_slot(slot_c_SHARP___$3);
-var _cache__$3 = tiltontec.cell.base.c_value(slot_c_SHARP___$3);
-if(cljs.core.truth_(me__$3)){
+if((i__28998 < size__4528__auto__)){
+var elt = cljs.core._nth.cljs$core$IFn$_invoke$arity$2(c__4527__auto__,i__28998);
+cljs.core.chunk_append(b__28999,tiltontec.web_mx.gen.make_tag("p",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.cst$sym$elt)),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,((function (i__28998,elt,c__4527__auto__,size__4528__auto__,b__28999,s__28997__$2,temp__5804__auto____$2,preamble,temp__5804__auto____$1,_STAR_parent_STAR__orig_val__28990,_STAR_parent_STAR__temp_val__28991,me__$1,_cell__$1,_slot_name__$1,_cache__$1,lesson,temp__5804__auto__,_STAR_parent_STAR__orig_val__28982,_STAR_parent_STAR__temp_val__28983,me,_cell,_slot_name,_cache){
+return (function (slot_c_SHARP___$2){
+var me__$2 = tiltontec.cell.base.c_model(slot_c_SHARP___$2);
+var _cell__$2 = slot_c_SHARP___$2;
+var _slot_name__$2 = tiltontec.cell.base.c_slot(slot_c_SHARP___$2);
+var _cache__$2 = tiltontec.cell.base.c_value(slot_c_SHARP___$2);
+if(cljs.core.truth_(me__$2)){
 } else {
 throw (new Error(["Assert failed: ","no me for cFkids","\n","me"].join('')));
 }
 
-var _STAR_parent_STAR__orig_val__28837 = tiltontec.model.core._STAR_parent_STAR_;
-var _STAR_parent_STAR__temp_val__28838 = me__$3;
-(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28838);
+var _STAR_parent_STAR__orig_val__29000 = tiltontec.model.core._STAR_parent_STAR_;
+var _STAR_parent_STAR__temp_val__29001 = me__$2;
+(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__29001);
 
 try{if(cljs.core.truth_(tiltontec.model.core._STAR_parent_STAR_)){
 } else {
@@ -453,12 +435,12 @@ throw (new Error("Assert failed: tiltontec.model.core/*parent*"));
 }
 
 return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,elt,null,(1),null)))));
-}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28837);
-}});})(i__28835,elt,c__4527__auto__,size__4528__auto__,b__28836,s__28834__$2,temp__5804__auto____$2,preamble,temp__5804__auto____$1,_STAR_parent_STAR__orig_val__28827,_STAR_parent_STAR__temp_val__28828,me__$2,_cell__$2,_slot_name__$2,_cache__$2,lesson,temp__5804__auto__,_STAR_parent_STAR__orig_val__28819,_STAR_parent_STAR__temp_val__28820,me__$1,_cell__$1,_slot_name__$1,_cache__$1,_STAR_parent_STAR__orig_val__28817,_STAR_parent_STAR__temp_val__28818,me,_cell,_slot_name,_cache))
+}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__29000);
+}});})(i__28998,elt,c__4527__auto__,size__4528__auto__,b__28999,s__28997__$2,temp__5804__auto____$2,preamble,temp__5804__auto____$1,_STAR_parent_STAR__orig_val__28990,_STAR_parent_STAR__temp_val__28991,me__$1,_cell__$1,_slot_name__$1,_cache__$1,lesson,temp__5804__auto__,_STAR_parent_STAR__orig_val__28982,_STAR_parent_STAR__temp_val__28983,me,_cell,_slot_name,_cache))
 ], 0))));
 
-var G__28865 = (i__28835 + (1));
-i__28835 = G__28865;
+var G__29028 = (i__28998 + (1));
+i__28998 = G__29028;
 continue;
 } else {
 return true;
@@ -466,26 +448,26 @@ return true;
 break;
 }
 })()){
-return cljs.core.chunk_cons(cljs.core.chunk(b__28836),web_mx_quickstart$core$quick_start_$_iter__28833(cljs.core.chunk_rest(s__28834__$2)));
+return cljs.core.chunk_cons(cljs.core.chunk(b__28999),web_mx_quickstart$core$quick_start_$_iter__28996(cljs.core.chunk_rest(s__28997__$2)));
 } else {
-return cljs.core.chunk_cons(cljs.core.chunk(b__28836),null);
+return cljs.core.chunk_cons(cljs.core.chunk(b__28999),null);
 }
 } else {
-var elt = cljs.core.first(s__28834__$2);
-return cljs.core.cons(tiltontec.web_mx.gen.make_tag("p",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.cst$sym$elt)),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,((function (elt,s__28834__$2,temp__5804__auto____$2,preamble,temp__5804__auto____$1,_STAR_parent_STAR__orig_val__28827,_STAR_parent_STAR__temp_val__28828,me__$2,_cell__$2,_slot_name__$2,_cache__$2,lesson,temp__5804__auto__,_STAR_parent_STAR__orig_val__28819,_STAR_parent_STAR__temp_val__28820,me__$1,_cell__$1,_slot_name__$1,_cache__$1,_STAR_parent_STAR__orig_val__28817,_STAR_parent_STAR__temp_val__28818,me,_cell,_slot_name,_cache){
-return (function (slot_c_SHARP___$3){
-var me__$3 = tiltontec.cell.base.c_model(slot_c_SHARP___$3);
-var _cell__$3 = slot_c_SHARP___$3;
-var _slot_name__$3 = tiltontec.cell.base.c_slot(slot_c_SHARP___$3);
-var _cache__$3 = tiltontec.cell.base.c_value(slot_c_SHARP___$3);
-if(cljs.core.truth_(me__$3)){
+var elt = cljs.core.first(s__28997__$2);
+return cljs.core.cons(tiltontec.web_mx.gen.make_tag("p",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.cst$sym$elt)),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,((function (elt,s__28997__$2,temp__5804__auto____$2,preamble,temp__5804__auto____$1,_STAR_parent_STAR__orig_val__28990,_STAR_parent_STAR__temp_val__28991,me__$1,_cell__$1,_slot_name__$1,_cache__$1,lesson,temp__5804__auto__,_STAR_parent_STAR__orig_val__28982,_STAR_parent_STAR__temp_val__28983,me,_cell,_slot_name,_cache){
+return (function (slot_c_SHARP___$2){
+var me__$2 = tiltontec.cell.base.c_model(slot_c_SHARP___$2);
+var _cell__$2 = slot_c_SHARP___$2;
+var _slot_name__$2 = tiltontec.cell.base.c_slot(slot_c_SHARP___$2);
+var _cache__$2 = tiltontec.cell.base.c_value(slot_c_SHARP___$2);
+if(cljs.core.truth_(me__$2)){
 } else {
 throw (new Error(["Assert failed: ","no me for cFkids","\n","me"].join('')));
 }
 
-var _STAR_parent_STAR__orig_val__28839 = tiltontec.model.core._STAR_parent_STAR_;
-var _STAR_parent_STAR__temp_val__28840 = me__$3;
-(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28840);
+var _STAR_parent_STAR__orig_val__29002 = tiltontec.model.core._STAR_parent_STAR_;
+var _STAR_parent_STAR__temp_val__29003 = me__$2;
+(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__29003);
 
 try{if(cljs.core.truth_(tiltontec.model.core._STAR_parent_STAR_)){
 } else {
@@ -493,9 +475,9 @@ throw (new Error("Assert failed: tiltontec.model.core/*parent*"));
 }
 
 return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,elt,null,(1),null)))));
-}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28839);
-}});})(elt,s__28834__$2,temp__5804__auto____$2,preamble,temp__5804__auto____$1,_STAR_parent_STAR__orig_val__28827,_STAR_parent_STAR__temp_val__28828,me__$2,_cell__$2,_slot_name__$2,_cache__$2,lesson,temp__5804__auto__,_STAR_parent_STAR__orig_val__28819,_STAR_parent_STAR__temp_val__28820,me__$1,_cell__$1,_slot_name__$1,_cache__$1,_STAR_parent_STAR__orig_val__28817,_STAR_parent_STAR__temp_val__28818,me,_cell,_slot_name,_cache))
-], 0))),web_mx_quickstart$core$quick_start_$_iter__28833(cljs.core.rest(s__28834__$2)));
+}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__29002);
+}});})(elt,s__28997__$2,temp__5804__auto____$2,preamble,temp__5804__auto____$1,_STAR_parent_STAR__orig_val__28990,_STAR_parent_STAR__temp_val__28991,me__$1,_cell__$1,_slot_name__$1,_cache__$1,lesson,temp__5804__auto__,_STAR_parent_STAR__orig_val__28982,_STAR_parent_STAR__temp_val__28983,me,_cell,_slot_name,_cache))
+], 0))),web_mx_quickstart$core$quick_start_$_iter__28996(cljs.core.rest(s__28997__$2)));
 }
 } else {
 return null;
@@ -510,30 +492,49 @@ return iter__4529__auto__(preamble);
 } else {
 return null;
 }
-})(),(new cljs.core.List(null,tiltontec.web_mx.gen.make_tag("div",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$lesson], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.list(cljs.core.list(cljs.core.cst$kw$builder,cljs.core.cst$sym$lesson)))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$3){
-var me__$3 = tiltontec.cell.base.c_model(slot_c_SHARP___$3);
-var _cell__$3 = slot_c_SHARP___$3;
-var _slot_name__$3 = tiltontec.cell.base.c_slot(slot_c_SHARP___$3);
-var _cache__$3 = tiltontec.cell.base.c_value(slot_c_SHARP___$3);
-if(cljs.core.truth_(me__$3)){
+})(),(new cljs.core.List(null,tiltontec.web_mx.gen.make_tag("div",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$lesson], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.list(cljs.core.list(cljs.core.cst$kw$builder,cljs.core.cst$sym$lesson)))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$2){
+var me__$2 = tiltontec.cell.base.c_model(slot_c_SHARP___$2);
+var _cell__$2 = slot_c_SHARP___$2;
+var _slot_name__$2 = tiltontec.cell.base.c_slot(slot_c_SHARP___$2);
+var _cache__$2 = tiltontec.cell.base.c_value(slot_c_SHARP___$2);
+if(cljs.core.truth_(me__$2)){
 } else {
 throw (new Error(["Assert failed: ","no me for cFkids","\n","me"].join('')));
 }
 
-var _STAR_parent_STAR__orig_val__28841 = tiltontec.model.core._STAR_parent_STAR_;
-var _STAR_parent_STAR__temp_val__28842 = me__$3;
-(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28842);
+var _STAR_parent_STAR__orig_val__29004 = tiltontec.model.core._STAR_parent_STAR_;
+var _STAR_parent_STAR__temp_val__29005 = me__$2;
+(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__29005);
 
 try{if(cljs.core.truth_(tiltontec.model.core._STAR_parent_STAR_)){
 } else {
 throw (new Error("Assert failed: tiltontec.model.core/*parent*"));
 }
 
-return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,(function (){var fexpr__28843 = cljs.core.cst$kw$builder.cljs$core$IFn$_invoke$arity$1(lesson);
-return (fexpr__28843.cljs$core$IFn$_invoke$arity$0 ? fexpr__28843.cljs$core$IFn$_invoke$arity$0() : fexpr__28843.call(null));
+return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,(function (){var fexpr__29006 = cljs.core.cst$kw$builder.cljs$core$IFn$_invoke$arity$1(lesson);
+return (fexpr__29006.cljs$core$IFn$_invoke$arity$0 ? fexpr__29006.cljs$core$IFn$_invoke$arity$0() : fexpr__29006.call(null));
 })(),null,(1),null)))));
-}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28841);
-}})], 0))),(new cljs.core.List(null,tiltontec.web_mx.gen.make_tag("pre",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$lesson_DASH_code], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.list(cljs.core.cst$sym$code,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$font_DASH_size,"14px"], null)], null),cljs.core.list(cljs.core.cst$kw$code,cljs.core.cst$sym$lesson)))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$3){
+}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__29004);
+}})], 0))),(new cljs.core.List(null,tiltontec.web_mx.gen.make_tag("pre",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$lesson_DASH_code], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.list(cljs.core.cst$sym$code,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$font_DASH_size,"14px"], null)], null),cljs.core.list(cljs.core.cst$kw$code,cljs.core.cst$sym$lesson)))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$2){
+var me__$2 = tiltontec.cell.base.c_model(slot_c_SHARP___$2);
+var _cell__$2 = slot_c_SHARP___$2;
+var _slot_name__$2 = tiltontec.cell.base.c_slot(slot_c_SHARP___$2);
+var _cache__$2 = tiltontec.cell.base.c_value(slot_c_SHARP___$2);
+if(cljs.core.truth_(me__$2)){
+} else {
+throw (new Error(["Assert failed: ","no me for cFkids","\n","me"].join('')));
+}
+
+var _STAR_parent_STAR__orig_val__29007 = tiltontec.model.core._STAR_parent_STAR_;
+var _STAR_parent_STAR__temp_val__29008 = me__$2;
+(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__29008);
+
+try{if(cljs.core.truth_(tiltontec.model.core._STAR_parent_STAR_)){
+} else {
+throw (new Error("Assert failed: tiltontec.model.core/*parent*"));
+}
+
+return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,tiltontec.web_mx.gen.make_tag("code",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$font_DASH_size,"14px"], null)], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.list(cljs.core.cst$kw$code,cljs.core.cst$sym$lesson))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$3){
 var me__$3 = tiltontec.cell.base.c_model(slot_c_SHARP___$3);
 var _cell__$3 = slot_c_SHARP___$3;
 var _slot_name__$3 = tiltontec.cell.base.c_slot(slot_c_SHARP___$3);
@@ -543,28 +544,9 @@ if(cljs.core.truth_(me__$3)){
 throw (new Error(["Assert failed: ","no me for cFkids","\n","me"].join('')));
 }
 
-var _STAR_parent_STAR__orig_val__28844 = tiltontec.model.core._STAR_parent_STAR_;
-var _STAR_parent_STAR__temp_val__28845 = me__$3;
-(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28845);
-
-try{if(cljs.core.truth_(tiltontec.model.core._STAR_parent_STAR_)){
-} else {
-throw (new Error("Assert failed: tiltontec.model.core/*parent*"));
-}
-
-return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,tiltontec.web_mx.gen.make_tag("code",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$font_DASH_size,"14px"], null)], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.list(cljs.core.cst$kw$code,cljs.core.cst$sym$lesson))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$4){
-var me__$4 = tiltontec.cell.base.c_model(slot_c_SHARP___$4);
-var _cell__$4 = slot_c_SHARP___$4;
-var _slot_name__$4 = tiltontec.cell.base.c_slot(slot_c_SHARP___$4);
-var _cache__$4 = tiltontec.cell.base.c_value(slot_c_SHARP___$4);
-if(cljs.core.truth_(me__$4)){
-} else {
-throw (new Error(["Assert failed: ","no me for cFkids","\n","me"].join('')));
-}
-
-var _STAR_parent_STAR__orig_val__28846 = tiltontec.model.core._STAR_parent_STAR_;
-var _STAR_parent_STAR__temp_val__28847 = me__$4;
-(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28847);
+var _STAR_parent_STAR__orig_val__29009 = tiltontec.model.core._STAR_parent_STAR_;
+var _STAR_parent_STAR__temp_val__29010 = me__$3;
+(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__29010);
 
 try{if(cljs.core.truth_(tiltontec.model.core._STAR_parent_STAR_)){
 } else {
@@ -572,10 +554,31 @@ throw (new Error("Assert failed: tiltontec.model.core/*parent*"));
 }
 
 return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,cljs.core.cst$kw$code.cljs$core$IFn$_invoke$arity$1(lesson),null,(1),null)))));
-}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28846);
+}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__29009);
 }})], 0))),null,(1),null)))));
-}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28844);
-}})], 0))),(new cljs.core.List(null,tiltontec.web_mx.gen.make_tag("div",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$glossary], null),new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$name,cljs.core.cst$kw$glossary], null),tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.list(cljs.core.cst$sym$span,new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$class,cljs.core.cst$kw$pushbutton,cljs.core.cst$kw$onclick,cljs.core.list(cljs.core.cst$sym$fn_STAR_,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$p1__28812_SHARP_], null),cljs.core.list(cljs.core.cst$sym$mswap_BANG_,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.list(cljs.core.cst$sym$evt_DASH_md,cljs.core.cst$sym$p1__28812_SHARP_)),cljs.core.cst$kw$show_DASH_glossary_QMARK_,cljs.core.cst$sym$not))], null),cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$show_DASH_glossary_QMARK_),"Hide Glossary","Show Glossary")),cljs.core.list(cljs.core.cst$sym$div,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,cljs.core.list(cljs.core.cst$sym$cF,cljs.core.list(cljs.core.cst$sym$str,"display:",cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$show_DASH_glossary_QMARK_),"block","none")))], null),cljs.core.list(cljs.core.cst$sym$extra_SLASH_glossary)))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$3){
+}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__29007);
+}})], 0))),(new cljs.core.List(null,tiltontec.web_mx.gen.make_tag("div",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$glossary], null),new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$name,cljs.core.cst$kw$glossary], null),tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.list(cljs.core.cst$sym$span,new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$class,cljs.core.cst$kw$pushbutton,cljs.core.cst$kw$onclick,cljs.core.list(cljs.core.cst$sym$fn_STAR_,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$p1__28977_SHARP_], null),cljs.core.list(cljs.core.cst$sym$mswap_BANG_,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.list(cljs.core.cst$sym$evt_DASH_md,cljs.core.cst$sym$p1__28977_SHARP_)),cljs.core.cst$kw$show_DASH_glossary_QMARK_,cljs.core.cst$sym$not))], null),cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$show_DASH_glossary_QMARK_),"Hide Glossary","Show Glossary")),cljs.core.list(cljs.core.cst$sym$div,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,cljs.core.list(cljs.core.cst$sym$cF,cljs.core.list(cljs.core.cst$sym$str,"display:",cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$show_DASH_glossary_QMARK_),"block","none")))], null),cljs.core.list(cljs.core.cst$sym$extra_SLASH_glossary)))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$2){
+var me__$2 = tiltontec.cell.base.c_model(slot_c_SHARP___$2);
+var _cell__$2 = slot_c_SHARP___$2;
+var _slot_name__$2 = tiltontec.cell.base.c_slot(slot_c_SHARP___$2);
+var _cache__$2 = tiltontec.cell.base.c_value(slot_c_SHARP___$2);
+if(cljs.core.truth_(me__$2)){
+} else {
+throw (new Error(["Assert failed: ","no me for cFkids","\n","me"].join('')));
+}
+
+var _STAR_parent_STAR__orig_val__29011 = tiltontec.model.core._STAR_parent_STAR_;
+var _STAR_parent_STAR__temp_val__29012 = me__$2;
+(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__29012);
+
+try{if(cljs.core.truth_(tiltontec.model.core._STAR_parent_STAR_)){
+} else {
+throw (new Error("Assert failed: tiltontec.model.core/*parent*"));
+}
+
+return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,tiltontec.web_mx.gen.make_tag("span",new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$class,cljs.core.cst$kw$pushbutton,cljs.core.cst$kw$onclick,(function (p1__28977_SHARP_){
+return tiltontec.matrix.api.mswap_BANG_(tiltontec.matrix.api.fasc(cljs.core.cst$kw$quick_DASH_start,tiltontec.web_mx.gen.evt_md(p1__28977_SHARP_)),cljs.core.cst$kw$show_DASH_glossary_QMARK_,cljs.core.not);
+})], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$show_DASH_glossary_QMARK_),"Hide Glossary","Show Glossary"))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$3){
 var me__$3 = tiltontec.cell.base.c_model(slot_c_SHARP___$3);
 var _cell__$3 = slot_c_SHARP___$3;
 var _slot_name__$3 = tiltontec.cell.base.c_slot(slot_c_SHARP___$3);
@@ -585,57 +588,36 @@ if(cljs.core.truth_(me__$3)){
 throw (new Error(["Assert failed: ","no me for cFkids","\n","me"].join('')));
 }
 
-var _STAR_parent_STAR__orig_val__28848 = tiltontec.model.core._STAR_parent_STAR_;
-var _STAR_parent_STAR__temp_val__28849 = me__$3;
-(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28849);
+var _STAR_parent_STAR__orig_val__29013 = tiltontec.model.core._STAR_parent_STAR_;
+var _STAR_parent_STAR__temp_val__29014 = me__$3;
+(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__29014);
 
 try{if(cljs.core.truth_(tiltontec.model.core._STAR_parent_STAR_)){
 } else {
 throw (new Error("Assert failed: tiltontec.model.core/*parent*"));
 }
 
-return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,tiltontec.web_mx.gen.make_tag("span",new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$class,cljs.core.cst$kw$pushbutton,cljs.core.cst$kw$onclick,(function (p1__28812_SHARP_){
-return tiltontec.model.core.mswap_BANG_(tiltontec.model.core.fasc(cljs.core.cst$kw$quick_DASH_start,tiltontec.web_mx.gen.evt_md(p1__28812_SHARP_)),cljs.core.cst$kw$show_DASH_glossary_QMARK_,cljs.core.not);
-})], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$show_DASH_glossary_QMARK_),"Hide Glossary","Show Glossary"))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$4){
-var me__$4 = tiltontec.cell.base.c_model(slot_c_SHARP___$4);
-var _cell__$4 = slot_c_SHARP___$4;
-var _slot_name__$4 = tiltontec.cell.base.c_slot(slot_c_SHARP___$4);
-var _cache__$4 = tiltontec.cell.base.c_value(slot_c_SHARP___$4);
-if(cljs.core.truth_(me__$4)){
+return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,(cljs.core.truth_(tiltontec.matrix.api.mget(tiltontec.matrix.api.fasc(cljs.core.cst$kw$quick_DASH_start,me__$3),cljs.core.cst$kw$show_DASH_glossary_QMARK_))?"Hide Glossary":"Show Glossary"),null,(1),null)))));
+}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__29013);
+}})], 0))),(new cljs.core.List(null,tiltontec.web_mx.gen.make_tag("div",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$str,"display:",cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$show_DASH_glossary_QMARK_),"block","none"))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$3){
+var me__$3 = tiltontec.cell.base.c_model(slot_c_SHARP___$3);
+var _cell__$3 = slot_c_SHARP___$3;
+var _slot_name__$3 = tiltontec.cell.base.c_slot(slot_c_SHARP___$3);
+var _cache__$3 = tiltontec.cell.base.c_value(slot_c_SHARP___$3);
+return ["display:",(cljs.core.truth_(tiltontec.matrix.api.mget(tiltontec.matrix.api.fasc(cljs.core.cst$kw$quick_DASH_start,me__$3),cljs.core.cst$kw$show_DASH_glossary_QMARK_))?"block":"none")].join('');
+})], 0))], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.list(cljs.core.cst$sym$extra_SLASH_glossary))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$3){
+var me__$3 = tiltontec.cell.base.c_model(slot_c_SHARP___$3);
+var _cell__$3 = slot_c_SHARP___$3;
+var _slot_name__$3 = tiltontec.cell.base.c_slot(slot_c_SHARP___$3);
+var _cache__$3 = tiltontec.cell.base.c_value(slot_c_SHARP___$3);
+if(cljs.core.truth_(me__$3)){
 } else {
 throw (new Error(["Assert failed: ","no me for cFkids","\n","me"].join('')));
 }
 
-var _STAR_parent_STAR__orig_val__28850 = tiltontec.model.core._STAR_parent_STAR_;
-var _STAR_parent_STAR__temp_val__28851 = me__$4;
-(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28851);
-
-try{if(cljs.core.truth_(tiltontec.model.core._STAR_parent_STAR_)){
-} else {
-throw (new Error("Assert failed: tiltontec.model.core/*parent*"));
-}
-
-return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,(cljs.core.truth_(tiltontec.model.core.mget(tiltontec.model.core.fasc(cljs.core.cst$kw$quick_DASH_start,me__$4),cljs.core.cst$kw$show_DASH_glossary_QMARK_))?"Hide Glossary":"Show Glossary"),null,(1),null)))));
-}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28850);
-}})], 0))),(new cljs.core.List(null,tiltontec.web_mx.gen.make_tag("div",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$style,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$str,"display:",cljs.core.list(cljs.core.cst$sym$if,cljs.core.list(cljs.core.cst$sym$mget,cljs.core.list(cljs.core.cst$sym$fasc,cljs.core.cst$kw$quick_DASH_start,cljs.core.cst$sym$me),cljs.core.cst$kw$show_DASH_glossary_QMARK_),"block","none"))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$4){
-var me__$4 = tiltontec.cell.base.c_model(slot_c_SHARP___$4);
-var _cell__$4 = slot_c_SHARP___$4;
-var _slot_name__$4 = tiltontec.cell.base.c_slot(slot_c_SHARP___$4);
-var _cache__$4 = tiltontec.cell.base.c_value(slot_c_SHARP___$4);
-return ["display:",(cljs.core.truth_(tiltontec.model.core.mget(tiltontec.model.core.fasc(cljs.core.cst$kw$quick_DASH_start,me__$4),cljs.core.cst$kw$show_DASH_glossary_QMARK_))?"block":"none")].join('');
-})], 0))], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.list(cljs.core.cst$sym$extra_SLASH_glossary))),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$4){
-var me__$4 = tiltontec.cell.base.c_model(slot_c_SHARP___$4);
-var _cell__$4 = slot_c_SHARP___$4;
-var _slot_name__$4 = tiltontec.cell.base.c_slot(slot_c_SHARP___$4);
-var _cache__$4 = tiltontec.cell.base.c_value(slot_c_SHARP___$4);
-if(cljs.core.truth_(me__$4)){
-} else {
-throw (new Error(["Assert failed: ","no me for cFkids","\n","me"].join('')));
-}
-
-var _STAR_parent_STAR__orig_val__28852 = tiltontec.model.core._STAR_parent_STAR_;
-var _STAR_parent_STAR__temp_val__28853 = me__$4;
-(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28853);
+var _STAR_parent_STAR__orig_val__29015 = tiltontec.model.core._STAR_parent_STAR_;
+var _STAR_parent_STAR__temp_val__29016 = me__$3;
+(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__29016);
 
 try{if(cljs.core.truth_(tiltontec.model.core._STAR_parent_STAR_)){
 } else {
@@ -643,26 +625,26 @@ throw (new Error("Assert failed: tiltontec.model.core/*parent*"));
 }
 
 return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,web_mx_quickstart.extra.glossary(),null,(1),null)))));
-}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28852);
+}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__29015);
 }})], 0))),null,(1),null)),(2),null)))));
-}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28848);
+}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__29011);
 }})], 0))),(new cljs.core.List(null,(function (){var temp__5804__auto____$1 = cljs.core.cst$kw$comment.cljs$core$IFn$_invoke$arity$1(lesson);
 if(cljs.core.truth_(temp__5804__auto____$1)){
 var c = temp__5804__auto____$1;
 if(typeof c === 'string'){
-return tiltontec.web_mx.gen.make_tag("p",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.cst$sym$c)),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$3){
-var me__$3 = tiltontec.cell.base.c_model(slot_c_SHARP___$3);
-var _cell__$3 = slot_c_SHARP___$3;
-var _slot_name__$3 = tiltontec.cell.base.c_slot(slot_c_SHARP___$3);
-var _cache__$3 = tiltontec.cell.base.c_value(slot_c_SHARP___$3);
-if(cljs.core.truth_(me__$3)){
+return tiltontec.web_mx.gen.make_tag("p",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.cst$sym$c)),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,(function (slot_c_SHARP___$2){
+var me__$2 = tiltontec.cell.base.c_model(slot_c_SHARP___$2);
+var _cell__$2 = slot_c_SHARP___$2;
+var _slot_name__$2 = tiltontec.cell.base.c_slot(slot_c_SHARP___$2);
+var _cache__$2 = tiltontec.cell.base.c_value(slot_c_SHARP___$2);
+if(cljs.core.truth_(me__$2)){
 } else {
 throw (new Error(["Assert failed: ","no me for cFkids","\n","me"].join('')));
 }
 
-var _STAR_parent_STAR__orig_val__28854 = tiltontec.model.core._STAR_parent_STAR_;
-var _STAR_parent_STAR__temp_val__28855 = me__$3;
-(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28855);
+var _STAR_parent_STAR__orig_val__29017 = tiltontec.model.core._STAR_parent_STAR_;
+var _STAR_parent_STAR__temp_val__29018 = me__$2;
+(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__29018);
 
 try{if(cljs.core.truth_(tiltontec.model.core._STAR_parent_STAR_)){
 } else {
@@ -670,38 +652,38 @@ throw (new Error("Assert failed: tiltontec.model.core/*parent*"));
 }
 
 return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,c,null,(1),null)))));
-}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28854);
+}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__29017);
 }})], 0)));
 } else {
-return cljs.core.doall.cljs$core$IFn$_invoke$arity$1((function (){var iter__4529__auto__ = (function web_mx_quickstart$core$quick_start_$_iter__28856(s__28857){
+return cljs.core.doall.cljs$core$IFn$_invoke$arity$1((function (){var iter__4529__auto__ = (function web_mx_quickstart$core$quick_start_$_iter__29019(s__29020){
 return (new cljs.core.LazySeq(null,(function (){
-var s__28857__$1 = s__28857;
+var s__29020__$1 = s__29020;
 while(true){
-var temp__5804__auto____$2 = cljs.core.seq(s__28857__$1);
+var temp__5804__auto____$2 = cljs.core.seq(s__29020__$1);
 if(temp__5804__auto____$2){
-var s__28857__$2 = temp__5804__auto____$2;
-if(cljs.core.chunked_seq_QMARK_(s__28857__$2)){
-var c__4527__auto__ = cljs.core.chunk_first(s__28857__$2);
+var s__29020__$2 = temp__5804__auto____$2;
+if(cljs.core.chunked_seq_QMARK_(s__29020__$2)){
+var c__4527__auto__ = cljs.core.chunk_first(s__29020__$2);
 var size__4528__auto__ = cljs.core.count(c__4527__auto__);
-var b__28859 = cljs.core.chunk_buffer(size__4528__auto__);
-if((function (){var i__28858 = (0);
+var b__29022 = cljs.core.chunk_buffer(size__4528__auto__);
+if((function (){var i__29021 = (0);
 while(true){
-if((i__28858 < size__4528__auto__)){
-var cx = cljs.core._nth.cljs$core$IFn$_invoke$arity$2(c__4527__auto__,i__28858);
-cljs.core.chunk_append(b__28859,tiltontec.web_mx.gen.make_tag("p",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.cst$sym$cx)),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,((function (i__28858,cx,c__4527__auto__,size__4528__auto__,b__28859,s__28857__$2,temp__5804__auto____$2,c,temp__5804__auto____$1,_STAR_parent_STAR__orig_val__28827,_STAR_parent_STAR__temp_val__28828,me__$2,_cell__$2,_slot_name__$2,_cache__$2,lesson,temp__5804__auto__,_STAR_parent_STAR__orig_val__28819,_STAR_parent_STAR__temp_val__28820,me__$1,_cell__$1,_slot_name__$1,_cache__$1,_STAR_parent_STAR__orig_val__28817,_STAR_parent_STAR__temp_val__28818,me,_cell,_slot_name,_cache){
-return (function (slot_c_SHARP___$3){
-var me__$3 = tiltontec.cell.base.c_model(slot_c_SHARP___$3);
-var _cell__$3 = slot_c_SHARP___$3;
-var _slot_name__$3 = tiltontec.cell.base.c_slot(slot_c_SHARP___$3);
-var _cache__$3 = tiltontec.cell.base.c_value(slot_c_SHARP___$3);
-if(cljs.core.truth_(me__$3)){
+if((i__29021 < size__4528__auto__)){
+var cx = cljs.core._nth.cljs$core$IFn$_invoke$arity$2(c__4527__auto__,i__29021);
+cljs.core.chunk_append(b__29022,tiltontec.web_mx.gen.make_tag("p",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.cst$sym$cx)),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,((function (i__29021,cx,c__4527__auto__,size__4528__auto__,b__29022,s__29020__$2,temp__5804__auto____$2,c,temp__5804__auto____$1,_STAR_parent_STAR__orig_val__28990,_STAR_parent_STAR__temp_val__28991,me__$1,_cell__$1,_slot_name__$1,_cache__$1,lesson,temp__5804__auto__,_STAR_parent_STAR__orig_val__28982,_STAR_parent_STAR__temp_val__28983,me,_cell,_slot_name,_cache){
+return (function (slot_c_SHARP___$2){
+var me__$2 = tiltontec.cell.base.c_model(slot_c_SHARP___$2);
+var _cell__$2 = slot_c_SHARP___$2;
+var _slot_name__$2 = tiltontec.cell.base.c_slot(slot_c_SHARP___$2);
+var _cache__$2 = tiltontec.cell.base.c_value(slot_c_SHARP___$2);
+if(cljs.core.truth_(me__$2)){
 } else {
 throw (new Error(["Assert failed: ","no me for cFkids","\n","me"].join('')));
 }
 
-var _STAR_parent_STAR__orig_val__28860 = tiltontec.model.core._STAR_parent_STAR_;
-var _STAR_parent_STAR__temp_val__28861 = me__$3;
-(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28861);
+var _STAR_parent_STAR__orig_val__29023 = tiltontec.model.core._STAR_parent_STAR_;
+var _STAR_parent_STAR__temp_val__29024 = me__$2;
+(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__29024);
 
 try{if(cljs.core.truth_(tiltontec.model.core._STAR_parent_STAR_)){
 } else {
@@ -709,12 +691,12 @@ throw (new Error("Assert failed: tiltontec.model.core/*parent*"));
 }
 
 return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,cx,null,(1),null)))));
-}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28860);
-}});})(i__28858,cx,c__4527__auto__,size__4528__auto__,b__28859,s__28857__$2,temp__5804__auto____$2,c,temp__5804__auto____$1,_STAR_parent_STAR__orig_val__28827,_STAR_parent_STAR__temp_val__28828,me__$2,_cell__$2,_slot_name__$2,_cache__$2,lesson,temp__5804__auto__,_STAR_parent_STAR__orig_val__28819,_STAR_parent_STAR__temp_val__28820,me__$1,_cell__$1,_slot_name__$1,_cache__$1,_STAR_parent_STAR__orig_val__28817,_STAR_parent_STAR__temp_val__28818,me,_cell,_slot_name,_cache))
+}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__29023);
+}});})(i__29021,cx,c__4527__auto__,size__4528__auto__,b__29022,s__29020__$2,temp__5804__auto____$2,c,temp__5804__auto____$1,_STAR_parent_STAR__orig_val__28990,_STAR_parent_STAR__temp_val__28991,me__$1,_cell__$1,_slot_name__$1,_cache__$1,lesson,temp__5804__auto__,_STAR_parent_STAR__orig_val__28982,_STAR_parent_STAR__temp_val__28983,me,_cell,_slot_name,_cache))
 ], 0))));
 
-var G__28866 = (i__28858 + (1));
-i__28858 = G__28866;
+var G__29029 = (i__29021 + (1));
+i__29021 = G__29029;
 continue;
 } else {
 return true;
@@ -722,26 +704,26 @@ return true;
 break;
 }
 })()){
-return cljs.core.chunk_cons(cljs.core.chunk(b__28859),web_mx_quickstart$core$quick_start_$_iter__28856(cljs.core.chunk_rest(s__28857__$2)));
+return cljs.core.chunk_cons(cljs.core.chunk(b__29022),web_mx_quickstart$core$quick_start_$_iter__29019(cljs.core.chunk_rest(s__29020__$2)));
 } else {
-return cljs.core.chunk_cons(cljs.core.chunk(b__28859),null);
+return cljs.core.chunk_cons(cljs.core.chunk(b__29022),null);
 }
 } else {
-var cx = cljs.core.first(s__28857__$2);
-return cljs.core.cons(tiltontec.web_mx.gen.make_tag("p",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.cst$sym$cx)),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,((function (cx,s__28857__$2,temp__5804__auto____$2,c,temp__5804__auto____$1,_STAR_parent_STAR__orig_val__28827,_STAR_parent_STAR__temp_val__28828,me__$2,_cell__$2,_slot_name__$2,_cache__$2,lesson,temp__5804__auto__,_STAR_parent_STAR__orig_val__28819,_STAR_parent_STAR__temp_val__28820,me__$1,_cell__$1,_slot_name__$1,_cache__$1,_STAR_parent_STAR__orig_val__28817,_STAR_parent_STAR__temp_val__28818,me,_cell,_slot_name,_cache){
-return (function (slot_c_SHARP___$3){
-var me__$3 = tiltontec.cell.base.c_model(slot_c_SHARP___$3);
-var _cell__$3 = slot_c_SHARP___$3;
-var _slot_name__$3 = tiltontec.cell.base.c_slot(slot_c_SHARP___$3);
-var _cache__$3 = tiltontec.cell.base.c_value(slot_c_SHARP___$3);
-if(cljs.core.truth_(me__$3)){
+var cx = cljs.core.first(s__29020__$2);
+return cljs.core.cons(tiltontec.web_mx.gen.make_tag("p",new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,cljs.core.cst$kw$preamble], null),cljs.core.PersistentArrayMap.EMPTY,tiltontec.cell.core.make_c_formula.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$code,cljs.core.list(cljs.core.list(cljs.core.cst$sym$clojure$core_SLASH_assert,cljs.core.cst$sym$me,"no me for cFkids"),cljs.core.list(cljs.core.cst$sym$tiltontec$model$core_SLASH_the_DASH_kids,cljs.core.cst$sym$cx)),cljs.core.cst$kw$value,tiltontec.cell.base.unbound,cljs.core.cst$kw$rule,((function (cx,s__29020__$2,temp__5804__auto____$2,c,temp__5804__auto____$1,_STAR_parent_STAR__orig_val__28990,_STAR_parent_STAR__temp_val__28991,me__$1,_cell__$1,_slot_name__$1,_cache__$1,lesson,temp__5804__auto__,_STAR_parent_STAR__orig_val__28982,_STAR_parent_STAR__temp_val__28983,me,_cell,_slot_name,_cache){
+return (function (slot_c_SHARP___$2){
+var me__$2 = tiltontec.cell.base.c_model(slot_c_SHARP___$2);
+var _cell__$2 = slot_c_SHARP___$2;
+var _slot_name__$2 = tiltontec.cell.base.c_slot(slot_c_SHARP___$2);
+var _cache__$2 = tiltontec.cell.base.c_value(slot_c_SHARP___$2);
+if(cljs.core.truth_(me__$2)){
 } else {
 throw (new Error(["Assert failed: ","no me for cFkids","\n","me"].join('')));
 }
 
-var _STAR_parent_STAR__orig_val__28862 = tiltontec.model.core._STAR_parent_STAR_;
-var _STAR_parent_STAR__temp_val__28863 = me__$3;
-(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__28863);
+var _STAR_parent_STAR__orig_val__29025 = tiltontec.model.core._STAR_parent_STAR_;
+var _STAR_parent_STAR__temp_val__29026 = me__$2;
+(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__temp_val__29026);
 
 try{if(cljs.core.truth_(tiltontec.model.core._STAR_parent_STAR_)){
 } else {
@@ -749,9 +731,9 @@ throw (new Error("Assert failed: tiltontec.model.core/*parent*"));
 }
 
 return cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.nil_QMARK_,cljs.core.flatten((new cljs.core.List(null,cx,null,(1),null)))));
-}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28862);
-}});})(cx,s__28857__$2,temp__5804__auto____$2,c,temp__5804__auto____$1,_STAR_parent_STAR__orig_val__28827,_STAR_parent_STAR__temp_val__28828,me__$2,_cell__$2,_slot_name__$2,_cache__$2,lesson,temp__5804__auto__,_STAR_parent_STAR__orig_val__28819,_STAR_parent_STAR__temp_val__28820,me__$1,_cell__$1,_slot_name__$1,_cache__$1,_STAR_parent_STAR__orig_val__28817,_STAR_parent_STAR__temp_val__28818,me,_cell,_slot_name,_cache))
-], 0))),web_mx_quickstart$core$quick_start_$_iter__28856(cljs.core.rest(s__28857__$2)));
+}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__29025);
+}});})(cx,s__29020__$2,temp__5804__auto____$2,c,temp__5804__auto____$1,_STAR_parent_STAR__orig_val__28990,_STAR_parent_STAR__temp_val__28991,me__$1,_cell__$1,_slot_name__$1,_cache__$1,lesson,temp__5804__auto__,_STAR_parent_STAR__orig_val__28982,_STAR_parent_STAR__temp_val__28983,me,_cell,_slot_name,_cache))
+], 0))),web_mx_quickstart$core$quick_start_$_iter__29019(cljs.core.rest(s__29020__$2)));
 }
 } else {
 return null;
@@ -767,15 +749,13 @@ return iter__4529__auto__(c);
 return null;
 }
 })(),null,(1),null)),(2),null)),(3),null)),(4),null)),(5),null)),(6),null)))));
-}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28827);
+}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28990);
 }})], 0)));
 } else {
 return null;
 }
 })(),null,(1),null)),(2),null)))));
-}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28819);
-}})], 0))),null,(1),null)))));
-}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28817);
+}finally {(tiltontec.model.core._STAR_parent_STAR_ = _STAR_parent_STAR__orig_val__28982);
 }})], 0)));
 });
 web_mx_quickstart.core.main = (function web_mx_quickstart$core$main(mx_builder){

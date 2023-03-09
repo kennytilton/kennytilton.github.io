@@ -398,7 +398,7 @@
           (span (get-in response [:body :fact]))
           (str "Error>  " (:error-code response)
             ": " (:error-text response)))
-        "Click (+) to see a chat fact."))))
+        "Click (+) to see a cat fact."))))
 
 (def ex-async-cat
   {:menu     "Async Events"
@@ -463,13 +463,16 @@
      :route    :intro
      :title    "Web/MX: Simplicity. Power. Fun."
      :builder  in-review
-     :preamble ["With <a target=_blank href='https://github.com/kennytilton/web-mx'>Web/MX</a>, we build sophisticated interfaces around a few ideas:<br>
+     :preamble ["<blockquote>Standard HTML + transparent reactivity, all the way down.
+                  </blockquote>
+
+                  With <a target=_blank href='https://github.com/kennytilton/web-mx'>Web/MX</a>, we build sophisticated interfaces from just a few ingredients:<br>
                 <ul type=circle>
-                <li>stick to <a target=_blank href='https://developer.mozilla.org/en-US/docs/Web/HTML'>standard</a> HTML, SVG, and CSS&hellip;</li>
-                <li>&hellip;but attach ad hoc properties to those standard DOM elements;</li>
-                <li>bring all DOM and ad hoc properties alive with reactive formulas;</li>
-                <li>let formulas <i>derive from</i> arbitrary other app properties;</li>
-                <li>let async handlers <i>change</i> any app properties;</li>
+                <li>stick to <a target=_blank href='https://developer.mozilla.org/en-US/docs/Web/HTML'>standard</a> HTML, SVG, and CSS elements&hellip;</li>
+                <li>&hellip;but allow them ad hoc properties;</li>
+                <li>bring properties alive with reactive formulas;</li>
+                <li>let formulas <i>read</i> arbitrary other properties;</li>
+                <li>let async handlers <i>change</i> any properties;</li>
                 <li>support <i>watch</i> functions on properties, for side effects;</li>
                 <li>make it all declarative and transparent; and</li>
                 <li>because this is so much fun, create reactive wrappers for routing, XHR, localStorage&mdash;as much
