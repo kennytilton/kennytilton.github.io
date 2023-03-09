@@ -3,10 +3,10 @@
     [goog.dom :as gdom]
     [goog.object :as gobj]
     [bide.core :as r]
-    [tiltontec.cell.core :refer [cF cF+ cFn cFonce cI cf-freeze]]
     [tiltontec.model.core :as md]
     [tiltontec.matrix.api
-     :refer [mpar mget mset! mswap! mset! fasc fmu] :as mx]
+     :refer [mpar mget mset! mswap! mset! fasc fmu
+             cF cF+ cFn cFonce cI cf-freeze]]
     [tiltontec.web-mx.gen :refer [evt-md target-value]]
     [tiltontec.web-mx.gen-macro
      :refer [title img section h1 h2 h3 input footer p a b h4 u table th tr td
@@ -157,7 +157,7 @@
     (set! (.-innerHTML root) nil)
     (gdom/appendChild root app-dom)
 
-    (when-let [router-starter (md/mget app-matrix :router-starter)]
+    (when-let [router-starter (mget app-matrix :router-starter)]
       (router-starter))))
 
 (def lessons [lesson/ex-tl-dr
