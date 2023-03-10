@@ -4,8 +4,6 @@
     [clojure.pprint :as pp]
     [cljs.core.async :refer [go <!]]
     [cljs-http.client :as client]
-    ;[tiltontec.cell.core :refer [cF cF+ cFonce cI cf-freeze]]
-    ;[tiltontec.cell.integrity :refer [with-cc]]
     [tiltontec.matrix.api
      :refer [with-cc cF cF+ cFonce cI cf-freeze
              mget mset! mswap! mset!    fasc fmu fm-navig]]
@@ -472,10 +470,10 @@
                   With <a target=_blank href='https://github.com/kennytilton/web-mx'>Web/MX</a>,
                   we build sophisticated interfaces from just a few ingredients:<br>
                 <ul type=circle>
-                <li>stick to <a target=_blank href='https://developer.mozilla.org/en-US/docs/Web/HTML'>standard</a> HTML, SVG, and CSS elements&hellip;</li>
-                <li>&hellip;but allow them ad hoc properties;</li>
-                <li>bring properties alive with reactive formulas;</li>
-                <li>let formulas <i>read</i> arbitrary other properties;</li>
+                <li>we stick to <a target=_blank href='https://developer.mozilla.org/en-US/docs/Web/HTML'>standard</a> HTML, SVG, and CSS elements&hellip;</li>
+                <li>&hellip;but we can give them ad hoc properties;</li>
+                <li>bring properties alive with reactive formulas&hellip;;</li>
+                <li>&hellip;and let them <i>use</i> arbitrary other app state;</li>
                 <li>let async handlers <i>change</i> any properties;</li>
                 <li>support <i>watch</i> functions on properties, for side effects;</li>
                 <li>make it all declarative and transparent; and</li>
