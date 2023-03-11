@@ -6,8 +6,8 @@
     [cljs.pprint :as pp]
     [tiltontec.util.core
      :refer [any-ref? rmap-setf err rmap-meta-setf set-ify pln]]
-    [tiltontec.util.base :refer [type-cljc]]
-    [tiltontec.cell.base :refer [md-ref? ia-type unbound minfo]]
+    [tiltontec.util.base :refer [mx-type]]
+    [tiltontec.cell.base :refer [md-ref?  unbound minfo]]
     [tiltontec.cell.observer :refer [observe observe-by-type]]
     [tiltontec.cell.evaluate :refer [md-quiesce md-quiesce-self]]
     [tiltontec.model.core
@@ -79,6 +79,9 @@
                (for [k (:attr-keys @mx)]
                  (when-let [v (when-not (some #{k} [:list])
                                 ;; :list gets set via setAttribute; cannot be set as property
+                                (when-not (contains? @mx k)
+                                  (prn :so-sign-of-attr-key k :in @mx)
+                                  (assert (contains? @mx k)))
                                 (mget mx k))]
                    [(kw$ k) (case k
                               :style (tagcss/style-string v)
@@ -112,7 +115,7 @@
                   ;; todo add warning
                   av)
                 (.setAttributeNS svg nil ak$ (attr-val$ av))))
-            (doseq [kid (mget me :kids)]
+            (doseq [kid (mget? me :kids)]
               (.appendChild svg (svg-dom-create kid dbg)))
             svg)))
 
@@ -133,7 +136,7 @@
        (let [dom (apply dom/createDom (mget me :tag)
                    (tag-properties me)
                    (concat
-                     (map #(tag-dom-create % dbg) (mget me :kids))
+                     (map #(tag-dom-create % dbg) (mget? me :kids))
                      (when-let [c (mget? me :content)]
                        [(tag-dom-create c)])))]
          (rmap-meta-setf [:dom-x me] dom)
@@ -141,7 +144,7 @@
            ;; if offered as property to createDom we get:
            ;; Cannot set property "list" of #<HTMLInputElement> which has only a getter
            ;; which is misleading: we /can/ set the attribute.
-           (when-let [list-id (mget me :list)]
+           (when-let [list-id (mget? me :list)]
              (.setAttribute dom "list" (attr-val$ list-id))))
          (doseq [attr-key (:attr-keys @me)]
            (when (str/includes? (name attr-key) "-")
@@ -150,18 +153,8 @@
                (.setAttribute dom (name attr-key) (attr-val$ attr-val)))))
          dom)))))
 
-(def +true-html+ {::type "type"})
-
-(defn true-html [keyword]
-  (prn :true-h-naming? keyword)
-  (or (keyword +true-html+)
-    (kw$ keyword)))
-
 (defn tag [me]
-  (mget me :tag))
-
-(defn tag? [me]
-  (= (type-cljc me) :web-mx.base/tag))
+  (mget? me :tag))
 
 (defmethod observe [:kids :web-mx.base/tag] [_ me newv oldv _]
   (when (not= oldv unbound)
@@ -357,7 +350,7 @@
   "Search up the matrix from node 'where' looking for element with class"
   [where class]
   ;; todo is this too expensive? will there be much usage of this?
-  (fm-navig #(when-let [its-class (mget % :class)]
+  (fm-navig #(when-let [its-class (mget? % :class)]
            (str/includes? (or (class-to-class-string its-class) "makebetter") (kw$ class)))
     where :me? false :up? true))
 
@@ -365,13 +358,13 @@
   "Search up the matrix from node 'where' looking for element of a certain tag"
   [where tag]
   (let [n (name tag)]
-    (fm-navig #(= n (mget % :tag))
+    (fm-navig #(= n (mget? % :tag))
       where :me? false :up? true)))
 
 (defn mxu-find-id
   "Search up the matrix from node 'where' looking for element with a certain :id"
   [where id]
-  (fm-navig #(= (name id) (mget % :id))
+  (fm-navig #(= (name id) (mget? % :id))
     where :me? false :up? true))
 
 ;;; --- localStorage io implementation --------------------------------

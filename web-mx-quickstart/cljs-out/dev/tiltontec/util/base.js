@@ -405,12 +405,21 @@ return null;
 ;
 (tiltontec.util.base.def_rmap_meta_slots.cljs$lang$macro = true);
 
-tiltontec.util.base.type_cljc = (function tiltontec$util$base$type_cljc(x){
-var temp__5802__auto__ = cljs.core.meta(x);
-if(cljs.core.truth_(temp__5802__auto__)){
-var m = temp__5802__auto__;
-return cljs.core.cst$kw$type.cljs$core$IFn$_invoke$arity$2(m,cljs.core.cst$kw$no_DASH_mx_DASH_type_DASH_in_DASH_meta);
+tiltontec.util.base.mx_type = (function tiltontec$util$base$mx_type(it){
+var or__4126__auto__ = (function (){var temp__5804__auto__ = cljs.core.meta(it);
+if(cljs.core.truth_(temp__5804__auto__)){
+var m = temp__5804__auto__;
+return cljs.core.cst$kw$mx_DASH_type.cljs$core$IFn$_invoke$arity$1(m);
 } else {
-return cljs.core.type(x);
+return null;
 }
+})();
+if(cljs.core.truth_(or__4126__auto__)){
+return or__4126__auto__;
+} else {
+return cljs.core.type(it);
+}
+});
+tiltontec.util.base.mx_type_QMARK_ = (function tiltontec$util$base$mx_type_QMARK_(it,type){
+return cljs.core.isa_QMARK_.cljs$core$IFn$_invoke$arity$2(tiltontec.util.base.mx_type(it),type);
 });

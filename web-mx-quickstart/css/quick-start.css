@@ -38,6 +38,7 @@ body {
   border-width: 2px;
   max-width: 40em;
   min-width: 40em;
+  margin-top: 9px;
 
 }
 
@@ -78,6 +79,7 @@ li {
   font-family: 'Roboto', sans-serif;
   font-size: 18px;
   max-width: 35em;
+  margin-bottom: 6px;
 }
 
 .exercise {

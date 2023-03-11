@@ -187,7 +187,7 @@ goog.addDependency("history/event.js", ['goog.history.Event'], ['goog.events.Eve
 goog.addDependency("history/html5history.js", ['goog.history.Html5History', 'goog.history.Html5History.TokenTransformer'], ['goog.asserts', 'goog.events', 'goog.events.EventTarget', 'goog.events.EventType', 'goog.history.Event']);
 goog.addDependency("net/jsonp.js", ['goog.net.Jsonp'], ['goog.html.TrustedResourceUrl', 'goog.net.jsloader', 'goog.object']);
 goog.addDependency("dom/forms.js", ['goog.dom.forms'], ['goog.dom.InputType', 'goog.dom.TagName', 'goog.dom.safe', 'goog.structs.Map', 'goog.window']);
-goog.addDependency("../tiltontec/model/macros.js", ['tiltontec.model.macros'], ['tiltontec.cell.base', 'cljs.core']);
+goog.addDependency("../tiltontec/model/macros.js", ['tiltontec.model.macros'], ['cljs.core', 'tiltontec.util.base']);
 goog.addDependency("../tiltontec/cell/observer.js", ['tiltontec.cell.observer'], ['tiltontec.cell.base', 'tiltontec.util.core', 'cljs.core', 'tiltontec.model.macros', 'tiltontec.util.base']);
 goog.addDependency("../tiltontec/cell/integrity.js", ['tiltontec.cell.integrity'], ['tiltontec.cell.base', 'tiltontec.util.core', 'cljs.core', 'tiltontec.util.base']);
 goog.addDependency("../tiltontec/cell/evaluate.js", ['tiltontec.cell.evaluate'], ['tiltontec.cell.observer', 'tiltontec.cell.base', 'tiltontec.util.core', 'cljs.core', 'clojure.set', 'cljs.pprint', 'tiltontec.util.base', 'tiltontec.cell.integrity', 'clojure.string']);
