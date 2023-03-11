@@ -484,7 +484,7 @@
                   </blockquote>
 
                   With <a target=_blank href='https://github.com/kennytilton/web-mx'>Web/MX</a>,
-                  we build sophisticated interfaces from just a few ingredients:<br>
+                  we build rich interfaces from a few ingredients:<br>
                 <ul type=circle>
                 <li>we stick to <a target=_blank href='https://developer.mozilla.org/en-US/docs/Web/HTML'>standard</a> HTML, SVG, and CSS elements&hellip;</li>
                 <li>&hellip;but they can have ad hoc properties;</li>
