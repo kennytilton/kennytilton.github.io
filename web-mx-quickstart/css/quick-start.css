@@ -138,10 +138,10 @@ li {
 
 blockquote {
   background: #f9f9f9;
-  border-left: 10px solid #ccc;
+  border-left: 5px solid red ;#ccc;
   font-size: 20px;
-  margin: 1.5em 10px;
-  padding: 0.5em 10px;
+  margin: 0 0 2em 1em;
+  padding: 1em 10px;
   quotes: "\201C""\201D""\2018""\2019";
 }
 /* blockquote:before {
