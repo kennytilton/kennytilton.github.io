@@ -5,8 +5,7 @@
     [cljs.core.async :refer [go <!]]
     [cljs-http.client :as client]
     [tiltontec.matrix.api
-     :refer [with-cc cF cF+ cFonce cI cf-freeze
-             mget mset! mswap! mset!    fasc fmu fm-navig]]
+     :refer [with-cc cF cF+ cFonce cI cf-freeze c-value mget mset! mswap! mset!    fasc fmu fm-navig]]
     [tiltontec.web-mx.gen :refer [evt-md target-value]]
     [tiltontec.web-mx.gen-macro
      :refer [img section h1 h2 h3 input footer p a
@@ -152,8 +151,8 @@
    :builder  custom-state
    :preamble "Widgets define ad hoc properties as needed."
    :code     "(div {:class :intro}\n    (h2 \"The speed is now...\")\n    (span {:class :digi-readout}\n      ;; <b>An optional second map is for custom state.</b>\n      {:mph  42}\n\n      ;; <b>below: mget, short for \"model-get\", is the MX \"getter\" for model (object) properties</b>\n      ;; <b>n.b. Tag children, even plain strings, always start out in an auto-genned formula.</b>\n      (str (mget me :mph) \" mph\")))"
-   :comment  ["Tag macros take an optional second map of ad hoc, custom properties. The map for custom state is identified
-   positionally, so an empty first map must be coded even if no HTML attributes are needed."
+   :comment  ["Tag macros take an optional second map of ad hoc, custom properties. This map is identified
+   positionally, so an empty first map must be coded even if no HTML attributes need specification."
               "Here, a generic <code>span</code> embodying a speedometer thinks it might usefully have a <code>{:mph 42}</code> property.
    We will put that to use soon."
               "<code>mget</code> can be used anywhere. Inside a formula, it transparently subscribes to the property being read."
@@ -435,16 +434,16 @@
                               "red" "cyan")})}
     {:name     :speedometer
      :mph      (cI 42)
-     :air-drag (let [xi (atom nil)]
-                 (cF+ [:watch (fn [_ _ new _ _]
-                                (reset! xi new))]
-                   ;; todo implement finalize
+     :air-drag (let [xi (atom nil)
+                     cleanup (fn [i]
+                               (when (number? i)
+                                 (js/clearInterval i)))]
+                 (cF+ [:watch (fn [_ _ new prior _]
+                                (cleanup prior))
+                       :on-quiesce (fn [c]
+                                     (cleanup (c-value c)))]
                    (js/setInterval
-                     (fn []
-                       (try
-                         (mswap! me :mph * 0.98)
-                         (catch js/Error e
-                           (js/clearInterval @xi)))) 1000)))}
+                     #(mswap! me :mph * 0.98) 1000)))}
     (pp/cl-format nil "~8,1f mph" (mget me :mph))))
 
 (defn in-review []
@@ -461,7 +460,7 @@
    :route :in-review
    :builder  in-review
    :preamble "Our closing example reprises all the key Web/MX features."
-   :code     "(defn speedo-review []\n  (span {:class :digi-readout\n         :style (cF {:color (if (> (mget me :mph) 55)\n                              \"red\" \"cyan\")})}\n    {:name     :speedometer\n     :mph      (cI 42)\n     :air-drag (let [xi (atom nil)]\n                 (cF+ [:watch (fn [_ _ new _ _]\n                                (reset! xi new))]\n                   ;; todo implement finalize\n                   (js/setInterval\n                     (fn []\n                       (try\n                         (mswap! me :mph * 0.98)\n                         (catch js/Error e\n                           (js/clearInterval @xi)))) 1000)))}\n    (pp/cl-format nil \"~8,1f mph\" (mget me :mph))))\n\n(defn in-review []\n  (div {:class :intro}\n    (h2 (let [excess (- (mget (fmu :speedometer) :mph) 55)]\n          (pp/cl-format nil \"The speed is ~8,1f mph ~:[over~;under~] the speed limit.\"\n            (Math/abs excess) (neg? excess))))\n    (speedo-review)\n    (speed-plus #(mswap! (fmu :speedometer (evt-md %)) :mph inc))))"
+   :code     "(defn speedo-review []\n  (span {:class :digi-readout\n         :style (cF {:color (if (> (mget me :mph) 55)\n                              \"red\" \"cyan\")})}\n    {:name     :speedometer\n     :mph      (cI 42)\n     :air-drag (let [xi (atom nil)\n                     cleanup (fn [i]\n                               (when (number? i)\n                                 (js/clearInterval i)))]\n                 (cF+ [:watch (fn [_ _ new prior _]\n                                (cleanup prior))\n                       :on-quiesce (fn [c]\n                                     (cleanup (c-value c)))]\n                   (js/setInterval\n                     #(mswap! me :mph * 0.98) 1000)))}\n    (pp/cl-format nil \"~8,1f mph\" (mget me :mph))))\n\n(defn in-review []\n  (div {:class :intro}\n    (h2 (let [excess (- (mget (fmu :speedometer) :mph) 55)]\n          (pp/cl-format nil \"The speed is ~8,1f mph ~:[over~;under~] the speed limit.\"\n            (Math/abs excess) (neg? excess))))\n    (speedo-review)\n    (speed-plus #(mswap! (fmu :speedometer (evt-md %)) :mph inc))))"
    :comment  "
    <ul type=circle>
    <li>it looks and works like standard HTML, SVG, CSS, and CLJS;</li>
@@ -478,19 +477,22 @@
      :route    :intro
      :title    "Web/MX: Simplicity. Power. Fun."
      :builder  in-review
-     :preamble ["<blockquote>Standard HTML + transparent reactivity, all the way down.<br><br>
+     :preamble ["<blockquote>Standard HTML + transparent reactivity, all the way down
+     (to the individual property of an instance).<br><br>
+     Declarative and dynamic, with granular DOM manipulation for efficiency. <br><br>
      No VDOM, pre-processor, compiler, special view functions, setState, subscribe/notify, hooks,
-                 refs, or separate store.<br><br>Just paint your app.
+                 refs, or separate store.
                   </blockquote>
 
                   With <a target=_blank href='https://github.com/kennytilton/web-mx'>Web/MX</a>,
-                  we build rich interfaces from a few ingredients:<br>
+                  we build rich interfaces from a short list of capabilities:<br>
                 <ul type=circle>
-                <li>we stick to <a target=_blank href='https://developer.mozilla.org/en-US/docs/Web/HTML'>standard</a> HTML, SVG, and CSS elements&hellip;</li>
-                <li>&hellip;but they can have ad hoc properties;</li>
-                <li>bring properties alive with reactive formulas&hellip;;</li>
-                <li>&hellip;and let them <i>use</i> arbitrary other app state;</li>
-                <li>let async handlers <i>change</i> any properties;</li>
+                <li>stick to <a target=_blank href='https://developer.mozilla.org/en-US/docs/Web/HTML'>standard</a> HTML, SVG, and CSS elements&hellip;</li>
+                <li>&hellip;but give them ad hoc properties as needed;</li>
+                <li>bring properties alive with reactive formulas&hellip;</li>
+                <li>&hellip;and maintain the dynamic DOM with efficient granularity;</li>
+                <li>let a formula access arbitrary other app state&hellip;</li>
+                <li>&hellip;and let an async handler <i>change</i> any properties;</li>
                 <li>support <i>watch</i> functions on properties, for side effects;</li>
                 <li>make it all declarative and transparent; and</li>
                 <li>because this is so much fun, create reactive wrappers for routing, XHR, localStorage&mdash;as much

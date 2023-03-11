@@ -16,8 +16,8 @@
                  [io.github.ruffnext/cljs-http "0.1.47"]
                  [cheshire "5.11.0"]
                  [com.taoensso/tufte "2.4.5"]
-                 [com.tiltontec/matrix "4.3.1-SNAPSHOT"]
-                 [com.tiltontec/web-mx "1.0.0-SNAPSHOT"]]
+                 [com.tiltontec/matrix "5.0.0-SNAPSHOT"]
+                 [com.tiltontec/web-mx "2.0.0-SNAPSHOT"]]
 
   :aliases {"fig:build" ["trampoline" "run" "-m" "figwheel.main" "-b" "dev" "-r"]
             "fig:min"   ["run" "-m" "figwheel.main" "-O" "advanced" "-bo" "dev"]
