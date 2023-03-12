@@ -42,7 +42,7 @@
        ["(cI value & option-values)"
         "Marks the associated property as an MX input. eg, `:answer (cI 42)`"]
        ["(cF & body)"
-        "Provides a derived value for a property. Hidden parameter `me`. eg :answer (cF (* 6 9))"]
+        "For a computed property value, using anaphoric `me`.<br>eg <code>:width (cF (* 1.618 (mget me :height)))</code>"]
        ["(cF+ [& option-values] & body)"
         "A version of `cF` that takes cell options such as :watch."]
        ["(cFn & body)"
@@ -60,6 +60,7 @@
        [":watch"
         "Expects an 'on-change' function:<br><center><code>(fn [property me new prior cell])</code></center><br> Alias <code>:obs</code>
         for <i>observer</i>."]
+       [":on-quiesce" "Takes a finalization callback with signature <code>(fn [cell])</code>"]
        [":ephemeral?"
         "Ephemeral properties, when they take on a new value, propagate as usual but then revert silently
         to nil, without propagating in any way."]

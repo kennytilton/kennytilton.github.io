@@ -129,7 +129,7 @@
    :builder  html-composition
    :preamble "Because it is all CLJS, we can move sub-structure into functions."
    :code     "(defn opcode-button [label onclick]\n  (button {:class   :push-button\n           :onclick onclick}\n    label))\n\n(defn math-keypad [& opcodes]\n  (div {:style {:display :flex\n                :gap     \"1em\"}}\n    (mapv (fn [opcode]\n            (opcode-button opcode\n              #(js/alert \"Feature Not Yet Implemented\")))\n      opcodes)))\n\n(defn html-composition []\n  (div {:class :intro}\n    (h2 \"The count is now....\")\n    (span {:class :digi-readout} \"42\")\n    (math-keypad \"-\" \"=\" \"+\")))"
-   :comment  ["Hiccup syntactically distinguishes HTML from app; Web/MX blends them."]})
+   :comment  ["Where Hiccup distinguishes HTML from other code, Web/MX merges the two."]})
 
 ;;; --- custom-state ---------------------------------
 
@@ -476,15 +476,15 @@
      :route    :intro
      :title    "Web/MX: Simplicity. Power. Fun."
      :builder  in-review
-     :preamble ["<blockquote>Standard HTML + transparent reactivity, all the way down.<br><br>
-     Declarative and dynamic, with granular DOM manipulation for efficiency. <br><br>
-     No VDOM, pre-processor, compiler, special view functions, setState, subscribe/notify, hooks,
-                 refs, or separate store.
+     :preamble ["<blockquote>Standard HTML + fine-grained reactivity, all the way down.<br><br>
+     Declarative, functional, and transparent.<br><br>
+     No VDOM, pre-processor, compiler, special view functions, setState, subscribe/notify, hooks,refs, or separate store.
+
                   </blockquote>
 
                   With <a target=_blank href='https://github.com/kennytilton/web-mx'>Web/MX</a>,
-                  we build rich interfaces using a few, vital capabilities:<br>
-                <ul type=circle>
+                  we build rich interfaces using a few key tricks:<br>
+                <ul type=disc>
                 <li>stick to <a target=_blank href='https://developer.mozilla.org/en-US/docs/Web/HTML'>standard</a> HTML, SVG, and CSS elements&hellip;</li>
                 <li>&hellip;but give them ad hoc properties as needed;</li>
                 <li>bring the DOM alive with reactive formulas for individual properties&hellip;</li>
