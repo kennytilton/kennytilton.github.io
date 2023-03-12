@@ -175,6 +175,7 @@ cljs.core.cst$sym$menu = new cljs.core.Symbol(null,"menu","menu",1992786725,null
 cljs.core.cst$sym$comp = new cljs.core.Symbol(null,"comp","comp",-1462482139,null);
 cljs.core.cst$kw$opti_DASH_used = new cljs.core.Keyword(null,"opti-used","opti-used",660350789);
 cljs.core.cst$sym$cljs$core_SLASH_array_DASH_map = new cljs.core.Symbol("cljs.core","array-map","cljs.core/array-map",-1519210683,null);
+cljs.core.cst$sym$blockquote = new cljs.core.Symbol(null,"blockquote","blockquote",2012795717,null);
 cljs.core.cst$sym$meta23260 = new cljs.core.Symbol(null,"meta23260","meta23260",-1242408123,null);
 cljs.core.cst$sym$dispatch_DASH_fn = new cljs.core.Symbol(null,"dispatch-fn","dispatch-fn",-1401088155,null);
 cljs.core.cst$kw$pretty_DASH_writer = new cljs.core.Keyword(null,"pretty-writer","pretty-writer",-1222834267);

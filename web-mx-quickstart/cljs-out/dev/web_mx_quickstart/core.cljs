@@ -114,9 +114,10 @@
         (h2 (:title lesson))
         (when-let [preamble (:preamble lesson)]
           (if (string? preamble)
-            (p {:class :preamble} preamble)
+            (blockquote {:class :preamble} preamble)
             (doall (for [elt preamble]
                      (p {:class :preamble} elt)))))
+
         (div {:class :lesson}
           ((:builder lesson)))
 
