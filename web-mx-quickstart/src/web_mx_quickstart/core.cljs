@@ -89,7 +89,6 @@
                   :height          "100%"
                   :margin          0
                   :padding         0
-                  ;; OKish :overflow-y :auto
                   :min-width       "180px"
                   :align-items     :center
                   :justify-content :start

@@ -66,8 +66,7 @@
    :builder  just-html
    :preamble "We just write HTML, SVG, and CSS, using CLJS workalikes."
    :comment  ["Web/MX introduces no framework of its own, it just manages the DOM. Matrix just manages the state."
-              "Aside from CLJS->JS, no preprocessor is involved, and the stability of CLJS makes this one exception
-              a net win."]
+              "Aside from CLJS->JS, no preprocessor is involved."]
    :code     "(div {:class :intro}\n    ;; <b>^^ if the first argument to any tag is a literal map, the key-values</b>\n    ;; <b>become HTML element attribute-values, with keywords => strings</b>\n\n    (h2 \"The count is now....\")\n    (span {:class :digi-readout} \"42\")\n    ;; <b>^^ arguments following the optional maps become children, or text content</b>\n\n    (svg {:width   64 :height 64\n          ;; <b> ^^^ numbers also get string-ified for the DOM constructors</b>\n          :cursor :pointer\n          :onclick #(js/alert \"Increment Feature Not Yet Implemented\")}\n      (circle {:cx     \"50%\" :cy \"50%\" :r \"40%\"\n               :stroke \"orange\" :stroke-width 5\n               :fill   :transparent})\n      (text {:class       :heavychar\n             :x \"50%\" :y \"70%\"\n             :text-anchor :middle} \"+\")))"
    :exercise ["Feel free to experiment with other HTML or SVG tags."
               "Where HTML has <code>&lt;tag attributes*> children*&lt;/tag></code><br>...Web/MX has: <code>(tag {attributes*} children*)</code>."
@@ -244,7 +243,7 @@
 
 ;;; --- handler mutation -----------------------------
 
-(defn speed-plus [onclick]
+(defn plus-button [onclick]
   (svg {:width   64 :height 64 :cursor :pointer
         :onclick onclick}
     (circle {:cx     "50%" :cy "50%" :r "40%"
@@ -267,7 +266,7 @@
   (div {:class :intro}
     (h2 "The speed limit is 55 mph. Your speed is now...")
     (speedometer-3)
-    (speed-plus (fn [evt]
+    (plus-button (fn [evt]
                   ;; <b>`evt-md` (event model) determines the MX proxy/model associated with a handler event.</b>
                   ;; <b>'mswap!' performs a Clojure 'swap!' on the ':mph' property of the model.</b>
                   (mswap! (fmu :speedometer (evt-md evt)) :mph inc)))))
@@ -279,7 +278,7 @@
    :route    :dag-mutation
    :builder  handler-mutation
    :preamble "A widget event handler can mutate any property of any widget. Give it a try."
-   :code     "(defn speed-plus [onclick]\n  (svg {:width   64 :height 64 :cursor :pointer\n        :onclick onclick}\n    (circle {:cx     \"50%\" :cy \"50%\" :r \"40%\"\n             :stroke \"orange\" :stroke-width 5\n             :fill   :transparent})\n    (text {:class       :heavychar :x \"50%\" :y \"70%\"\n           :text-anchor :middle} \"+\")))\n\n(defn speedometer-3 []\n  (span {:class :digi-readout\n         :style (cF {:color (if (> (mget me :mph) 55)\n                              \"red\" \"cyan\")})}\n    {:name    :speedometer\n     ;; <b>If we intend to mutate a property, we must wrap the value in `cI`, short for \"cell input\"</b>\n     :mph     (cI 42)\n     :display (cF (str (mget me :mph) \" mph\"))}\n    (mget me :display)))\n\n(defn handler-mutation []\n  (div {:class :intro}\n    (h2 \"The speed limit is 55 mph. Your speed is now...\")\n    (speedometer-3)\n    (speed-plus (fn [evt]\n                  ;; <b>`evt-md` (event model) determines the MX proxy/model associated with a handler event.</b>\n                  ;; <b>'mswap!' performs a Clojure 'swap!' on the ':mph' property of the model.</b>\n                  (mswap! (fmu :speedometer (evt-md evt)) :mph inc)))))"
+   :code     "(defn plus-button [onclick]\n  (svg {:width   64 :height 64 :cursor :pointer\n        :onclick onclick}\n    (circle {:cx     \"50%\" :cy \"50%\" :r \"40%\"\n             :stroke \"orange\" :stroke-width 5\n             :fill   :transparent})\n    (text {:class       :heavychar :x \"50%\" :y \"70%\"\n           :text-anchor :middle} \"+\")))\n\n(defn speedometer-3 []\n  (span {:class :digi-readout\n         :style (cF {:color (if (> (mget me :mph) 55)\n                              \"red\" \"cyan\")})}\n    {:name    :speedometer\n     ;; <b>If we intend to mutate a property, we must wrap the value in `cI`, short for \"cell input\"</b>\n     :mph     (cI 42)\n     :display (cF (str (mget me :mph) \" mph\"))}\n    (mget me :display)))\n\n(defn handler-mutation []\n  (div {:class :intro}\n    (h2 \"The speed limit is 55 mph. Your speed is now...\")\n    (speedometer-3)\n    (plus-button (fn [evt]\n                  ;; <b>`evt-md` (event model) determines the MX proxy/model associated with a handler event.</b>\n                  ;; <b>'mswap!' performs a Clojure 'swap!' on the ':mph' property of the model.</b>\n                  (mswap! (fmu :speedometer (evt-md evt)) :mph inc)))))"
    :exercise "Add custom state <code>throttled</code>, with a formula that computes <code>true</code> if <code>mph</code> is
    fifty-five or more. Check <code>throttled</code> in the <code>onclick</code> handler before allowing increment."
    :comment  ["Wrapping <code>mph</code> value in <code>(cI 42)</code>, <code>cI</code> for \"cell Input\",
@@ -303,7 +302,7 @@
   (div {:class :intro}
     (h2 "The speed is now...")
     (speedometer-4)
-    (speed-plus (fn [evt]
+    (plus-button (fn [evt]
                   (mswap! (fmu :speedometer (evt-md evt)) :mph inc)))))
 
 (def ex-watches
@@ -312,12 +311,12 @@
    :route    :watches
    :builder  watches
    :preamble "Any property can use an on-change \"watch\" function for side-effects."
-   :code     "(defn speedometer-4 []\n  (span {:class   :digi-readout\n         :onclick #(mswap! (evt-md %) :mph inc)}\n    {:name    :speedometer\n     :mph     (cI 42 :watch (fn [slot me new-val prior-val cell]\n                              ;; <b>`cI`, cell input, takes a :watch option for an \"on change\" function</b>\n                              (prn :watch-sees-change slot new-val)))\n     :display (cF (str (mget me :mph) \" mph\"))}\n    (mget me :display)))\n\n(defn watches []\n  (div {:class :intro}\n    (h2 \"The speed is now...\")\n    (speedometer-4)\n    (speed-plus (fn [evt]\n                  (mswap! (fmu :speedometer (evt-md evt)) :mph inc)))))"
+   :code     "(defn speedometer-4 []\n  (span {:class   :digi-readout\n         :onclick #(mswap! (evt-md %) :mph inc)}\n    {:name    :speedometer\n     :mph     (cI 42 :watch (fn [slot me new-val prior-val cell]\n                              ;; <b>`cI`, cell input, takes a :watch option for an \"on change\" function</b>\n                              (prn :watch-sees-change slot new-val)))\n     :display (cF (str (mget me :mph) \" mph\"))}\n    (mget me :display)))\n\n(defn watches []\n  (div {:class :intro}\n    (h2 \"The speed is now...\")\n    (speedometer-4)\n    (plus-button (fn [evt]\n                  (mswap! (fmu :speedometer (evt-md evt)) :mph inc)))))"
    :comment  ["A watch function fires when a cell value is initialized, and if the value changes. Watches are used to
    dispatch actions outside the Matrix, if only for logging/debugging, as here. (See the browser console.)"
               "Watches could also write to localStorage, or dispatch XHR requests. Web/MX itself, as an extreme example,
-              does all its dynamic DOM maintenance in a watch functions on HTML attributes."
-              "Watch functions are dispatched non-deterministically, whenever state propagation happens to reach a property.
+              does all its dynamic DOM maintenance in watch functions on HTML attributes."
+              "Watch functions are dispatched non-deterministically, namely, whenever state propagation happens to reach a property.
               Where controlled coordination of watch actions is required, a custom action handler can be specified."]})
 
 ;;; --- throttling watch -------------------
@@ -341,7 +340,7 @@
   (div {:class :intro}
     (h2 "The speed limit is 55 mph. Your speed is now...")
     (speed-governor)
-    (speed-plus (fn [evt]
+    (plus-button (fn [evt]
                   (mswap! (fmu :speedometer (evt-md evt)) :mph inc)))))
 
 (def ex-watch-cc
@@ -351,7 +350,7 @@
    :builder  watch-cc
    :preamble "Watch functions must operate outside Matrix state flow, but <i>can</i> enqueue alterations
     of Matrix state for subsequent execution."
-   :code     "(defn speed-governor []\n  (span {:class   :digi-readout\n         :onclick #(mswap! (evt-md %) :mph inc)}\n    {:name    :speedometer\n     :mph     (cI 42 :watch (fn [slot me new-val prior-val cell]\n                              (when (> new-val 55)\n                                (js/alert \"You have triggered the speed governor; auto-resetting to 45 mph.\")\n\n                                ;; <b>`with-cc` must wrap any DAG mutation by a watch function </b>\n                                (with-cc :speed-governor\n                                  ;; <b>'mset!', like its alias 'mreset!, performs a 'reset!' of a model property.</b>\n                                  (mset! me :mph 45)))))\n     :display (cF (str (mget me :mph) \" mph\"))}\n    (mget me :display)))\n\n(defn watch-cc []\n  (div {:class :intro}\n    (h2 \"The speed limit is 55 mph. Your speed is now...\")\n    (speed-governor)\n    (speed-plus (fn [evt]\n                  (mswap! (fmu :speedometer (evt-md evt)) :mph inc)))))"
+   :code     "(defn speed-governor []\n  (span {:class   :digi-readout\n         :onclick #(mswap! (evt-md %) :mph inc)}\n    {:name    :speedometer\n     :mph     (cI 42 :watch (fn [slot me new-val prior-val cell]\n                              (when (> new-val 55)\n                                (js/alert \"You have triggered the speed governor; auto-resetting to 45 mph.\")\n\n                                ;; <b>`with-cc` must wrap any DAG mutation by a watch function </b>\n                                (with-cc :speed-governor\n                                  ;; <b>'mset!', like its alias 'mreset!, performs a 'reset!' of a model property.</b>\n                                  (mset! me :mph 45)))))\n     :display (cF (str (mget me :mph) \" mph\"))}\n    (mget me :display)))\n\n(defn watch-cc []\n  (div {:class :intro}\n    (h2 \"The speed limit is 55 mph. Your speed is now...\")\n    (speed-governor)\n    (plus-button (fn [evt]\n                  (mswap! (fmu :speedometer (evt-md evt)) :mph inc)))))"
    :comment  ["Try increasing the speed above 55. A watch function will intervene."
               "In our experience coding with Matrix, we frequently
    encounter opportunities for the app to usefully update state normally controlled by the user. The macro <code>(with-cc TAG & BODY)</code> schedules the <code>mset!</code> mutation for execution
@@ -366,7 +365,7 @@
      the \"data integrity\" invariants listed below."]
    :route    :data-integrity
    :builder  watch-cc
-   :code     "(div {:class :intro}\n    (h2 \"The speed limit is 55 mph. Your speed is now...\")\n    (speed-governor)\n    (speed-plus (fn [evt]\n                  (mswap! (fmu :speedometer (evt-md evt)) :mph inc))))"
+   :code     "(div {:class :intro}\n    (h2 \"The speed limit is 55 mph. Your speed is now...\")\n    (speed-governor)\n    (plus-button (fn [evt]\n                  (mswap! (fmu :speedometer (evt-md evt)) :mph inc))))"
    :comment  ["<h3>The Data Integrity Contract</h3> When application code assigns a value to some input cell X, the Matrix engine guarantees:
               <br><br>&nbsp;&bull; recomputation exactly once of all and only state affected by the change to X, directly or indirectly through some intermediate datapoint. Note that if A depends on B, and B depends on X, when B gets recalculated it may come up with the same value as before. In this case A is not considered to have been affected by the change to X and will not be recomputed;
               <br><br>&nbsp;&bull; recomputations, when they read other datapoints, will see only values current with the new value of X. Example: if A depends on B and X, and B depends on X, when X changes and A reads B and X to compute a new value, B must return a value recomputed from the new value of X;
@@ -382,7 +381,7 @@
   (div {:class "intro"}
     (span {:class :push-button}
       "Cat Chat")
-    (speed-plus #(mset! (fmu :cat-fact (evt-md %)) :get-new-fact? true))
+    (plus-button #(mset! (fmu :cat-fact (evt-md %)) :get-new-fact? true))
     (div {:class :cat-chat}
       {:name          :cat-fact
        :get-new-fact? (cI false
@@ -418,7 +417,7 @@
    :route    :cat-chat
    :builder  async-cat
    :preamble "An async response is just another \"input\" property mutation."
-   :code     "(div {:class \"intro\"}\n    (span {:class :push-button}\n      \"Cat Chat\")\n    (speed-plus #(mset! (fmu :cat-fact (evt-md %)) :get-new-fact? true))\n    (div {:class :cat-chat}\n      {:name          :cat-fact\n       :get-new-fact? (cI false\n\n                        ;; <b>The \"plus\" widget will set this property repeatedly\n                        ;; to the same value, 'true'. Declaring it \"ephemeral?\" means\n                        ;; it will fire each time that same value is set.</b>\n                        :ephemeral? true)\n       :cat-request   (cF+\n                        ;; <b>`cF+`, or \"cF plus\", accepts cell options</b>\n                        [:watch (fn [_ me response-chan _ _]\n                                  (when response-chan\n                                    (go (let [response (&lt;! response-chan)]\n\n                                          ;; <b>whenever the XHR responds,</b>\n                                          ;; <b>we just `mset!` the \"waiting\" input cell</b>\n                                          (with-cc :set-cat\n                                            (mset! me :cat-response response))))))]\n                        (when (mget me :get-new-fact?)\n                          (client/get cat-fact-uri {:with-credentials? false})))\n       :cat-response  (cI nil)}\n\n      (if-let [response (mget me :cat-response)]\n        (if (:success response)\n          (span (get-in response [:body :fact]))\n          (str \"Error>  \" (:error-code response)\n            \": \" (:error-text response)))\n        \"Click (+) to see a chat fact.\")))"
+   :code     "(div {:class \"intro\"}\n    (span {:class :push-button}\n      \"Cat Chat\")\n    (plus-button #(mset! (fmu :cat-fact (evt-md %)) :get-new-fact? true))\n    (div {:class :cat-chat}\n      {:name          :cat-fact\n       :get-new-fact? (cI false\n\n                        ;; <b>The \"plus\" widget will set this property repeatedly\n                        ;; to the same value, 'true'. Declaring it \"ephemeral?\" means\n                        ;; it will fire each time that same value is set.</b>\n                        :ephemeral? true)\n       :cat-request   (cF+\n                        ;; <b>`cF+`, or \"cF plus\", accepts cell options</b>\n                        [:watch (fn [_ me response-chan _ _]\n                                  (when response-chan\n                                    (go (let [response (&lt;! response-chan)]\n\n                                          ;; <b>whenever the XHR responds,</b>\n                                          ;; <b>we just `mset!` the \"waiting\" input cell</b>\n                                          (with-cc :set-cat\n                                            (mset! me :cat-response response))))))]\n                        (when (mget me :get-new-fact?)\n                          (client/get cat-fact-uri {:with-credentials? false})))\n       :cat-response  (cI nil)}\n\n      (if-let [response (mget me :cat-response)]\n        (if (:success response)\n          (span (get-in response [:body :fact]))\n          (str \"Error>  \" (:error-code response)\n            \": \" (:error-text response)))\n        \"Click (+) to see a chat fact.\")))"
    :comment  ["The <code>cat-request</code> property creates and dispatches an XHR via <code>client/get</code>, producing a core.async channel
    to receive the response. Its watch function awaits the async response and feeds it into a conventional input property."
               "We handle async events by directing them to input Cells purpose-created to receive their output, where
@@ -451,7 +450,7 @@
           (pp/cl-format nil "The speed is ~8,1f mph ~:[over~;under~] the speed limit."
             (Math/abs excess) (neg? excess))))
     (speedo-review)
-    (speed-plus #(mswap! (fmu :speedometer (evt-md %)) :mph inc))))
+    (plus-button #(mswap! (fmu :speedometer (evt-md %)) :mph inc))))
 
 (def ex-in-review
   {:menu     "Review"
@@ -459,15 +458,15 @@
    :route    :in-review
    :builder  in-review
    :preamble ["Our closing example reprises all key Web/MX features."]
-   :code     "(defn speedo-review []\n  (span {:class :digi-readout\n         :style (cF {:color (if (> (mget me :mph) 55)\n                              \"red\" \"cyan\")})}\n    {:name     :speedometer\n     :mph      (cI 42)\n     :air-drag (letfn [(clear-intv [i]\n                         (when (number? i)\n                           (js/clearInterval i)))]\n                 (cF+ [:watch (fn [_ _ new prior _]\n                                (clear-intv prior))\n                       :on-quiesce (fn [c]\n                                     (clear-intv (c-value c)))]\n                   (js/setInterval\n                     #(mswap! me :mph * 0.98) 1000)))}\n    (pp/cl-format nil \"~8,1f mph\" (mget me :mph))))\n\n(defn in-review []\n  (div {:class :intro}\n    (h2 (let [excess (- (mget (fmu :speedometer) :mph) 55)]\n          (pp/cl-format nil \"The speed is ~8,1f mph ~:[over~;under~] the speed limit.\"\n            (Math/abs excess) (neg? excess))))\n    (speedo-review)\n    (speed-plus #(mswap! (fmu :speedometer (evt-md %)) :mph inc))))"
+   :code     "(defn speedo-review []\n  (span {:class :digi-readout\n         :style (cF {:color (if (> (mget me :mph) 55)\n                              \"red\" \"cyan\")})}\n    {:name     :speedometer\n     :mph      (cI 42)\n     :air-drag (letfn [(clear-intv [i]\n                         (when (number? i)\n                           (js/clearInterval i)))]\n                 (cF+ [:watch (fn [_ _ new prior _]\n                                (clear-intv prior))\n                       :on-quiesce (fn [c]\n                                     (clear-intv (c-value c)))]\n                   (js/setInterval\n                     #(mswap! me :mph * 0.98) 1000)))}\n    (pp/cl-format nil \"~8,1f mph\" (mget me :mph))))\n\n(defn in-review []\n  (div {:class :intro}\n    (h2 (let [excess (- (mget (fmu :speedometer) :mph) 55)]\n          (pp/cl-format nil \"The speed is ~8,1f mph ~:[over~;under~] the speed limit.\"\n            (Math/abs excess) (neg? excess))))\n    (speedo-review)\n    (plus-button #(mswap! (fmu :speedometer (evt-md %)) :mph inc))))"
    :comment  "
    <ul type=circle>
    <li>it looks and works like standard HTML, SVG, CSS, and CLJS;</li>
    <li>all state dependencies are property to property;</li>
    <li>the <code>H2</code> computes its text by navigating to the speedometer widget to read the <code>mph</code> value;</li>
-   <li>the <code>(speed-plus ...)</code> button navigates to the speedometer to mutate <code>mph</code> value;</li>
+   <li>the <code>(plus-button ...)</code> button navigates to the speedometer to mutate the <code>mph</code> value;</li>
    <li>the <code>air-drag</code> async interval mutates the DAG, reducing the <code>mph</code>;</li>
-   <li>function <code>speed-plus</code> demonstrates reusable composition.</li>
+   <li>function <code>plus-button</code> demonstrates reusable composition.</li>
    </ul>"})
 
 (def ex-tl-dr
