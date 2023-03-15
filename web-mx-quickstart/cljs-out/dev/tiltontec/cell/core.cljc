@@ -28,8 +28,8 @@
                       *c-prop-depth* md-prop-owning? c-lazy] :as cty])
 
     #?(:clj
-       [tiltontec.cell.observer :refer :all]
-       :cljs [tiltontec.cell.observer
+       [tiltontec.cell.watch :refer :all]
+       :cljs [tiltontec.cell.watch
               :refer-macros [fn-obs]
               :refer []])
 
