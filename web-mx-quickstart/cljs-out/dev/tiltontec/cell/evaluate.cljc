@@ -15,20 +15,20 @@
     #?(:clj  [tiltontec.cell.base :refer :all :as cty]
        :cljs [tiltontec.cell.base
               :refer-macros [without-c-dependency pcell]
-              :refer [c-optimized-away? c-pulse-unobserved? c-formula? c-value c-optimize
+              :refer [c-optimized-away? c-pulse-unwatched? c-formula? c-value c-optimize
                       *one-pulse?* *dp-log* *unfinished-business*
                       *custom-propagator*
                       c-unbound? c-input?
                       c-model mdead? c-valid? c-useds c-ref? md-ref?
-                      c-state *pulse* c-pulse-observed c-code$
+                      c-state *pulse* c-pulse-watched c-code$
                       *call-stack* *defer-changes* dpc minfo cinfo
                       c-rule c-me c-value-state c-callers dependency-record unlink-from-used
                       unlink-from-callers *causation*
-                      c-synaptic? dependency-drop c-md-name
+                      c-synaptic? dependency-drop c-md-name c-async?
                       c-pulse c-pulse-last-changed c-ephemeral? c-prop c-prop-name
                       *depender* *quiesce*
                       *c-prop-depth* md-prop-owning? c-lazy] :as cty])
-    [tiltontec.cell.observer :refer [c-observe]]
+    [tiltontec.cell.watch :refer [c-watch]]
     #?(:cljs [tiltontec.cell.integrity
               :refer-macros [with-integrity]
               :refer [c-current? c-pulse-update]]
@@ -45,7 +45,7 @@
     ; as of Cells3 we defer resetting ephemerals because everything
     ; else gets deferred and we cannot /really/ reset it until
     ; within finish_business we are sure all callers have been recalculated
-    ; and all observers completed (which happens with recalc).
+    ; and all watchs completed (which happens with recalc).
     ;
     ;;(trx :ephh-reset!!! (:prop @rc))
     (with-integrity (:ephemeral-reset rc)
@@ -110,7 +110,7 @@
     (do                                                     ;; we seem to need update, but...
       (when-not (c-current? c)
         ;; Q: how can it be current after above checks indicating not current?
-        ;; A: if dependent changed during above loop over used and its observer read/updated me
+        ;; A: if dependent changed during above loop over used and its watch read/updated me
         (calculate-and-set c :evic ensurer))
       (c-value c))
 
@@ -124,7 +124,7 @@
 (defn c-get
   "The API for determing the value associated with a Cell.
   Ensures value is current, records any dependent, and
-  notices if a standalone  cell has never been observed."
+  notices if a standalone  cell has never been watched."
 
   [c]
   #_(when (= (c-prop c) :ae-response)
@@ -149,9 +149,9 @@
                        ;; to see if c-model is nil? (trying latter...)
                        (when (and (nil? (c-model c))
                                (= (c-state c) :nascent)
-                               (c-pulse-unobserved? c))
+                               (c-pulse-unwatched? c))
                          (rmap-setf [::cty/state c] :awake)
-                         (c-observe c prior-value :cget)
+                         (c-watch c prior-value :cget)
                          (ephemeral-reset c)))))
                  (when *depender*
                    (dependency-record c)))
@@ -170,15 +170,46 @@
   (do                                                       ;; (wtrx [0 20 :cnset-entry (c-prop c)]
     (let [[raw-value propagation-code] (calculate-and-link c)]
       ;;(trx :cn-set-sees!!!! (c-prop c) raw-value propagation-code)
-      (when-not (c-optimized-away? c)
-        (assert (map? @c) "calc-n-set")
+      (cond
+        #_ #_ (c-async? c) (let [cfo (cinfo c true)]
+                       (assert (or (nil? raw-value)         ;; someday support other default future cell values, mebbe :pending
+                                 (dart/is? raw-value Future))
+                         (str "cnset-future got non future: " raw-value dbgid dbgdata))
 
-        ;; this check for optimized-away? arose because a rule using without-c-dependency
-        ;; can be re-entered unnoticed since that clears *call-stack*. If re-entered, a subsequent
-        ;; re-exit will be of an optimized away cell, which will have been assumed
-        ;; as part of the opti-away processing.
-        ;;(trx :calc-n-set->assume raw-value)
-        (c-value-assume c raw-value propagation-code)))))
+                       (if (dart/is? raw-value Future)
+                         (do
+                           ;; (dp :got-future :defchg cty/*defer-changes* :wii cty/*within-integrity*)
+                           (.then ^Future raw-value
+                             (fn [fu-val]
+                               ;(dp :then-callback-sees :defchg cty/*defer-changes* :wii cty/*within-integrity*)
+                               (assert (atom? c) (str "CNSET> in future then atom? false origc "
+                                                   cfo " cnow " c))
+                               (assert (map? @c) (str "CNSET> in future then map? false origc "
+                                                   cfo " derefc now " (or (deref c) "nada")))
+                               (assert (c-ref? c) (str "CNSET> in future then c-ref? false origc "
+                                                    cfo " derefnow "(deref c)))
+                               (with-mx-isolation
+                                 (with-integrity [:change :future-then]
+                                   ;; todo if a cfu is meant to run repeatedly as dependencies change,
+                                   ;;      do we need to clear :then? Or is opti-away not a problem
+                                   ;;      since it would have happened were there no users??
+                                   (assert (c-ref? c) (str "CNSET> in future then withininetg c-ref? false origc "
+                                                        cfo))
+                                   (rmap-setf [:then? c] true)
+                                   (c-value-assume c (if-let [and-then (:and-then @c)]
+                                                       (and-then c fu-val) fu-val) nil)))))
+                           ;; forcing nil pending future
+                           ;; TODO support :pending-future-placeholder-value and force that instead
+                           (c-value-assume c nil propagation-code))
+                         (c-value-assume c nil propagation-code)))
+        :else (when-not (c-optimized-away? c)
+                (assert (map? (deref c)) "calc-n-set")
+                ;; this check for optimized-away? arose because a rule using without-c-dependency
+                ;; can be re-entered unnoticed since that "clears" *call-stack*. If re-entered, a subsequent
+                ;; re-exit will be of an optimized away cell, which will have been value-assumed
+                ;; as part of the opti-away processing.
+                ;;(trx :calc-n-set->assume raw-value)
+                (c-value-assume c raw-value propagation-code))))))
 
 (defn calculate-and-link
   "The name is accurate: we do no more than invoke the
@@ -242,11 +273,11 @@
   ;
 
   (#?(:clj dosync :cljs do)
-    ;;(prn :awk-c c @*pulse* (c-pulse-observed c)(c-value-state c))
-    (when (c-pulse-unobserved? c)                           ;; safeguard against double-call
+    ;;(prn :awk-c c @*pulse* (c-pulse-watched c)(c-value-state c))
+    (when (c-pulse-unwatched? c)                           ;; safeguard against double-call
       (when-let [me (c-me c)]
         (rmap-setf [(c-prop c) me] (c-value c)))
-      (c-observe c :cell-awaken)
+      (c-watch c :cell-awaken)
       (ephemeral-reset c))))
 
 (defmethod c-awaken ::cty/c-formula [c]
@@ -338,7 +369,7 @@
   (when-let [me (c-model c)]
     (rmap-meta-setf [:cells-flushed me]
       (conj (:cells-flushed (meta me))
-        [(c-prop c) (c-pulse-observed c)]))))
+        [(c-prop c) (c-pulse-watched c)]))))
 
 ;; --- optimize away ------------------------------------------
 ;; optimizing away cells who turn out not to depend on anyone 
@@ -364,7 +395,7 @@
       (unlink-from-used c :freeze))
 
     (rmap-setf [::cty/state c] :optimized-away)
-    (c-observe c prior-value :opti-away)
+    (c-watch c prior-value :opti-away)
 
     (when-let [me (c-model c)]
       (rmap-meta-setf [:cz me] (assoc (:cz (meta me)) (c-prop c) nil))
@@ -436,7 +467,7 @@
 (defn propagate
   "A cell:
   - notifies its callers of its change;
-  - calls any observer; and
+  - calls any watch; and
   - if ephemeral, silently reverts to nil."
   ;; /do/ support other values besides nil as the "resting" value 
 
@@ -468,22 +499,22 @@
               (md-quiesce ownee))))
 
         (propagate-to-callers c callers)
-        ;;(trx :obs-chkpulse!!!!!!!! @*pulse* (c-pulse-observed c))
+        ;;(trx :watch-chkpulse!!!!!!!! @*pulse* (c-pulse-watched c))
 
-        (when-not (c-optimized-away? c)                     ;; they get observed at the time
+        (when-not (c-optimized-away? c)                     ;; they get watched at the time
           ;;(trx :not-opti!!!! @c)
-          (when (or (c-pulse-unobserved? c)
+          (when (or (c-pulse-unwatched? c)
                   (some #{(c-lazy c)}
                     [:once-asked :always true]))            ;; messy: these can get setfed/propagated twice in one pulse+
-            ;;(println :observing!!!!!!!!!!! (c-prop c) (c-value c))
-            (c-observe c prior-value :propagate)))
+            ;;(println :watcherving!!!!!!!!!!! (c-prop c) (c-value c))
+            (c-watch c prior-value :propagate)))
 
         ;;
         ;; with propagation done, ephemerals can be reset. we also do this in c-awaken, so
         ;; let the fn decide if C really is ephemeral. Note that it might be possible to leave
         ;; this out and use the pulse to identify obsolete ephemerals and clear them
         ;; when read. That would avoid ever making again bug I had in which I had the reset
-        ;; inside prop-value-observe,
+        ;; inside prop-value-watch,
         ;; thinking that that always followed propagation to callers. It would also make
         ;; debugging easier in that I could find the last ephemeral value in the inspector.
         ;; would this be bad for persistent CLOS, in which a DB would think there was still a link

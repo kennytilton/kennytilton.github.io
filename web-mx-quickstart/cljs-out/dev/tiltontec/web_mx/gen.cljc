@@ -7,10 +7,8 @@
        )
     #?(:clj  [clojure.pprint :refer :all]
        :cljs [cljs.pprint :refer [pprint cl-format]])
-    [tiltontec.cell.base :refer [md-ref? unbound]]
-    [tiltontec.cell.evaluate :refer [md-quiesce md-quiesce-self]]
-    [tiltontec.model.core :refer [make mget] :as md]
-    ))
+
+    [tiltontec.matrix.api :refer [md-ref? unbound md-quiesce md-quiesce-self make mget]]))
 
 (defn tagfo [me]
   (select-keys @me [:id :tag :class :name]))
