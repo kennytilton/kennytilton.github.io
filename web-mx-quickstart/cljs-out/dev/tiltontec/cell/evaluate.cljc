@@ -29,12 +29,11 @@
                       *depender* *quiesce*
                       *c-prop-depth* md-prop-owning? c-lazy] :as cty])
     [tiltontec.cell.watch :refer [c-watch]]
+    [tiltontec.cell.poly :refer [c-awaken md-quiesce md-quiesce-self unchanged-test]]
     #?(:cljs [tiltontec.cell.integrity
               :refer-macros [with-integrity]
               :refer [c-current? c-pulse-update]]
        :clj  [tiltontec.cell.integrity :refer :all])))
-
-
 
 #?(:cljs (set! *print-level* 3))
 
@@ -121,7 +120,7 @@
             (c-pulse-update c :valid-uninfluenced)
             (c-value c))))
 
-(defn c-get
+(defn cget
   "The API for determing the value associated with a Cell.
   Ensures value is current, records any dependent, and
   notices if a standalone  cell has never been watched."
@@ -157,9 +156,6 @@
                    (dependency-record c)))
     (any-ref? c) @c
     :else c))
-
-(defn <cget [c]
-  (c-get c))
 
 (declare calculate-and-link
   c-value-assume)
@@ -253,9 +249,6 @@
 
 ;;; --- awakening ------------------------------------
 
-(defmulti c-awaken (fn [c]
-                     (mx-type c)))
-
 (defmethod c-awaken :default [c]
   (prn :c-awaken-def!!!)
   (cond
@@ -268,10 +261,7 @@
 
 (defmethod c-awaken ::cty/cell [c]
   (assert (c-input? c))
-  ;
   ; nothing to calculate, but every cellular prop should be output on birth
-  ;
-
   (#?(:clj dosync :cljs do)
     ;;(prn :awk-c c @*pulse* (c-pulse-watched c)(c-value-state c))
     (when (c-pulse-unwatched? c)                           ;; safeguard against double-call
@@ -421,7 +411,7 @@
 
 ;; --- md-quiesce --
 
-(defn md-quiesce-self [me]
+(defmethod md-quiesce-self :default [me]
   (when-let [onq (:on-quiesce (meta me))]
     (onq me))
   (doseq [c (vals (:cz (meta me)))]
@@ -431,27 +421,11 @@
   (#?(:clj ref-set :cljs reset!) me nil)
   (rmap-meta-setf [::cty/state me] :dead))
 
-(defmulti md-quiesce (fn [me]
-                      (assert (md-ref? me))
-                      [(mx-type me)]))
-
 (defmethod md-quiesce :default [me]
-  (prn :quiesce!!!-def)
   (md-quiesce-self me))
 
 ;----------------- change detection ---------------------------------
 
-(defmulti unchanged-test
-  "Cells does not propagate when nothing changes. By default, the
-  test is =, but cells can inject a different test, and when we get
-  to models it will be possible for a prop to have associated
-  with it a different test."
-
-  (fn [me prop]
-    [(mx-type me) prop]))
-
-(defmethod unchanged-test :default [self propname]
-  =)
 
 (defn c-value-changed? [c new-value old-value]
   (not ((or (:unchanged-if @c)

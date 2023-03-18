@@ -1,7 +1,6 @@
-// Compiled by ClojureScript 1.10.773 {:static-fns true, :optimize-constants true}
+// Compiled by ClojureScript 1.10.773 {}
 goog.provide('tiltontec.web_mx.gen_macro');
 goog.require('cljs.core');
-goog.require('cljs.core.constants');
 goog.require('clojure.walk');
 goog.require('goog.object');
 goog.require('tiltontec.web_mx.gen');
@@ -10,5 +9,7 @@ goog.require('tiltontec.web_mx.gen');
  *   and put them into a ClojureScript map
  */
 tiltontec.web_mx.gen_macro.jso_map = (function tiltontec$web_mx$gen_macro$jso_map(obj){
-return clojure.walk.keywordize_keys(cljs.core.zipmap(goog.object.getKeys(obj),goog.object.getValues(obj)));
+return clojure.walk.keywordize_keys.call(null,cljs.core.zipmap.call(null,goog.object.getKeys(obj),goog.object.getValues(obj)));
 });
+
+//# sourceMappingURL=gen_macro.js.map

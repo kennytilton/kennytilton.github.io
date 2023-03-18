@@ -26,17 +26,15 @@
               :refer-macros [with-integrity]]
        :clj  [tiltontec.cell.integrity :refer [with-integrity]])
 
-    #?(:cljs [tiltontec.cell.watch :refer [watch]]
-       :clj  [tiltontec.cell.watch :refer [watch]])
-
-    [tiltontec.cell.evaluate :refer [md-quiesce md-quiesce-self]]
+    [tiltontec.cell.poly :refer [watch md-quiesce md-quiesce-self]]
 
     #?(:cljs [tiltontec.cell.core
               :refer-macros [cF cF+ c-reset-next! cFonce cFn]
               :refer [cI c-reset! make-cell]]
        :clj  [tiltontec.cell.core :refer :all])
 
-    [tiltontec.cell.evaluate :refer [c-get c-awaken md-quiesce]]
+    [tiltontec.cell.evaluate :refer [cget ]]
+    [tiltontec.cell.poly :refer [md-quiesce ]]
     [tiltontec.model.base :refer [md-cell md-install-cell md-awaken]]
     ))
 
@@ -58,7 +56,7 @@
         "\n...> FYI: use mget? if prop might not exist."))
     (do                                                     ;; when (any-ref? me)
       (if-let [c (md-cell me prop)]
-        (c-get c)
+        (cget c)
         (prop @me)))))
 
 (defn mget? [me prop]
@@ -245,17 +243,15 @@
 
 (defn fasc
   "Search matrix ascendents for 'what', starting at 'where'
-
    See fm-navig= for options about 'what' can be
-
    if :me? is true, and (fm-navig= what where) return 'where'
-
    if (:parent @where) returns a parent, recurse up the family tree
-
    return an error when (:must? options) is true and we nothing is found"
   [what where & options]
   (when (and where what)
-    (let [options (merge {:me? false :wocd? true}
+    (let [options (merge {:me? false
+                          :wocd? true
+                          :must? true}
                     (apply hash-map options))]
       (binding [*depender* (if (:wocd? options) nil *depender*)]
         (or (and (:me? options)

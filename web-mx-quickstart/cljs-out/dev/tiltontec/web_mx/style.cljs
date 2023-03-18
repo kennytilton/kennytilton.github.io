@@ -1,26 +1,25 @@
 (ns tiltontec.web-mx.style
   (:require
-    [tiltontec.cell.watch :refer [watch watch-by-type] :as cw]
+    [tiltontec.cell.poly :refer [watch watch-by-type
+                                 md-quiesce md-quiesce-self] :as cw]
     [tiltontec.matrix.api :refer
-     [minfo md-ref? unbound md-quiesce md-quiesce-self make mget mget?
+     [minfo md-ref? unbound make mget mget?
       the-kids mdv! any-ref? rmap-meta-setf mx-type
       fm-navig mget mget? fasc fm! mset! backdoor-reset!]]
     [tiltontec.web-mx.base :refer [tag? kw$ tag-dom]]
-    [goog.dom.classlist :as classlist]
     [goog.style :as gstyle]
-    [goog.dom :as dom]
     [cljs.pprint :as pp]
     [clojure.string :as str]))
 
-(defn make-css-inline [tag & stylings]
-  (assert (tag? tag) (str "make-css-inline> tag param not a tag "
-                       (mx-type tag) :meta (meta tag)))
-  #_(prn :mkcss-sees tag (for [[k _] (partition 2 stylings)] k)
-      stylings)
+(defn make-css-inline
+  "Returns an MX proxy for a w/mx style attribute map."
+  [me & stylings]
+  (assert (tag? me) (str "make-css-inline> tag param not a tag "
+                       (mx-type me) :meta (meta me)))
   (apply make
     :name :inline-css
     :mx-type :web-mx.css/css
-    :tag tag
+    :tag me
     :css-keys (for [[k _] (partition 2 stylings)] k)
     stylings))
 

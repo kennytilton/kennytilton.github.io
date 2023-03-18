@@ -1,4 +1,6 @@
 (ns tiltontec.web-mx.gen
+  #?(:cljs
+     (:require-macros [tiltontec.web-mx.gen]))
   (:refer-clojure :exclude [map meta time])
   (:require
     [clojure.string :as str]
@@ -8,7 +10,8 @@
     #?(:clj  [clojure.pprint :refer :all]
        :cljs [cljs.pprint :refer [pprint cl-format]])
 
-    [tiltontec.matrix.api :refer [md-ref? unbound md-quiesce md-quiesce-self make mget]]))
+    [tiltontec.matrix.api :refer [md-ref? unbound make mget]]
+    [tiltontec.cell.poly :refer [md-quiesce md-quiesce-self] :as cw]))
 
 (defn tagfo [me]
   (select-keys @me [:id :tag :class :name]))
@@ -59,55 +62,10 @@
                  :kids cFkids
                  (concat (vec (apply concat (seq (dissoc attrs :id))))
                    (vec (apply concat (seq aux)))))]
-    ;;(println :made-tiltontec.web-mx!! tiltontec.web-mx-id (keys @mx-tiltontec.web-mx))
     (swap! tag-by-id assoc tag-id mx-tag)
     mx-tag))
 
-(defmethod md-quiesce [:web-mx.base/tag] [me]
-  ;; todo: worry about leaks
-  ;; (println :md-quiesce-tiltontec.web-mx!!! (tagfo me))
-
-  (when-let [style (:style @me)]
-    (when (md-ref? style)
-      ;;(println :popping-style style)
-      (md-quiesce style)))
-
-  (doseq [k (:kids @me)]
-    (when (md-ref? k)
-      (md-quiesce k)))
-  (swap! tag-by-id dissoc (mget me :id))
-  (md-quiesce-self me))
-
 ;;; --- SVG --------------------------------------------------
-
-(defn make-svg
-  ([svg]
-   (make-svg svg {}))
-  ([svg attrs]
-   (make-svg svg attrs {}))
-  ([svg attrs custom-props]
-   (make-svg svg attrs custom-props nil))
-  ([svg attrs aux cFkids]
-   ;; (prn :make-svg svg :attrs (keys attrs) :aux (keys aux))
-   (let [svg-id (if-let [id (:id attrs)]
-                  (attr-val$ id)
-                  ;; we'll piggyback some of the tag infrastructure
-                  (str svg "-" (swap! +tag-sid+ inc)))
-         mx-svg (apply make
-                  :mx-type :web-mx.base/svg
-                  :tag (cond
-                         (keyword? svg) (name svg)
-                         (string? svg) (if (= \: (first svg))
-                                         (subs svg 1) svg)
-                         :else (str svg))
-                  :id svg-id
-                  :attr-keys (distinct (conj (keys attrs) :id))
-                  :kids cFkids
-                  (concat (vec (apply concat (seq (dissoc attrs :id))))
-                    (vec (apply concat (seq aux)))))]
-     ;;(println :made-tiltontec.web-mx!! tiltontec.web-mx-id (keys @mx-tiltontec.web-mx))
-     (swap! tag-by-id assoc svg-id mx-svg)
-     mx-svg)))
 
 (defmethod md-quiesce [:web-mx.base/svg] [me]
   ;; todo: worry about leaks
@@ -124,14 +82,68 @@
 
 ;;; --- event conveniences -------------------
 
-(defn evt-mx [e]
-  ;; deprecated. "md" for "model" is better
-  (dom-tag (.-target e)))
-
 (defn evt-md [e]
   (dom-tag (.-target e)))
 
-#?(:cljs
-   (defn target-value [evt]
-     (form/getValue (.-target evt))))
+(defmacro deftag [tag]
+  (let [kids (gensym "kids")
+        vargs (gensym "vargs")
+        tag-name (gensym "web-mx-name")]
+    `(defmacro ~tag [& ~vargs]
+       (let [~tag-name (str '~tag)]
+         (cond
+           (nil? ~vargs)
+           `(tiltontec.web-mx.gen/make-tag ~~tag-name {} {} nil)
 
+           (map? (first ~vargs))
+           (cond
+             (map? (second ~vargs))
+             `(tiltontec.web-mx.gen/make-tag ~~tag-name ~(first ~vargs) ~(second ~vargs)
+                ~(when-let [~kids (seq (nthrest ~vargs 2))]
+                   `(tiltontec.model.core/cFkids ~@~kids)))
+
+             :default `(tiltontec.web-mx.gen/make-tag
+                         ~~tag-name ~(first ~vargs)
+                         {}
+                         ~(when-let [~kids (seq (nthrest ~vargs 1))]
+                            `(tiltontec.model.core/cFkids ~@~kids))))
+
+           :default `(tiltontec.web-mx.gen/make-tag
+                       ~~tag-name {} {}
+                       (tiltontec.model.core/cFkids ~@~vargs)))))))
+
+
+(defmacro defsvg [svg]
+  (let [kids (gensym "kids")
+        vargs (gensym "vargs")
+        svg-name (gensym "web-mx-name")]
+    `(defmacro ~svg [& ~vargs]
+       (let [~svg-name (str '~svg)]
+         (cond
+           (nil? ~vargs)
+           `(tiltontec.web-mx.api/make-svg ~~svg-name {} {} nil)
+
+           (map? (first ~vargs))
+           (cond
+             (map? (second ~vargs))
+             `(tiltontec.web-mx.api/make-svg ~~svg-name ~(first ~vargs) ~(second ~vargs)
+                ~(when-let [~kids (seq (nthrest ~vargs 2))]
+                   `(tiltontec.model.core/cFkids ~@~kids)))
+
+             :default `(tiltontec.web-mx.api/make-svg
+                         ~~svg-name ~(first ~vargs)
+                         {}
+                         ~(when-let [~kids (seq (nthrest ~vargs 1))]
+                            `(tiltontec.model.core/cFkids ~@~kids))))
+
+           :default `(tiltontec.web-mx.api/make-svg
+                       ~~svg-name {} {}
+                       (tiltontec.model.core/cFkids ~@~vargs)))))))
+
+(defmacro deftags [& tags]
+  `(do ~@(for [tag tags]
+           `(deftag ~tag))))
+
+(defmacro defsvgs [& svgs]
+  `(do ~@(for [svg svgs]
+           `(defsvg ~svg))))

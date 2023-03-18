@@ -27,15 +27,13 @@
                       *one-pulse?* *dp-log* *unfinished-business* pulse-initial
                       *c-prop-depth* md-prop-owning? c-lazy] :as cty])
 
-
-
     [#?(:cljs cljs.pprint :clj clojure.pprint) :refer [pprint cl-format]]
     #?(:clj
        [tiltontec.cell.integrity :refer :all]
        :cljs [tiltontec.cell.integrity
               :refer-macros [with-integrity]
               :refer []])
-    [tiltontec.cell.evaluate :refer [c-get <cget c-value-assume ensure-value-is-current]]))
+    [tiltontec.cell.evaluate :refer [ cget c-value-assume ensure-value-is-current]]))
 
 ;;#?(:cljs (set! *print-level* 3))
 
@@ -166,12 +164,12 @@
      :rule (c-fn (without-c-dependency ~@body))))
 
 (defmacro cF+n [[& options] & body]
-  `(make-c-formula
+  `(tiltontec.cell.core/make-c-formula
      ~@options
-     :code '(without-c-dependency ~@body)
+     :code '(tiltontec.cell.base/without-c-dependency ~@body)
      :input? true
-     :value unbound
-     :rule (c-fn (without-c-dependency ~@body))))
+     :value tiltontec.cell.base/unbound
+     :rule (tiltontec.cell.core/c-fn (tiltontec.cell.base/without-c-dependency ~@body))))
 
 (defmacro c_Fn [& body]
   `(make-c-formula
@@ -344,7 +342,7 @@ in the CL version of Cells SETF itself is the change API dunction."
   (cset! c new-value))
 
 (defn c-swap! [c swap-fn & swap-fn-args]
-  (cset! c (apply swap-fn (<cget c) swap-fn-args)))
+  (cset! c (apply swap-fn (cget c) swap-fn-args)))
 
 
 (defmacro c-reset-next! [f-c f-new-value]

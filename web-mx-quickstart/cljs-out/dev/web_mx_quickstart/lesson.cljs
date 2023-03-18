@@ -6,11 +6,10 @@
     [cljs-http.client :as client]
     [tiltontec.matrix.api
      :refer [with-cc cF cF+ cFonce cI cf-freeze c-value mget mset! mswap! mset! fasc fmu fm-navig]]
-    [tiltontec.web-mx.gen :refer [evt-md target-value]]
-    [tiltontec.web-mx.gen-macro
-     :refer [img section h1 h2 h3 input footer p a
+    [tiltontec.web-mx.api
+     :refer [evt-md target-value
+             img section h1 h2 h3 input footer p a
              span i label ul li div button br
-             jso-map
              svg g circle p span div text radialGradient defs stop
              rect ellipse line polyline path polygon script use]]))
 
