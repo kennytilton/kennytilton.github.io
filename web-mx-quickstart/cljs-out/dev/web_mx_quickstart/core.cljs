@@ -124,7 +124,7 @@
 
                 (p {:class :preamble
                     :style {:margin-bottom 0}}
-                   "Here is all the code:")
+                   "The code:")
                 (pre {:class :lesson-code}
                      (code {:style {:font-size "14px"}}
                            (:code lesson)))

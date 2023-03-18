@@ -64,7 +64,8 @@
    :ns       "tiltontec.example.quick-start.lesson/just-html"
    :builder  just-html
    :preamble "We just write HTML, SVG, and CSS, using CLJS workalikes."
-   :comment  ["Web/MX introduces no framework of its own, it just manages the DOM. Matrix just manages the state."
+   :comment  ["Web/MX introduces no framework of its own, it just manages the DOM."
+              "Matrix just manages the state."
               "Aside from CLJS->JS, no preprocessor is involved."]
    :code     "(div {:class :intro}\n    ;; <b>^^ if the first argument to any tag is a literal map, the key-values</b>\n    ;; <b>become HTML element attribute-values, with keywords => strings</b>\n\n    (h2 \"The count is now....\")\n    (span {:class :digi-readout} \"42\")\n    ;; <b>^^ arguments following the optional maps become children, or text content</b>\n\n    (svg {:width   64 :height 64\n          ;; <b> ^^^ numbers also get string-ified for the DOM constructors</b>\n          :cursor :pointer\n          :onclick #(js/alert \"Increment Feature Not Yet Implemented\")}\n      (circle {:cx     \"50%\" :cy \"50%\" :r \"40%\"\n               :stroke \"orange\" :stroke-width 5\n               :fill   :transparent})\n      (text {:class       :heavychar\n             :x \"50%\" :y \"70%\"\n             :text-anchor :middle} \"+\")))"
    :exercise ["Feel free to experiment with other HTML or SVG tags."
@@ -127,7 +128,7 @@
    :builder  html-composition
    :preamble "Because it is all CLJS, we can move sub-structure into functions."
    :code     "(defn opcode-button [label onclick]\n  (button {:class   :push-button\n           :onclick onclick}\n    label))\n\n(defn math-keypad [& opcodes]\n  (div {:style {:display :flex\n                :gap     \"1em\"}}\n    (mapv (fn [opcode]\n            (opcode-button opcode\n              #(js/alert \"Feature Not Yet Implemented\")))\n      opcodes)))\n\n(defn html-composition []\n  (div {:class :intro}\n    (h2 \"The count is now....\")\n    (span {:class :digi-readout} \"42\")\n    (math-keypad \"-\" \"=\" \"+\")))"
-   :comment  ["Where Hiccup distinguishes HTML from other code, Web/MX merges the two."]})
+   :comment  ["Where Hiccup or JSX distinguish HTML from other code, Web/MX makes them one."]})
 
 ;;; --- custom-state ---------------------------------
 
@@ -187,9 +188,10 @@
     When <code>mph</code> changes, <code>too-fast?</code> will be recomputed, then <code>speedo-text</code>."
               "Formula dependencies are automatically recorded, and adjusted anew on each evaluation.
                Together these trees of property-dependencies form the same coherent, one-way DAG found in Flux derivatives,
-               but without us doing more than coding one property at a time."
-              "The difference is that the Web/MX DAG extends all the way out to individual widget
-              attributes, and even individual style properties. Flux reactivity stops at the view function."
+               but with developers doing no more than code derivations one property at a time."
+              "Not just automatically detected, the Web/MX DAG extends all the way out to individual leaves
+              of the application. Individual formulas can be provided for any widget
+              attribute, and even individual style properties. Flux reactivity stops at the view function."
               "n.b. Different instances can have different formulas for the same property,
               extending further the \"prototype\" reusability win.</li>"]})
 
@@ -227,11 +229,12 @@
      the speed limit, to decide its text color."
               "We retrieve values from named other widgets, using navigation
      utilities such as <code>fasc</code> and <code>fmu</code> to avoid hard-coding paths."
-              "About navigation: MX models are like the DOM; every element but the root has one parent and knows that parent as a fixed property,
-               and everyone has zero or more children. Simple enough that, should a convoluted DOM organization arise,
+              "<h3>About navigation</h3>MX proxy models are like the DOM; every element but the root has
+              one parent and knows that parent as a fixed property,
+               and every has zero or more children. Simple enough that, should a convoluted DOM organization arise,
                a dev could easily write their own navigation code."
-              "Second, the provided fm-navig utility takes a \"test\" function as its first parameter, which by default
-              tests the :name of every node for a match with the sought name. Here again a dev can write a test function
+              "Second, the provided <code>fm-navig</code> utility takes a \"test\" function as its first parameter, which by default
+              tests the <code>:name</code> of every node for a match with the sought name. Here again a dev can write a test function
               of arbitrary complexity if needed."
               "Just to fill in the navigation picture a bit, <code>fm-navig</code> by default does a depth-first, left-right
                search starting at the provided start node, recursing up to the start's parent if necessary. So search for
@@ -315,8 +318,8 @@
    dispatch actions outside the Matrix, if only for logging/debugging, as here. (See the browser console.)"
               "Watches could also write to localStorage, or dispatch XHR requests. Web/MX itself, as an extreme example,
               does all its dynamic DOM maintenance in watch functions on HTML attributes."
-              "Watch functions are dispatched non-deterministically, namely, whenever state propagation happens to reach a property.
-              Where controlled coordination of watch actions is required, a custom action handler can be specified."]})
+              "Watch functions are dispatched non-deterministically–whenever state propagation happens to reach a property.
+              If coordination of watch actions is required, a custom action handler can be specified."]})
 
 ;;; --- throttling watch -------------------
 
@@ -359,18 +362,26 @@
 
 (def ex-data-integrity
   {:title    "Data Integrity"
-   :preamble ["Matrix silently maintains an internal DAG at run time by noting when one property formula reads
-    another property. When a property is modified, Matrix uses the derived DAG to ensure
-     the \"data integrity\" invariants listed below."]
+   :preamble ["Matrix silently builds an internal DAG at run time by noting when one property formula reads
+    another property. When a property is subsequently modified, Matrix uses that derived DAG to ensure
+     the following:"]
    :route    :data-integrity
    :builder  watch-cc
    :code     "(div {:class :intro}\n    (h2 \"The speed limit is 55 mph. Your speed is now...\")\n    (speed-governor)\n    (plus-button (fn [evt]\n                  (mswap! (fmu :speedometer (evt-md evt)) :mph inc))))"
-   :comment  ["<h3>The Data Integrity Contract</h3> When application code assigns a value to some input cell X, the Matrix engine guarantees:
-              <br><br>&nbsp;&bull; recomputation exactly once of all and only state affected by the change to X, directly or indirectly through some intermediate datapoint. Note that if A depends on B, and B depends on X, when B gets recalculated it may come up with the same value as before. In this case A is not considered to have been affected by the change to X and will not be recomputed;
-              <br><br>&nbsp;&bull; recomputations, when they read other datapoints, will see only values current with the new value of X. Example: if A depends on B and X, and B depends on X, when X changes and A reads B and X to compute a new value, B must return a value recomputed from the new value of X;
-              <br><br>&nbsp;&bull; similarly, client observer (watch) callbacks will see only values current with the new value of X;
-              <br><br>&nbsp;&bull; a corollary: should a client observer MSET! a datapoint Y, all the above will happen with values current with not just X, but also with the value of Y prior to the change to Y; and
-              <br><br>&nbsp;&bull; deferred “client” code will see only values current with X and not any values current with some subsequent change to Y enqueued by an observer."]})
+   :comment  ["<h3>The Data Integrity Contract</h3> When application code assigns a value to some
+   input cell X, the Matrix engine guarantees:
+              <br><br>&nbsp;&bull; recomputation exactly once of all and only state affected by the change to X, directly
+              or indirectly through some intermediate datapoint. Note that if A depends on B, and B depends on X, when B
+              gets recalculated it may come up with the same value as before. In this case A is not considered to have
+              been affected by the change to X and will not be recomputed;
+              <br><br>&nbsp;&bull; recomputations, when they read other datapoints, will see only values current
+              with the new value of X. Example: if A depends on B and X, and B depends on X, when X changes and
+               A reads B and X to compute a new value, B must return a value recomputed from the new value of X;
+              <br><br>&nbsp;&bull; similarly, client watch functions will see only values current with the new value of X;
+              <br><br>&nbsp;&bull; a corollary: should a client watch MSET! a datapoint Y, all the above will happen with
+               values current with not just X, but also with the value of Y prior to the change to Y; and
+              <br><br>&nbsp;&bull; deferred “client” code will see only values current with X and
+              not any values current with some subsequent change to Y enqueued by an observer."]})
 
 ;;; --- ajax cats ---------------------------------------------------
 
@@ -457,7 +468,7 @@
    :route    :in-review
    :builder  in-review
    :preamble ["Our closing example reprises all key Web/MX features."]
-   :code     "(defn speedo-review []\n  (span {:class :digi-readout\n         :style (cF {:color (if (> (mget me :mph) 55)\n                              \"red\" \"cyan\")})}\n    {:name     :speedometer\n     :mph      (cI 42)\n     :air-drag (letfn [(clear-intv [i]\n                         (when (number? i)\n                           (js/clearInterval i)))]\n                 (cF+ [:watch (fn [_ _ new prior _]\n                                (clear-intv prior))\n                       :on-quiesce (fn [c]\n                                     (clear-intv (c-value c)))]\n                   (js/setInterval\n                     #(mswap! me :mph * 0.98) 1000)))}\n    (pp/cl-format nil \"~8,1f mph\" (mget me :mph))))\n\n(defn in-review []\n  (div {:class :intro}\n    (h2 (let [excess (- (mget (fmu :speedometer) :mph) 55)]\n          (pp/cl-format nil \"The speed is ~8,1f mph ~:[over~;under~] the speed limit.\"\n            (Math/abs excess) (neg? excess))))\n    (speedo-review)\n    (plus-button #(mswap! (fmu :speedometer (evt-md %)) :mph inc))))"
+   :code     "(defn plus-button [onclick]\n  (svg {:width   64 :height 64 :cursor :pointer\n        :onclick onclick}\n    (circle {:cx     \"50%\" :cy \"50%\" :r \"40%\"\n             :stroke \"orange\" :stroke-width 5\n             :fill   :transparent})\n    (text {:class       :heavychar :x \"50%\" :y \"70%\"\n           :text-anchor :middle} \"+\")))\n\n(defn speedo-review []\n  (span {:class :digi-readout\n         :style (cF {:color (if (> (mget me :mph) 55)\n                              \"red\" \"cyan\")})}\n    {:name     :speedometer\n     :mph      (cI 42)\n     :air-drag (letfn [(clear-intv [i]\n                         (when (number? i)\n                           (js/clearInterval i)))]\n                 (cF+ [:watch (fn [_ _ new prior _]\n                                (clear-intv prior))\n                       :on-quiesce (fn [c]\n                                     (clear-intv (c-value c)))]\n                   (js/setInterval\n                     #(mswap! me :mph * 0.98) 1000)))}\n    (pp/cl-format nil \"~8,1f mph\" (mget me :mph))))\n\n(defn in-review []\n  (div {:class :intro}\n    (h2 (let [excess (- (mget (fmu :speedometer) :mph) 55)]\n          (pp/cl-format nil \"The speed is ~8,1f mph ~:[over~;under~] the speed limit.\"\n            (Math/abs excess) (neg? excess))))\n    (speedo-review)\n    (plus-button #(mswap! (fmu :speedometer (evt-md %)) :mph inc))))"
    :comment  "
    <ul type=circle>
    <li>it looks and works like standard HTML, SVG, CSS, and CLJS;</li>
