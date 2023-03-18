@@ -1,6 +1,6 @@
 (ns web-mx-quickstart.extra
   (:require
-    [tiltontec.web-mx.gen-macro
+    [tiltontec.web-mx.api
      :refer [title img section h1 h2 h3 input footer p a b h4 u table th tr td
              blockquote span i label ul li div button br pre code]]))
 

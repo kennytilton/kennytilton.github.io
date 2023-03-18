@@ -7,11 +7,11 @@
     [tiltontec.matrix.api
      :refer [matrix mpar mget mset! mswap! mset! fasc fmu
              cF cF+ cFn cFonce cI cf-freeze]]
-    [tiltontec.web-mx.gen :refer [evt-md target-value]]
-    [tiltontec.web-mx.gen-macro
-     :refer [title img section h1 h2 h3 input footer p a b h4 u table th tr td
+    [tiltontec.web-mx.api
+     :refer [evt-md target-value tag-dom-create
+             title img section h1 h2 h3 input footer p a b h4 u table th tr td
              blockquote span i label ul li div button br pre code]]
-    [tiltontec.web-mx.html :refer [tag-dom-create]]
+
     [web-mx-quickstart.extra :as extra]
     [web-mx-quickstart.lesson :as lesson]))
 

@@ -9,12 +9,12 @@
     [tiltontec.cell.core :refer [cF cF+ cFonce cI cf-freeze]]
     [tiltontec.cell.integrity :refer [with-cc]]
     [tiltontec.model.core
-     :refer [mx-par mget mset! mswap! mset! mxi-find mxu-find-name mdv! fasc fmu fm! fm-navig] :as md]
-    [tiltontec.web-mx.gen :refer [evt-md target-value]]
-    [tiltontec.web-mx.gen-macro
+     :refer [mx-par mget mset! mswap! mset! mxi-find mxu-find-name
+             mdv! fasc fmu fm! fm-navig] :as md]
+    [tiltontec.web-mx.api
      :refer [img section h1 h2 h3 input footer p a
              span i label ul li div button br
-             jso-map
+             jso-map evt-md target-value
              svg g circle p span div text radialGradient defs stop
              rect ellipse line polyline path polygon script use]]))
 
