@@ -24,23 +24,23 @@
                 :flex-direction  :column
                 :align-items     :start
                 :justify-content :start}}
-    (into []
-      (for [{:keys [menu title route] :as lesson} (mget (fasc :quick-start me) :lessons)]
-        (a {:href     (str "#/" (name route))
-            :selector menu
-            :style    (cF (let [curr-route (mget (fasc :quick-start me) :route)]
-                            (merge
-                              {:min-width       "128px"
-                               :text-decoration :none
-                               :border-width    "2px"
-                               :border-style    :solid
-                               :border-color    "white"
-                               :font-weight     "normal"}
-                              (when (= route curr-route)
-                                {:border-color "orange"
-                                 :font-weight  "bold"}))))
-            :class    :pushbutton}
-          (or menu title))))))
+       (into []
+             (for [{:keys [menu title route] :as lesson} (mget (fasc :quick-start me) :lessons)]
+               (a {:href     (str "#/" (name route))
+                   :selector menu
+                   :style    (cF (let [curr-route (mget (fasc :quick-start me) :route)]
+                                   (merge
+                                     {:min-width       "128px"
+                                      :text-decoration :none
+                                      :border-width    "2px"
+                                      :border-style    :solid
+                                      :border-color    "white"
+                                      :font-weight     "normal"}
+                                     (when (= route curr-route)
+                                       {:border-color "orange"
+                                        :font-weight  "bold"}))))
+                   :class    :pushbutton}
+                  (or menu title))))))
 
 (defn quick-start [lesson-title lessons]
   (div {:style {:height         "100vh" :margin 0 :padding 0 ;:background :lightgray
@@ -48,107 +48,109 @@
                 :flex-direction :horizontal
                 ;:gap "1em"
                 }}
-    {:name            :quick-start
-     :route           (cI :intro)
-     :router-starter  (fn []
-                        (r/start! (r/router
-                                    (into [] (concat [["/" :intro]]
-                                               (map (fn [{:keys [route]}]
-                                                      [(str "/" (name route)) route])
-                                                 lessons))))
-                          {:default     :ignore
-                           :on-navigate (fn [route params query]
-                                          (when-let [mtx @matrix]
-                                            ;; todo mset! me
-                                            (mset! mtx :route route)))}))
-     :selected-lesson (cF (let [route (mget me :route)]
-                            (some (fn [lesson]
-                                    (when (= route (:route lesson))
-                                      lesson)) lessons)))
-     :keydowner       (cF+ [:watch (fn [_ me new _ _]
-                                     (.addEventListener js/document "keydown" new))]
-                        (fn [evt]
-                          (let [lessons (mget me :lessons)
-                                lesson (mget me :selected-lesson)
-                                curr-x (.indexOf lessons lesson)]
-                            (when-let [new-x (case (.-key evt)
-                                               "Home" 0
-                                               "End" (dec (count lessons))
-                                               ("ArrowRight" "ArrowDown" "PageDown") (inc curr-x)
-                                               ("ArrowLeft" "ArrowUp" "PageUp") (dec curr-x)
-                                               nil)]
-                              (when (<= 0 new-x (dec (count lessons)))
-                                (.stopPropagation evt)
-                                (.preventDefault evt)
-                                (mset! me :route (:route (nth lessons new-x))))))))
-     :lessons         lessons
-     :show-glossary?  (cI false)}
+       {:name            :quick-start
+        :route           (cI :intro)
+        :router-starter  (fn []
+                           (r/start! (r/router
+                                       (into [] (concat [["/" :intro]]
+                                                        (map (fn [{:keys [route]}]
+                                                               [(str "/" (name route)) route])
+                                                             lessons))))
+                                     {:default     :ignore
+                                      :on-navigate (fn [route params query]
+                                                     (when-let [mtx @matrix]
+                                                       ;; todo mset! me
+                                                       (mset! mtx :route route)))}))
+        :selected-lesson (cF (let [route (mget me :route)]
+                               (some (fn [lesson]
+                                       (when (= route (:route lesson))
+                                         lesson)) lessons)))
+        :keydowner       (cF+ [:watch (fn [_ me new _ _]
+                                        (.addEventListener js/document "keydown" new))]
+                              (fn [evt]
+                                (let [lessons (mget me :lessons)
+                                      lesson (mget me :selected-lesson)
+                                      curr-x (.indexOf lessons lesson)]
+                                  (when-let [new-x (case (.-key evt)
+                                                     "Home" 0
+                                                     "End" (dec (count lessons))
+                                                     ("ArrowRight" "ArrowDown" "PageDown") (inc curr-x)
+                                                     ("ArrowLeft" "ArrowUp" "PageUp") (dec curr-x)
+                                                     nil)]
+                                    (when (<= 0 new-x (dec (count lessons)))
+                                      (.stopPropagation evt)
+                                      (.preventDefault evt)
+                                      (mset! me :route (:route (nth lessons new-x))))))))
+        :lessons         lessons
+        :show-glossary?  (cI false)}
 
-    (div {:style {:display         :flex
-                  :flex-direction  :column
-                  :height          "100%"
-                  :margin          0
-                  :padding         0
-                  :min-width       "180px"
-                  :align-items     :center
-                  :justify-content :start
-                  :gap             "1em"
-                  :border-right    "4mm ridge orange"       ;; "rgba(211, 220, 50, .6)"
-                  }}
-      (span {:style {:font-size  "24px"
-                     :padding    "18px"
-                     :text-align :center}}
-        lesson-title)
-      (span "use <- or -> keys<br>&nbsp;")
 
-      (quick-start-toolbar))
+       (div {:style {:display         :flex
+                     :flex-direction  :column
+                     :height          "100%"
+                     :margin          0
+                     :padding         0
+                     :min-width       "180px"
+                     :align-items     :center
+                     :justify-content :start
+                     :gap             "1em"
+                     :border-right    "4mm ridge orange"    ;; "rgba(211, 220, 50, .6)"
+                     }}
+            (span {:style {:font-size  "24px"
+                           :padding    "18px"
+                           :text-align :center}}
+                  lesson-title)
+            (span "use <- or -> keys<br>&nbsp;")
 
-    (when-let [lesson (mget me #_(fasc :quick-start me) :selected-lesson)]
-      (div {:class :fade-in                                 ;; hhack
-            :style {:display        :flex
-                    :overflow-y     :auto
-                    :flex-direction :column
-                    :padding        "4em"
-                    :height         "100%"}}
-        (h2 (:title lesson))
-        (when-let [preamble (:preamble lesson)]
-          (if (string? preamble)
-            (blockquote {:class :preamble} preamble)
-            (doall (for [elt preamble]
-                     (p {:class :preamble} elt)))))
+            (quick-start-toolbar))
 
-        (div {:class :lesson}
-          ((:builder lesson)))
+       (div
+         (when-let [lesson (mget (fasc :quick-start me) :selected-lesson)]
+           (div {:class :fade-in                            ;; hhack
+                 :style {:display        :flex
+                         :overflow-y     :auto
+                         :flex-direction :column
+                         :padding        "4em"
+                         :height         "100%"}}
+                (h2 (:title lesson))
+                (when-let [preamble (:preamble lesson)]
+                  (if (string? preamble)
+                    (blockquote {:class :preamble} preamble)
+                    (doall (for [elt preamble]
+                             (p {:class :preamble} elt)))))
 
-        (p {:class :preamble
-            :style {:margin-bottom 0}}
-          "Here is all the code:")
-        (pre {:class :lesson-code}
-          (code {:style {:font-size "14px"}}
-            (:code lesson)))
+                (div {:class :lesson}
+                     ((:builder lesson)))
 
-        (div {:class :glossary}
-          {:name :glossary}
-          (span {:class   :pushbutton
-                 :onclick #(mswap! (fasc :quick-start (evt-md %)) :show-glossary? not)}
-            (if (mget (fasc :quick-start me) :show-glossary?)
-              "Hide Glossary" "Show Glossary"))
-          (div {:style (cF (str "display:" (if (mget (fasc :quick-start me) :show-glossary?)
-                                             "block" "none")))}
-            (extra/glossary)))
+                (p {:class :preamble
+                    :style {:margin-bottom 0}}
+                   "Here is all the code:")
+                (pre {:class :lesson-code}
+                     (code {:style {:font-size "14px"}}
+                           (:code lesson)))
 
-        (when-let [c (:comment lesson)]
-          (if (string? c)
-            (p {:class :preamble} c)
-            (doall (for [cx c]
-                     (p {:class :preamble} cx)))))
-        #_(when-let [ex (:exercise lesson)]
-            (blockquote {:class :exercise}
-              (p (str "Give it a try. Modify <i>" (:ns lesson "the code") "</i>."))
-              (if (string? ex)
-                (p ex)
-                (doall (for [elt ex]
-                         (p elt))))))))))
+                (div {:class :glossary}
+                     {:name :glossary}
+                     (span {:class   :pushbutton
+                            :onclick #(mswap! (fasc :quick-start (evt-md %)) :show-glossary? not)}
+                           (if (mget (fasc :quick-start me) :show-glossary?)
+                             "Hide Glossary" "Show Glossary"))
+                     (div {:style (cF (str "display:" (if (mget (fasc :quick-start me) :show-glossary?)
+                                                        "block" "none")))}
+                          (extra/glossary)))
+
+                (when-let [c (:comment lesson)]
+                  (if (string? c)
+                    (p {:class :preamble} c)
+                    (doall (for [cx c]
+                             (p {:class :preamble} cx)))))
+                #_(when-let [ex (:exercise lesson)]
+                    (blockquote {:class :exercise}
+                                (p (str "Give it a try. Modify <i>" (:ns lesson "the code") "</i>."))
+                                (if (string? ex)
+                                  (p ex)
+                                  (doall (for [elt ex]
+                                           (p elt)))))))))))
 
 (defn main [mx-builder]
   (println "[main]: loading")
