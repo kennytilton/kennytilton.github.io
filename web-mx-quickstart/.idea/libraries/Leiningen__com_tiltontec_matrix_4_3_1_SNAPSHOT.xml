@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Leiningen: com.tiltontec/matrix:4.3.1-SNAPSHOT">
-    <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/com/tiltontec/matrix/4.3.1-SNAPSHOT/matrix-4.3.1-SNAPSHOT.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

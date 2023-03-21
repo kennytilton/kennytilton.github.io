@@ -4,7 +4,7 @@
     [clojure.pprint :as pp]
     [cljs.core.async :refer [go <!]]
     [cljs-http.client :as client]
-    [tiltontec.matrix.api
+    [tiltontec.matrix.api :as mx
      :refer [with-cc cF cF+ cFonce cI cf-freeze c-value mget mset! mswap! mset! fasc fmu fm-navig]]
     [tiltontec.web-mx.api
      :refer [evt-md target-value
@@ -98,7 +98,8 @@
    :preamble "It is just HTML <i>and</i> CLJS."
    :code     "(defn and-cljs []\n  (div {:class :intro}\n    (h2 \"The count is now...\")\n    (span {:class \"digi-readout\"} \"42\")\n    (div {:style {:display :flex\n                  :gap     \"1em\"}}\n      ;; <b>children, below built into a vector using CLJS,\n      ;; are automatically flattened, with any nils removed</b>\n      (mapv (fn [opcode]\n              (when (= 1 (count opcode))\n                (button {:class   :push-button\n                         :onclick #(js/alert\n                                     (str \"Opcode \\\"\" opcode \"\\\" RSN.\"))}\n                  opcode)))\n        [\"-\" \"=\" \"+\" \"boom\"]))))"
    :comment  ["In fact, all this code is CLJS. For example, DIV is a CLJS macro that returns
-    a Clojure <i>proxy</i> for a DOM DIV. Proxies are not VDOM. Proxies are long-lived models that manage their DOM incarnations as events unfold."]})
+    a Clojure <i>proxy</i> for a DOM DIV."
+              "Proxies are not VDOM. Proxies are long-lived models that manage their DOM incarnations as events unfold."]})
 
 ;;; --- components realized --------------------------------
 
@@ -128,7 +129,7 @@
    :builder  html-composition
    :preamble "Because it is all CLJS, we can move sub-structure into functions."
    :code     "(defn opcode-button [label onclick]\n  (button {:class   :push-button\n           :onclick onclick}\n    label))\n\n(defn math-keypad [& opcodes]\n  (div {:style {:display :flex\n                :gap     \"1em\"}}\n    (mapv (fn [opcode]\n            (opcode-button opcode\n              #(js/alert \"Feature Not Yet Implemented\")))\n      opcodes)))\n\n(defn html-composition []\n  (div {:class :intro}\n    (h2 \"The count is now....\")\n    (span {:class :digi-readout} \"42\")\n    (math-keypad \"-\" \"=\" \"+\")))"
-   :comment  ["Where Hiccup or JSX distinguish HTML from other code, Web/MX makes them one."]})
+   :comment  ["Where Hiccup distinguishes HTML from other code, Web/MX merges the two."]})
 
 ;;; --- custom-state ---------------------------------
 
@@ -269,9 +270,9 @@
     (h2 "The speed limit is 55 mph. Your speed is now...")
     (speedometer-3)
     (plus-button (fn [evt]
-                  ;; <b>`evt-md` (event model) determines the MX proxy/model associated with a handler event.</b>
-                  ;; <b>'mswap!' performs a Clojure 'swap!' on the ':mph' property of the model.</b>
-                  (mswap! (fmu :speedometer (evt-md evt)) :mph inc)))))
+                   ;; <b>`evt-md` (event model) determines the MX proxy/model associated with a handler event.</b>
+                   ;; <b>'mswap!' performs a Clojure 'swap!' on the ':mph' property of the model.</b>
+                   (mswap! (fmu :speedometer (evt-md evt)) :mph inc)))))
 
 (def ex-handler-mutation
   {:menu     "Random Property<br>Mutation"
@@ -305,7 +306,7 @@
     (h2 "The speed is now...")
     (speedometer-4)
     (plus-button (fn [evt]
-                  (mswap! (fmu :speedometer (evt-md evt)) :mph inc)))))
+                   (mswap! (fmu :speedometer (evt-md evt)) :mph inc)))))
 
 (def ex-watches
   {:menu     "Watch Functions"
@@ -343,7 +344,7 @@
     (h2 "The speed limit is 55 mph. Your speed is now...")
     (speed-governor)
     (plus-button (fn [evt]
-                  (mswap! (fmu :speedometer (evt-md evt)) :mph inc)))))
+                   (mswap! (fmu :speedometer (evt-md evt)) :mph inc)))))
 
 (def ex-watch-cc
   {:menu     "Watch Function<br>Mutation"
@@ -441,17 +442,16 @@
   (span {:class :digi-readout
          :style (cF {:color (if (> (mget me :mph) 55)
                               "red" "cyan")})}
-    {:name     :speedometer
-     :mph      (cI 42)
-     :air-drag (letfn [(clear-intv [i]
-                         (when (number? i)
-                           (js/clearInterval i)))]
-                 (cF+ [:watch (fn [_ _ new prior _]
-                                (clear-intv prior))
-                       :on-quiesce (fn [c]
-                                     (clear-intv (c-value c)))]
-                   (js/setInterval
-                     #(mswap! me :mph * 0.98) 1000)))}
+    {:name       :speedometer
+     :mph        (cI 42)
+     :air-drag   (cF (js/setInterval
+                       #(mswap! me :mph * 0.98) 1000))
+     :on-quiesce (fn [me]
+                   ;; air-drag cF gets optimized away
+                   ;; todo no optimize if :on-quiesce
+                   (when-let [i (mget me :air-drag)]
+                     (when (number? i)
+                       (js/clearInterval i))))}
     (pp/cl-format nil "~8,1f mph" (mget me :mph))))
 
 (defn in-review []
