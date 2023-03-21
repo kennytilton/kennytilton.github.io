@@ -159,7 +159,7 @@
                              (p elt))))))))))))
 
 (defn main [mx-builder]
-  (println "[main]: loading")
+  (println "[main]: loading app")
   (let [root (gdom/getElement "app")
         ;; ^^^ "app" must be ID of DIV defined in index.html
         app-matrix (mx-builder)
