@@ -1,27 +1,19 @@
 (ns tiltontec.web-mx.html
   (:require
     [clojure.string :as str]
-
     [clojure.set :as set]
-    [cljs.pprint :as pp]
-
     [tiltontec.cell.poly :refer [watch watch-by-type
                                  md-quiesce md-quiesce-self] :as cw]
     [tiltontec.matrix.api :refer
-     [minfo md-ref? unbound make mget
+     [minfo md-ref? unbound make mget mxtrc
       the-kids mdv! any-ref? rmap-meta-setf
       fm-navig mget mget? fasc fm! mset! backdoor-reset!]]
-
     [tiltontec.web-mx.base :refer [kw$ attr-val$ tag-dom *web-mx-trace*]]
     [tiltontec.web-mx.style
      :refer [style-string] :as tagcss]
-
     [goog.dom :as dom]
     [goog.dom.classlist :as classlist]
-    [goog.html.sanitizer.HtmlSanitizer :as sanitizer]
-    [goog.editor.focus :as focus]
-    [goog.dom.selection :as selection]
-    [goog.dom.forms :as form]))
+    [goog.html.sanitizer.HtmlSanitizer :as sanitizer]))
 
 (defn tagfo [me]
   (if (string? me)
@@ -124,7 +116,6 @@
          (doseq [attr-key (:attr-keys @me)]
            (when (str/includes? (name attr-key) "-")
              (when-let [attr-val (mget me attr-key)]
-               ;; (prn :setting-attr (name attr-key) (attr-val$ attr-val))
                (.setAttribute dom (name attr-key) (attr-val$ attr-val)))))
          dom)))))
 
@@ -132,10 +123,11 @@
   (mget? me :tag))
 
 (defmethod watch [:kids :web-mx.base/tag] [_ me newv oldv _]
+  ;;(mxtrc :kids :watch :tag :entry (minfo me))
   (when (not= oldv unbound)
     ;; oldv unbound means initial build and this incremental add/remove
     ;; is needed only when kids change post initial creation
-    #_(println :watchtagkids!!!!! (tagfo me)
+    (mxtrc :kids :watchtagkids!!!!! (tagfo me)
         :counts-new-old (count newv) (count oldv)
         :same-kids (= oldv newv)
         :same-kid-set (= (set newv) (set oldv)))
@@ -143,8 +135,6 @@
       (let [pdom (tag-dom me)
             lost (clojure.set/difference (set oldv) (set newv))
             gained (clojure.set/difference (set newv) (set oldv))]
-        ;(prn :kids-lost (count lost))
-        ;(prn :kids-gained (count gained))
         (cond
           (and (= (set newv) (set oldv))
             (not (= oldv newv)))
@@ -166,6 +156,7 @@
               (when-not (string? oldk)
                 ;; (println :watch-tag-kids-dropping (tagfo oldk))
                 (try
+                  (mxtrc [:kids :quiesce] :tag-kids-watch-quiescing (minfo oldk))
                   (md-quiesce oldk)
                   (catch js/Error e
                     (println "An md-quiesce-error occurred:" e)
@@ -173,9 +164,11 @@
                 )))
 
           :default (let [frag (.createDocumentFragment js/document)]
+                     (mxtrc :kids :both-gained-n-lost (minfo me))
                      (doseq [oldk lost]
                        (when-not (string? oldk)
                          ;; no need to remove dom, all children replaced below.
+                         (mxtrc :kids :watch-kids-quiescing (minfo oldk))
                          (md-quiesce oldk)))
                      (doseq [newk newv]
                        (dom/appendChild frag
@@ -189,22 +182,18 @@
   (:dom-x (meta me)))
 
 (defmethod watch [:kids :web-mx.base/svg] [_ me newv oldv _]
+  ;; todo merge with tag
   (when (not= oldv unbound)
-    ;; (prn :svkids-change!!!!!! (count newv) (count oldv))
     (let [pdom (svg-dom me)
           lost (set/difference (set oldv) (set newv))
           gained (set/difference (set newv) (set oldv))
           kept (set/intersection (set newv) (set oldv))]
       (assert pdom)
-      #_(do (prn :kept!!! kept)
-            (prn :gained!!!!! gained)
-            (prn :lost!!!!!!! lost))
       (cond
         (and (= (set newv) (set oldv))
           (not (= oldv newv)))
         ;; simply reordered children
         (let [frag (.createDocumentFragment js/document)]
-          ;; (prn :svg-reorder!!)
           (doseq [newk newv]
             (dom/appendChild frag
               (.removeChild pdom (svg-dom newk))))
@@ -214,25 +203,20 @@
 
         (empty? gained)
         ;; just lose the lost
-        (do                                                 ;; (prn :no-gained-losing-lost (count lost))
-          (doseq [oldk lost]
-            (.removeChild pdom (svg-dom oldk))
-            (when-not (string? oldk)
-              ; (println :watch-tag-kids-dropping (tagfo oldk))
-              (md-quiesce oldk))))
+        (doseq [oldk lost]
+          (.removeChild pdom (svg-dom oldk))
+          (when-not (string? oldk)
+            ; (println :watch-tag-kids-dropping (tagfo oldk))
+            (md-quiesce oldk)))
 
         (empty? lost)
-        (do                                                 ;; (prn :no-lost-adding-gained!!! (count gained))
-          (doseq [newk gained]
-            (let [new-dom (or (svg-dom newk)
-                            (svg-dom-create newk false))]
-              (.appendChild pdom new-dom))))
+        (doseq [newk gained]
+          (let [new-dom (or (svg-dom newk)
+                          (svg-dom-create newk false))]
+            (.appendChild pdom new-dom)))
 
 
         :default (let [frag (.createDocumentFragment js/document)]
-                   #_(do (prn :mix-kept!!! kept)
-                         (prn :mix-gained!!!!! gained)
-                         (prn :mix-lost!!!!!!! lost))
                    ;; GC lost from matrix;
                    ;; move retained kids from pdom into fragment,
                    ;; add all new kids to fragment, and do so preserving
@@ -240,7 +224,6 @@
                    (doseq [oldk lost]
                      (when-not (string? oldk)
                        ;; no need to remove dom, all children replaced below.
-                       ;;(prn :md-quiesce!!!!! oldk)
                        (md-quiesce oldk)))
 
                    (doseq [newk newv]
