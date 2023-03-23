@@ -69,7 +69,9 @@
   (if-let [ch (read-char rdr)]
     (if-let [dm (dispatch-macros ch)]
       (dm rdr ch opts)
-      (read-tagged (doto rdr (unread ch)) ch opts))
+      (if-let [obj (read-tagged (doto rdr (unread ch)) ch opts)]
+        obj
+        (err/throw-no-dispatch rdr ch)))
     (err/throw-eof-at-dispatch rdr)))
 
 (defn- read-unmatched-delimiter
@@ -271,9 +273,9 @@
           (let [ns (s 0)
                 name (s 1)]
             (if (identical? \: (nth token 0))
-              (err/throw-invalid reader :keyword (str \: token)) ;; no ::keyword in edn
+              (err/throw-invalid reader :keyword token) ;; no ::keyword in edn
               (keyword ns name)))
-          (err/throw-invalid reader :keyword (str \: token))))
+          (err/throw-invalid reader :keyword token)))
       (err/throw-single-colon reader))))
 
 (defn- wrapping-reader
@@ -383,7 +385,7 @@
    Reads data in the edn format (subset of Clojure data):
    http://edn-format.org
 
-   cljs.tools.reader.edn/read doesn't depend on dynamic Vars, all configuration
+   clojure.tools.reader.edn/read doesn't depend on dynamic Vars, all configuration
    is done by passing an opt map.
 
    opts is a map that can include the following keys:
@@ -439,7 +441,7 @@
    Reads data in the edn format (subset of Clojure data):
    http://edn-format.org
 
-   opts is a map as per cljs.tools.reader.edn/read"
+   opts is a map as per clojure.tools.reader.edn/read"
   ([s] (read-string {:eof nil} s))
   ([opts s]
      (when (and s (not= s ""))
