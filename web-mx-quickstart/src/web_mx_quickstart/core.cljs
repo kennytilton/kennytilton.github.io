@@ -6,10 +6,10 @@
     ;[tiltontec.model.core :as md]
     [tiltontec.matrix.api
      :refer [with-mx-trace with-minfo with-minfo-std mx-type md-state
-             matrix mpar mget mset! mswap! mset! fasc fmu minfo
+             matrix mpar mget mget? mset! mswap! mset! fasc fmu minfo
              cinfo cF cF+ cFn cFonce cI cf-freeze] :as mxapi]
     [tiltontec.web-mx.api
-     :refer [evt-md target-value tag-dom-create
+     :refer [evt-md target-value tag-dom-create style-string
              title img section h1 h2 h3 input footer p a b h4 u table th tr td
              blockquote span i label ul li div button br pre code]]
 
@@ -46,6 +46,7 @@
           (or menu title))))))
 
 (defn quick-start [lesson-title lessons]
+  #_ (h2 {:style (cF {:color :red})} "The speed is now...")
   (div {:style {:height         "100vh" :margin 0 :padding 0
                 :display        :flex
                 :flex-direction :horizontal}}
@@ -160,6 +161,7 @@
 
 (defn main [mx-builder]
   (println "[main]: loading app")
+
   (let [root (gdom/getElement "app")
         ;; ^^^ "app" must be ID of DIV defined in index.html
         app-matrix (mx-builder)
@@ -168,7 +170,7 @@
     (set! (.-innerHTML root) nil)
     (gdom/appendChild root app-dom)
 
-    (when-let [router-starter (mget app-matrix :router-starter)]
+    (when-let [router-starter (mget? app-matrix :router-starter)]
       (router-starter))))
 
 (def lessons [lesson/ex-tl-dr

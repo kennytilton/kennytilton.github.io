@@ -116,10 +116,19 @@
               #(js/alert "Feature Not Yet Implemented")))
       opcodes)))
 
+(defn speedo-title-style [ok-color bad-color]
+  ; even formulas can be functions
+  (cF {:color (if (= (mget (fmu :speedometer) :answer) 42)
+                ok-color bad-color)}))
+
 (defn html-composition []
   (div {:class :intro}
-    (h2 "The count is now....")
-    (span {:class :digi-readout} "42")
+    (span {:style (speedo-title-style :green :orange)}
+      "The answer is")
+    (span {:class :digi-readout}
+        {:name :speedometer
+         :answer 42}
+        (str (mget me :answer)))
     (math-keypad "-" "=" "+")))
 
 (def ex-html-composition
@@ -128,14 +137,14 @@
    :title    "Functional GUI composition"
    :builder  html-composition
    :preamble "Because it is all CLJS, we can move sub-structure into functions."
-   :code     "(defn opcode-button [label onclick]\n  (button {:class   :push-button\n           :onclick onclick}\n    label))\n\n(defn math-keypad [& opcodes]\n  (div {:style {:display :flex\n                :gap     \"1em\"}}\n    (mapv (fn [opcode]\n            (opcode-button opcode\n              #(js/alert \"Feature Not Yet Implemented\")))\n      opcodes)))\n\n(defn html-composition []\n  (div {:class :intro}\n    (h2 \"The count is now....\")\n    (span {:class :digi-readout} \"42\")\n    (math-keypad \"-\" \"=\" \"+\")))"
+   :code     "(defn opcode-button [label onclick]\n  (button {:class   :push-button\n           :onclick onclick}\n    label))\n\n(defn math-keypad [& opcodes]\n  (div {:style {:display :flex\n                :gap     \"1em\"}}\n    (mapv (fn [opcode]\n            (opcode-button opcode\n              #(js/alert \"Feature Not Yet Implemented\")))\n      opcodes)))\n\n(defn speedo-title-style [ok-color bad-color]\n  ; even formulas can be functions\n  (cF {:color (if (= (mget (fmu :speedometer) :answer) 42)\n                ok-color bad-color)}))\n\n(defn html-composition []\n  (div {:class :intro}\n    (span {:style (speedo-title-style :green :orange)}\n      \"The answer is\")\n    (span {:class :digi-readout}\n        {:name :speedometer\n         :answer 42}\n        (str (mget me :answer)))\n    (math-keypad \"-\" \"=\" \"+\")))"
    :comment  ["Where Hiccup distinguishes HTML from other code, Web/MX merges the two."]})
 
 ;;; --- custom-state ---------------------------------
 
 (defn custom-state []
   (div {:class :intro}
-    (h2 "The speed is now...")
+    (h2 {:style (cF {:color :red})} "The speed is now...")
     (span {:class :digi-readout}
       ;; <b>An optional second map is for custom state.</b>
       {:mph 42}
