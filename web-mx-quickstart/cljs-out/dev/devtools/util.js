@@ -15,14 +15,14 @@ devtools.util._STAR_console_open_STAR_ = false;
 devtools.util._STAR_custom_formatters_warning_reported_STAR_ = false;
 devtools.util.pprint_str = (function devtools$util$pprint_str(var_args){
 var args__4742__auto__ = [];
-var len__4736__auto___51608 = arguments.length;
-var i__4737__auto___51609 = (0);
+var len__4736__auto___30697 = arguments.length;
+var i__4737__auto___30698 = (0);
 while(true){
-if((i__4737__auto___51609 < len__4736__auto___51608)){
-args__4742__auto__.push((arguments[i__4737__auto___51609]));
+if((i__4737__auto___30698 < len__4736__auto___30697)){
+args__4742__auto__.push((arguments[i__4737__auto___30698]));
 
-var G__51610 = (i__4737__auto___51609 + (1));
-i__4737__auto___51609 = G__51610;
+var G__30699 = (i__4737__auto___30698 + (1));
+i__4737__auto___30698 = G__30699;
 continue;
 } else {
 }
@@ -35,25 +35,25 @@ return devtools.util.pprint_str.cljs$core$IFn$_invoke$arity$variadic(argseq__474
 
 (devtools.util.pprint_str.cljs$core$IFn$_invoke$arity$variadic = (function (args){
 var sb__4667__auto__ = (new goog.string.StringBuffer());
-var _STAR_print_newline_STAR__orig_val__51602_51611 = cljs.core._STAR_print_newline_STAR_;
-var _STAR_print_fn_STAR__orig_val__51603_51612 = cljs.core._STAR_print_fn_STAR_;
-var _STAR_print_newline_STAR__temp_val__51604_51613 = true;
-var _STAR_print_fn_STAR__temp_val__51605_51614 = (function (x__4668__auto__){
+var _STAR_print_newline_STAR__orig_val__30691_30700 = cljs.core._STAR_print_newline_STAR_;
+var _STAR_print_fn_STAR__orig_val__30692_30701 = cljs.core._STAR_print_fn_STAR_;
+var _STAR_print_newline_STAR__temp_val__30693_30702 = true;
+var _STAR_print_fn_STAR__temp_val__30694_30703 = (function (x__4668__auto__){
 return sb__4667__auto__.append(x__4668__auto__);
 });
-(cljs.core._STAR_print_newline_STAR_ = _STAR_print_newline_STAR__temp_val__51604_51613);
+(cljs.core._STAR_print_newline_STAR_ = _STAR_print_newline_STAR__temp_val__30693_30702);
 
-(cljs.core._STAR_print_fn_STAR_ = _STAR_print_fn_STAR__temp_val__51605_51614);
+(cljs.core._STAR_print_fn_STAR_ = _STAR_print_fn_STAR__temp_val__30694_30703);
 
-try{var _STAR_print_level_STAR__orig_val__51606_51615 = cljs.core._STAR_print_level_STAR_;
-var _STAR_print_level_STAR__temp_val__51607_51616 = (300);
-(cljs.core._STAR_print_level_STAR_ = _STAR_print_level_STAR__temp_val__51607_51616);
+try{var _STAR_print_level_STAR__orig_val__30695_30704 = cljs.core._STAR_print_level_STAR_;
+var _STAR_print_level_STAR__temp_val__30696_30705 = (300);
+(cljs.core._STAR_print_level_STAR_ = _STAR_print_level_STAR__temp_val__30696_30705);
 
 try{cljs.core.apply.call(null,cljs.pprint.pprint,args);
-}finally {(cljs.core._STAR_print_level_STAR_ = _STAR_print_level_STAR__orig_val__51606_51615);
-}}finally {(cljs.core._STAR_print_fn_STAR_ = _STAR_print_fn_STAR__orig_val__51603_51612);
+}finally {(cljs.core._STAR_print_level_STAR_ = _STAR_print_level_STAR__orig_val__30695_30704);
+}}finally {(cljs.core._STAR_print_fn_STAR_ = _STAR_print_fn_STAR__orig_val__30692_30701);
 
-(cljs.core._STAR_print_newline_STAR_ = _STAR_print_newline_STAR__orig_val__51602_51611);
+(cljs.core._STAR_print_newline_STAR_ = _STAR_print_newline_STAR__orig_val__30691_30700);
 }
 return cljs.core.str.cljs$core$IFn$_invoke$arity$1(sb__4667__auto__);
 }));
@@ -61,9 +61,9 @@ return cljs.core.str.cljs$core$IFn$_invoke$arity$1(sb__4667__auto__);
 (devtools.util.pprint_str.cljs$lang$maxFixedArity = (0));
 
 /** @this {Function} */
-(devtools.util.pprint_str.cljs$lang$applyTo = (function (seq51601){
+(devtools.util.pprint_str.cljs$lang$applyTo = (function (seq30690){
 var self__4724__auto__ = this;
-return self__4724__auto__.cljs$core$IFn$_invoke$arity$variadic(cljs.core.seq.call(null,seq51601));
+return self__4724__auto__.cljs$core$IFn$_invoke$arity$variadic(cljs.core.seq.call(null,seq30690));
 }));
 
 devtools.util.make_version_info = (function devtools$util$make_version_info(){
@@ -80,9 +80,9 @@ try{var temp__5808__auto__ = (root["process"]);
 if((temp__5808__auto__ == null)){
 return null;
 } else {
-var process__$1 = temp__5808__auto__;
-var version = (process__$1["version"]);
-var platform = (process__$1["platform"]);
+var process = temp__5808__auto__;
+var version = (process["version"]);
+var platform = (process["platform"]);
 if(cljs.core.truth_((function (){var and__4115__auto__ = version;
 if(cljs.core.truth_(and__4115__auto__)){
 return platform;
@@ -95,7 +95,7 @@ return new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"ve
 return null;
 }
 }
-}catch (e51617){var _ = e51617;
+}catch (e30706){var _ = e30706;
 return null;
 }});
 devtools.util.get_node_description = (function devtools$util$get_node_description(node_info){
@@ -217,8 +217,8 @@ return devtools.util.set_formatters_safe_BANG_.call(null,formatters);
 devtools.util.uninstall_detector_BANG_ = (function devtools$util$uninstall_detector_BANG_(detector){
 var current_formatters = (devtools.context.get_root.call(null)[devtools.util.formatter_key]);
 if(cljs.core.array_QMARK_.call(null,current_formatters)){
-var new_formatters = current_formatters.filter((function (p1__51618_SHARP_){
-return (!(cljs.core._EQ_.call(null,detector,p1__51618_SHARP_)));
+var new_formatters = current_formatters.filter((function (p1__30707_SHARP_){
+return (!(cljs.core._EQ_.call(null,detector,p1__30707_SHARP_)));
 }));
 return devtools.util.set_formatters_safe_BANG_.call(null,new_formatters);
 } else {
@@ -253,14 +253,14 @@ devtools.util.make_detection_printer = (function devtools$util$make_detection_pr
 var f = (function (){
 return null;
 });
-var G__51619_51620 = f;
-var target__27746__auto___51621 = G__51619_51620;
-if(cljs.core.truth_(target__27746__auto___51621)){
+var G__30708_30709 = f;
+var target__27641__auto___30710 = G__30708_30709;
+if(cljs.core.truth_(target__27641__auto___30710)){
 } else {
-throw (new Error(["Assert failed: ",["unable to locate object path ",null," in ",cljs.core.str.cljs$core$IFn$_invoke$arity$1(G__51619_51620)].join(''),"\n","target__27746__auto__"].join('')));
+throw (new Error(["Assert failed: ",["unable to locate object path ",null," in ",cljs.core.str.cljs$core$IFn$_invoke$arity$1(G__30708_30709)].join(''),"\n","target__27641__auto__"].join('')));
 }
 
-(target__27746__auto___51621["toString"] = (function (){
+(target__27641__auto___30710["toString"] = (function (){
 (devtools.util._STAR_console_open_STAR_ = true);
 
 setTimeout(devtools.util.check_custom_formatters_active_BANG_,(0));
@@ -296,14 +296,14 @@ return cljs.core.reduce.call(null,_STAR_,cljs.core.first.call(null,labels),cljs.
 });
 devtools.util.display_banner_BANG_ = (function devtools$util$display_banner_BANG_(var_args){
 var args__4742__auto__ = [];
-var len__4736__auto___51629 = arguments.length;
-var i__4737__auto___51630 = (0);
+var len__4736__auto___30718 = arguments.length;
+var i__4737__auto___30719 = (0);
 while(true){
-if((i__4737__auto___51630 < len__4736__auto___51629)){
-args__4742__auto__.push((arguments[i__4737__auto___51630]));
+if((i__4737__auto___30719 < len__4736__auto___30718)){
+args__4742__auto__.push((arguments[i__4737__auto___30719]));
 
-var G__51631 = (i__4737__auto___51630 + (1));
-i__4737__auto___51630 = G__51631;
+var G__30720 = (i__4737__auto___30719 + (1));
+i__4737__auto___30719 = G__30720;
 continue;
 } else {
 }
@@ -315,31 +315,31 @@ return devtools.util.display_banner_BANG_.cljs$core$IFn$_invoke$arity$variadic((
 });
 
 (devtools.util.display_banner_BANG_.cljs$core$IFn$_invoke$arity$variadic = (function (installed_features,feature_groups,fmt,params){
-var vec__51626 = devtools.util.feature_list_display.call(null,installed_features,feature_groups);
-var fmt_str = cljs.core.nth.call(null,vec__51626,(0),null);
-var fmt_params = cljs.core.nth.call(null,vec__51626,(1),null);
+var vec__30715 = devtools.util.feature_list_display.call(null,installed_features,feature_groups);
+var fmt_str = cljs.core.nth.call(null,vec__30715,(0),null);
+var fmt_params = cljs.core.nth.call(null,vec__30715,(1),null);
 return devtools.util.wrap_with_custom_formatter_detection_BANG_.call(null,(function() { 
-var G__51632__delegate = function (add_fmt,add_args){
+var G__30721__delegate = function (add_fmt,add_args){
 var items = cljs.core.concat.call(null,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [[cljs.core.str.cljs$core$IFn$_invoke$arity$1(fmt)," ",cljs.core.str.cljs$core$IFn$_invoke$arity$1(fmt_str),cljs.core.str.cljs$core$IFn$_invoke$arity$1(add_fmt)].join('')], null),params,fmt_params,add_args);
 var console = devtools.context.get_console.call(null);
 return console.info.apply(console,cljs.core.into_array.call(null,items));
 };
-var G__51632 = function (add_fmt,var_args){
+var G__30721 = function (add_fmt,var_args){
 var add_args = null;
 if (arguments.length > 1) {
-var G__51633__i = 0, G__51633__a = new Array(arguments.length -  1);
-while (G__51633__i < G__51633__a.length) {G__51633__a[G__51633__i] = arguments[G__51633__i + 1]; ++G__51633__i;}
-  add_args = new cljs.core.IndexedSeq(G__51633__a,0,null);
+var G__30722__i = 0, G__30722__a = new Array(arguments.length -  1);
+while (G__30722__i < G__30722__a.length) {G__30722__a[G__30722__i] = arguments[G__30722__i + 1]; ++G__30722__i;}
+  add_args = new cljs.core.IndexedSeq(G__30722__a,0,null);
 } 
-return G__51632__delegate.call(this,add_fmt,add_args);};
-G__51632.cljs$lang$maxFixedArity = 1;
-G__51632.cljs$lang$applyTo = (function (arglist__51634){
-var add_fmt = cljs.core.first(arglist__51634);
-var add_args = cljs.core.rest(arglist__51634);
-return G__51632__delegate(add_fmt,add_args);
+return G__30721__delegate.call(this,add_fmt,add_args);};
+G__30721.cljs$lang$maxFixedArity = 1;
+G__30721.cljs$lang$applyTo = (function (arglist__30723){
+var add_fmt = cljs.core.first(arglist__30723);
+var add_args = cljs.core.rest(arglist__30723);
+return G__30721__delegate(add_fmt,add_args);
 });
-G__51632.cljs$core$IFn$_invoke$arity$variadic = G__51632__delegate;
-return G__51632;
+G__30721.cljs$core$IFn$_invoke$arity$variadic = G__30721__delegate;
+return G__30721;
 })()
 );
 }));
@@ -347,15 +347,15 @@ return G__51632;
 (devtools.util.display_banner_BANG_.cljs$lang$maxFixedArity = (3));
 
 /** @this {Function} */
-(devtools.util.display_banner_BANG_.cljs$lang$applyTo = (function (seq51622){
-var G__51623 = cljs.core.first.call(null,seq51622);
-var seq51622__$1 = cljs.core.next.call(null,seq51622);
-var G__51624 = cljs.core.first.call(null,seq51622__$1);
-var seq51622__$2 = cljs.core.next.call(null,seq51622__$1);
-var G__51625 = cljs.core.first.call(null,seq51622__$2);
-var seq51622__$3 = cljs.core.next.call(null,seq51622__$2);
+(devtools.util.display_banner_BANG_.cljs$lang$applyTo = (function (seq30711){
+var G__30712 = cljs.core.first.call(null,seq30711);
+var seq30711__$1 = cljs.core.next.call(null,seq30711);
+var G__30713 = cljs.core.first.call(null,seq30711__$1);
+var seq30711__$2 = cljs.core.next.call(null,seq30711__$1);
+var G__30714 = cljs.core.first.call(null,seq30711__$2);
+var seq30711__$3 = cljs.core.next.call(null,seq30711__$2);
 var self__4723__auto__ = this;
-return self__4723__auto__.cljs$core$IFn$_invoke$arity$variadic(G__51623,G__51624,G__51625,seq51622__$3);
+return self__4723__auto__.cljs$core$IFn$_invoke$arity$variadic(G__30712,G__30713,G__30714,seq30711__$3);
 }));
 
 devtools.util.display_banner_if_needed_BANG_ = (function devtools$util$display_banner_if_needed_BANG_(features_to_install,feature_groups){
@@ -368,59 +368,59 @@ return (devtools.util._STAR_custom_formatters_active_STAR_ = true);
 });
 devtools.util.report_unknown_features_BANG_ = (function devtools$util$report_unknown_features_BANG_(features,known_features){
 var lib_info = devtools.util.get_lib_info.call(null);
-var seq__51635 = cljs.core.seq.call(null,features);
-var chunk__51636 = null;
-var count__51637 = (0);
-var i__51638 = (0);
+var seq__30724 = cljs.core.seq.call(null,features);
+var chunk__30725 = null;
+var count__30726 = (0);
+var i__30727 = (0);
 while(true){
-if((i__51638 < count__51637)){
-var feature = cljs.core._nth.call(null,chunk__51636,i__51638);
+if((i__30727 < count__30726)){
+var feature = cljs.core._nth.call(null,chunk__30725,i__30727);
 if(cljs.core.not.call(null,cljs.core.some.call(null,cljs.core.PersistentHashSet.createAsIfByAssoc([feature]),known_features))){
 devtools.context.get_console.call(null).warn(devtools.util.unknown_feature_msg.call(null,feature,known_features,lib_info));
 } else {
 }
 
 
-var G__51639 = seq__51635;
-var G__51640 = chunk__51636;
-var G__51641 = count__51637;
-var G__51642 = (i__51638 + (1));
-seq__51635 = G__51639;
-chunk__51636 = G__51640;
-count__51637 = G__51641;
-i__51638 = G__51642;
+var G__30728 = seq__30724;
+var G__30729 = chunk__30725;
+var G__30730 = count__30726;
+var G__30731 = (i__30727 + (1));
+seq__30724 = G__30728;
+chunk__30725 = G__30729;
+count__30726 = G__30730;
+i__30727 = G__30731;
 continue;
 } else {
-var temp__5804__auto__ = cljs.core.seq.call(null,seq__51635);
+var temp__5804__auto__ = cljs.core.seq.call(null,seq__30724);
 if(temp__5804__auto__){
-var seq__51635__$1 = temp__5804__auto__;
-if(cljs.core.chunked_seq_QMARK_.call(null,seq__51635__$1)){
-var c__4556__auto__ = cljs.core.chunk_first.call(null,seq__51635__$1);
-var G__51643 = cljs.core.chunk_rest.call(null,seq__51635__$1);
-var G__51644 = c__4556__auto__;
-var G__51645 = cljs.core.count.call(null,c__4556__auto__);
-var G__51646 = (0);
-seq__51635 = G__51643;
-chunk__51636 = G__51644;
-count__51637 = G__51645;
-i__51638 = G__51646;
+var seq__30724__$1 = temp__5804__auto__;
+if(cljs.core.chunked_seq_QMARK_.call(null,seq__30724__$1)){
+var c__4556__auto__ = cljs.core.chunk_first.call(null,seq__30724__$1);
+var G__30732 = cljs.core.chunk_rest.call(null,seq__30724__$1);
+var G__30733 = c__4556__auto__;
+var G__30734 = cljs.core.count.call(null,c__4556__auto__);
+var G__30735 = (0);
+seq__30724 = G__30732;
+chunk__30725 = G__30733;
+count__30726 = G__30734;
+i__30727 = G__30735;
 continue;
 } else {
-var feature = cljs.core.first.call(null,seq__51635__$1);
+var feature = cljs.core.first.call(null,seq__30724__$1);
 if(cljs.core.not.call(null,cljs.core.some.call(null,cljs.core.PersistentHashSet.createAsIfByAssoc([feature]),known_features))){
 devtools.context.get_console.call(null).warn(devtools.util.unknown_feature_msg.call(null,feature,known_features,lib_info));
 } else {
 }
 
 
-var G__51647 = cljs.core.next.call(null,seq__51635__$1);
-var G__51648 = null;
-var G__51649 = (0);
-var G__51650 = (0);
-seq__51635 = G__51647;
-chunk__51636 = G__51648;
-count__51637 = G__51649;
-i__51638 = G__51650;
+var G__30736 = cljs.core.next.call(null,seq__30724__$1);
+var G__30737 = null;
+var G__30738 = (0);
+var G__30739 = (0);
+seq__30724 = G__30736;
+chunk__30725 = G__30737;
+count__30726 = G__30738;
+i__30727 = G__30739;
 continue;
 }
 } else {
@@ -434,9 +434,9 @@ devtools.util.is_known_feature_QMARK_ = (function devtools$util$is_known_feature
 return cljs.core.boolean$.call(null,cljs.core.some.call(null,cljs.core.PersistentHashSet.createAsIfByAssoc([feature]),known_features));
 });
 devtools.util.convert_legacy_feature = (function devtools$util$convert_legacy_feature(feature){
-var G__51651 = feature;
-var G__51651__$1 = (((G__51651 instanceof cljs.core.Keyword))?G__51651.fqn:null);
-switch (G__51651__$1) {
+var G__30740 = feature;
+var G__30740__$1 = (((G__30740 instanceof cljs.core.Keyword))?G__30740.fqn:null);
+switch (G__30740__$1) {
 case "custom-formatters":
 return new cljs.core.Keyword(null,"formatters","formatters",-1875637118);
 
@@ -469,8 +469,8 @@ devtools.util.under_advanced_build_QMARK_ = (function devtools$util$under_advanc
 if(cljs.core.not.call(null,devtools.prefs.pref.call(null,new cljs.core.Keyword(null,"disable-advanced-mode-check","disable-advanced-mode-check",-968346539)))){
 return ((function (){var temp__5802__auto__ = (devtools.context.get_root.call(null)["devtools"]);
 if(cljs.core.truth_(temp__5802__auto__)){
-var o51653 = temp__5802__auto__;
-return (o51653["version"]);
+var o30742 = temp__5802__auto__;
+return (o30742["version"]);
 } else {
 return null;
 }

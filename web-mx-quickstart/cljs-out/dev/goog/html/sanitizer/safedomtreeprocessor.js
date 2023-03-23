@@ -1,4 +1,4 @@
-// Copyright 2017 The Closure Library Authors. All Rights Reserved.
+/*TRANSPILED*/goog.loadModule(function(exports) {'use strict';// Copyright 2017 The Closure Library Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -335,3 +335,5 @@ SafeDomTreeProcessor.prototype.processElementAttribute = function(
 /** @const {boolean} */
 SafeDomTreeProcessor.SAFE_PARSING_SUPPORTED = SAFE_PARSING_SUPPORTED;
 exports = SafeDomTreeProcessor;
+
+;return exports;});
