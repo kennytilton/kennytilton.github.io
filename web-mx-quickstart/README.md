@@ -2,6 +2,15 @@
 
 An interactive TL;DR dog fed highlight film for [Web/MX&trade;](https://github.com/kennytilton/web-mx#readme), where further documentation and examples will be found.
 
+Just want to _read_ the QuickStart? It is [here, live](https://kennytilton.github.io/web-mx-quickstart/#/).
+
+Want to hack on the actual examples? You are in the right place! Just:
+* clone this repo locally;
+* use the instructions below to run; and
+* edit any example and save to see your changes run.
+
+Help is available in the #matrix channel of the #Clojurians Slack.
+
 ## Development
 
 To get an interactive development environment run:
