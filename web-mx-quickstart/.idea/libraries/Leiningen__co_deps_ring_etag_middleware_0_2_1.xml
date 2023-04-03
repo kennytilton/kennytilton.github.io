@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Leiningen: co.deps/ring-etag-middleware:0.2.1">
-    <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/co/deps/ring-etag-middleware/0.2.1/ring-etag-middleware-0.2.1.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

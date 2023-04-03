@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Leiningen: cljfmt:0.5.7">
-    <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/cljfmt/cljfmt/0.5.7/cljfmt-0.5.7.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
